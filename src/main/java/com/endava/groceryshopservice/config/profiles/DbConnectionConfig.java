@@ -12,11 +12,11 @@ public class DbConnectionConfig {
 
     @Profile("local")
     @Bean
-    public void localDbConnection(){
+    public void localDbConnection() {
     }
 
     @Profile("remote")
     @Bean
-    public void remoteDbConnection(){
+    public void remoteDbConnection() {
     }
 }
