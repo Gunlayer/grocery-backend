@@ -8,10 +8,10 @@ import com.endava.groceryshopservice.exceptions.AlreadyExistingUserException;
 import com.endava.groceryshopservice.exceptions.model.ResponseData;
 import com.endava.groceryshopservice.repositories.UserRepository;
 import com.endava.groceryshopservice.security.JwtTokenProvider;
-import com.endava.groceryshopservice.services.EmailValidationService;
-import com.endava.groceryshopservice.services.PasswordValidationService;
 import com.endava.groceryshopservice.services.RegistrationService;
+import com.endava.groceryshopservice.services.RegistrationValidationService;
 
+import com.endava.groceryshopservice.services.RegistrationValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,14 +21,13 @@ import org.springframework.stereotype.Service;
 public class RegistrationServiceImpl implements RegistrationService {
 
     private final UserRepository userRepository;
-    private final EmailValidationService emailValidationService;
-    private final PasswordValidationService passwordValidationService;
+    private final RegistrationValidationService registrationValidationService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public ResponseEntity<?> register(RegistrationRequestDTO requestDTO) throws AlreadyExistingUserException {
-        emailValidationService.test(requestDTO.getEmail());
-        passwordValidationService.test(requestDTO.getPassword());
+        registrationValidationService.testEmailValidation(requestDTO.getEmail());
+        registrationValidationService.testPasswordValidation(requestDTO.getPassword());
 
         if (userRepository.findByEmail(requestDTO.getEmail()).isPresent()) {
             throw new AlreadyExistingUserException("User with the email " + requestDTO.getEmail() + " already exists.");
