@@ -7,6 +7,7 @@ import com.endava.groceryshopservice.exceptions.model.ResponseData;
 import com.endava.groceryshopservice.repositories.UserRepository;
 import com.endava.groceryshopservice.security.JwtTokenProvider;
 import com.endava.groceryshopservice.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,18 +26,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
+@AllArgsConstructor
 public class AuthenticationRestController {
 
     private final AuthenticationManager authenticationManager;
     private UserService userService;
     private JwtTokenProvider jwtTokenProvider;
-
-    public AuthenticationRestController(AuthenticationManager authenticationManager, UserService userService, JwtTokenProvider jwtTokenProvider) {
-        this.authenticationManager = authenticationManager;
-        this.userService = userService;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) throws AuthenticationException {
