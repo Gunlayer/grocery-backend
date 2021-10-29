@@ -1,11 +1,11 @@
 package com.endava.groceryshopservice.controllers;
 
-import com.endava.groceryshopservice.entities.dto.AuthenticationRequestDTO;
+
 import com.endava.groceryshopservice.entities.User;
+import com.endava.groceryshopservice.entities.dto.AuthenticationRequestDTO;
 import com.endava.groceryshopservice.exceptions.model.ResponseData;
 import com.endava.groceryshopservice.security.JwtTokenProvider;
 import com.endava.groceryshopservice.services.UserService;
-
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

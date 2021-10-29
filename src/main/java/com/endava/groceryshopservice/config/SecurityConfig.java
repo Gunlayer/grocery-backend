@@ -1,7 +1,6 @@
 package com.endava.groceryshopservice.config;
 
 import com.endava.groceryshopservice.security.JwtConfigurer;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    protected PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new CustomPasswordEncoder();
     }
 }

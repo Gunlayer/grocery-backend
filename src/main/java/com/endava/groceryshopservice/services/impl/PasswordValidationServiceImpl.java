@@ -1,13 +1,13 @@
 package com.endava.groceryshopservice.services.impl;
 
 import com.endava.groceryshopservice.exceptions.NotSuitablePasswordException;
+import com.endava.groceryshopservice.services.PasswordValidationService;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
-import java.util.function.Predicate;
 
 @Service
-public class PasswordValidationService implements Predicate<String> {
+public class PasswordValidationServiceImpl implements PasswordValidationService {
 
     @Override
     public boolean test(String s) {

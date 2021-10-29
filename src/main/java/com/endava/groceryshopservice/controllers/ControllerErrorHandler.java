@@ -1,12 +1,7 @@
 package com.endava.groceryshopservice.controllers;
 
-import com.endava.groceryshopservice.exceptions.NotSuitablePasswordException;
-import com.endava.groceryshopservice.exceptions.InvalidEmailException;
-import com.endava.groceryshopservice.exceptions.AlreadyExistingUserException;
-import com.endava.groceryshopservice.exceptions.NoProductFoundException;
-import com.endava.groceryshopservice.exceptions.JwtAuthenticationException;
+import com.endava.groceryshopservice.exceptions.*;
 import com.endava.groceryshopservice.exceptions.model.ErrorData;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
