@@ -1,7 +1,7 @@
 package com.endava.groceryshopservice.entities;
 
 import com.endava.groceryshopservice.entities.types.SizeTypes;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -54,7 +54,6 @@ public class Product {
     @Column(name = "size_type")
     private SizeTypes sizeType;
 
-    @JsonIgnore
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private Views views;
 

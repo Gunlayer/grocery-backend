@@ -3,8 +3,9 @@ package com.endava.groceryshopservice.services.impl;
 import com.endava.groceryshopservice.entities.User;
 import com.endava.groceryshopservice.repositories.UserRepository;
 import com.endava.groceryshopservice.services.UserService;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 

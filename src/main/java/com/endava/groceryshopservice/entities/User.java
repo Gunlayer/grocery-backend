@@ -2,9 +2,20 @@ package com.endava.groceryshopservice.entities;
 
 import com.endava.groceryshopservice.entities.user_permission.Role;
 import com.endava.groceryshopservice.entities.user_permission.Status;
-import lombok.*;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "T_USER")

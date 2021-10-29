@@ -1,6 +1,5 @@
 package com.endava.groceryshopservice.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +24,6 @@ public class Views {
     @Column(name = "id")
     private Long id;
 
-    @JsonIgnore
     @MapsId
     @OneToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "id")

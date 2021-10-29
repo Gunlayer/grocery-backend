@@ -12,15 +12,15 @@ import java.util.Objects;
 public class RegistrationValidationServiceImpl implements RegistrationValidationService {
 
     @Override
-    public void testEmailValidation(String s) {
-        if (Objects.isNull(s) || !s.matches("^(?![._-])[A-z0-9._-]{1,30}@[A-z._-]{2,10}.[A-z]{2,6}$")) {
+    public void testEmailValidation(String email) {
+        if (Objects.isNull(email) || !email.matches("^(?![._-])[A-z0-9._-]{1,30}@[A-z._-]{2,10}.[A-z]{2,6}$")) {
             throw new InvalidEmailException("Email is not valid.");
         }
     }
 
     @Override
-    public void testPasswordValidation(String s) {
-        if (Objects.isNull(s) || !s.matches("\\A\\$2(a|y|b)?\\$12\\$[./0-9A-Za-z]{53}")) {
+    public void testPasswordValidation(String password) {
+        if (Objects.isNull(password) || !password.matches("\\A\\$2(a|y|b)?\\$12\\$[./0-9A-Za-z]{53}")) {
             throw new NotSuitablePasswordException("Password is not valid.");
         }
     }

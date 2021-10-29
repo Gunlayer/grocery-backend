@@ -2,8 +2,6 @@ package com.endava.groceryshopservice.services.impl;
 
 import com.endava.groceryshopservice.entities.User;
 import com.endava.groceryshopservice.entities.dto.RegistrationRequestDTO;
-import com.endava.groceryshopservice.entities.user_permission.Role;
-import com.endava.groceryshopservice.entities.user_permission.Status;
 import com.endava.groceryshopservice.exceptions.AlreadyExistingUserException;
 import com.endava.groceryshopservice.exceptions.model.ResponseData;
 import com.endava.groceryshopservice.repositories.UserRepository;
@@ -11,10 +9,9 @@ import com.endava.groceryshopservice.security.JwtTokenProvider;
 import com.endava.groceryshopservice.services.RegistrationService;
 import com.endava.groceryshopservice.services.RegistrationValidationService;
 
-import com.endava.groceryshopservice.services.RegistrationValidationService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

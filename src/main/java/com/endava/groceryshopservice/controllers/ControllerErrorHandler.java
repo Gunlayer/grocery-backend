@@ -1,10 +1,15 @@
 package com.endava.groceryshopservice.controllers;
 
-import com.endava.groceryshopservice.exceptions.*;
+import com.endava.groceryshopservice.exceptions.AlreadyExistingUserException;
+import com.endava.groceryshopservice.exceptions.InvalidEmailException;
+import com.endava.groceryshopservice.exceptions.NoProductFoundException;
+import com.endava.groceryshopservice.exceptions.NotSuitablePasswordException;
 import com.endava.groceryshopservice.exceptions.model.ErrorData;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -14,13 +19,17 @@ import java.time.LocalDateTime;
 public class ControllerErrorHandler {
     @ExceptionHandler({NoProductFoundException.class,
             IllegalArgumentException.class,
-            AuthenticationException.class,
-            JwtAuthenticationException.class,
             AlreadyExistingUserException.class,
             InvalidEmailException.class,
             NotSuitablePasswordException.class})
     public ResponseEntity<ErrorData> exceptionHandle(Exception exception) {
         return getErrorResponseEntity(HttpStatus.BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorData> AuthenticationExceptionHandler() {
+        SecurityContextHolder.clearContext();
+        return getErrorResponseEntity(HttpStatus.UNAUTHORIZED, "Jwt is invalid");
     }
 
     private ResponseEntity<ErrorData> getErrorResponseEntity(HttpStatus code, String message) {

@@ -7,6 +7,7 @@ public class CustomPasswordEncoder implements PasswordEncoder {
     public String encode(CharSequence plainTextPassword) {
         return plainTextPassword.toString();
     }
+
     @Override
     public boolean matches(CharSequence plainTextPassword, String passwordInDatabase) {
         return plainTextPassword.toString().equals(passwordInDatabase);

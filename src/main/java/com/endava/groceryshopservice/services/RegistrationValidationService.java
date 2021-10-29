@@ -1,6 +1,7 @@
 package com.endava.groceryshopservice.services;
 
-public interface RegistrationValidationService{
-    void testEmailValidation(String s);
-    void testPasswordValidation(String s);
+public interface RegistrationValidationService {
+    void testEmailValidation(String email);
+
+    void testPasswordValidation(String password);
 }
