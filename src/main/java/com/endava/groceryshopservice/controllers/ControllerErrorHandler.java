@@ -1,7 +1,6 @@
 package com.endava.groceryshopservice.controllers;
 
-import com.endava.groceryshopservice.exceptions.JwtAuthenticationException;
-import com.endava.groceryshopservice.exceptions.NoProductFoundException;
+import com.endava.groceryshopservice.exceptions.*;
 import com.endava.groceryshopservice.exceptions.model.ErrorData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,10 @@ public class ControllerErrorHandler {
     @ExceptionHandler({NoProductFoundException.class,
             IllegalArgumentException.class,
             AuthenticationException.class,
-            JwtAuthenticationException.class})
+            JwtAuthenticationException.class,
+            AlreadyExistingUserException.class,
+            InvalidEmailException.class,
+            NotSuitablePasswordException.class})
     public ResponseEntity<ErrorData> exceptionHandle(Exception exception) {
         return getErrorResponseEntity(HttpStatus.BAD_REQUEST, exception.getMessage());
     }

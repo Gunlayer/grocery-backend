@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/**").permitAll()
                 .antMatchers("/api/auth/login").permitAll()
+                .antMatchers("/api/registration").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -49,7 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     protected PasswordEncoder passwordEncoder() {
-        return new CustomPasswordEncoder();
+        return new BCryptPasswordEncoder(strength);
     }
 }
-
