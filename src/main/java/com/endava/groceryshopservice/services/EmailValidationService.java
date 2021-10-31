@@ -3,16 +3,14 @@ package com.endava.groceryshopservice.services;
 import com.endava.groceryshopservice.exceptions.InvalidEmailException;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 @Service
-public class EmailValidatorService implements Predicate<String> {
+public class EmailValidationService implements Predicate<String> {
     @Override
     public boolean test(String s) {
-        if (s.isEmpty()) {
-            throw new InvalidEmailException("Email cannot be null.");
-        }
-        if (s.matches("^(.+)@(.+\\.)+(.+)$")) {
+        if (Objects.nonNull(s) && s.matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")) {
             return true;
         }
         throw new InvalidEmailException("Email is not valid.");
