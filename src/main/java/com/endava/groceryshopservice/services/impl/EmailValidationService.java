@@ -1,4 +1,4 @@
-package com.endava.groceryshopservice.services;
+package com.endava.groceryshopservice.services.impl;
 
 import com.endava.groceryshopservice.exceptions.InvalidEmailException;
 import org.springframework.stereotype.Service;

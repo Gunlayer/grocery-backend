@@ -3,6 +3,7 @@ package com.endava.groceryshopservice.controllers;
 import com.endava.groceryshopservice.entities.dto.RegistrationRequestDTO;
 import com.endava.groceryshopservice.exceptions.AlreadyExistingUserException;
 import com.endava.groceryshopservice.services.RegistrationService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

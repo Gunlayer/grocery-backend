@@ -4,6 +4,7 @@ import com.endava.groceryshopservice.entities.User;
 import com.endava.groceryshopservice.entities.user_permission.Role;
 import com.endava.groceryshopservice.entities.user_permission.Status;
 import com.endava.groceryshopservice.repositories.UserRepository;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

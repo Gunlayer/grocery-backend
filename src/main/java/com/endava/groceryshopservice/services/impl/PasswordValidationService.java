@@ -1,4 +1,4 @@
-package com.endava.groceryshopservice.services;
+package com.endava.groceryshopservice.services.impl;
 
 import com.endava.groceryshopservice.exceptions.NotSuitablePasswordException;
 import org.springframework.stereotype.Service;

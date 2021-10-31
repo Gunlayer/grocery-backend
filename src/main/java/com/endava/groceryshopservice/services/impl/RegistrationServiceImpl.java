@@ -8,8 +8,6 @@ import com.endava.groceryshopservice.exceptions.AlreadyExistingUserException;
 import com.endava.groceryshopservice.exceptions.model.ResponseData;
 import com.endava.groceryshopservice.repositories.UserRepository;
 import com.endava.groceryshopservice.security.JwtTokenProvider;
-import com.endava.groceryshopservice.services.EmailValidationService;
-import com.endava.groceryshopservice.services.PasswordValidationService;
 import com.endava.groceryshopservice.services.RegistrationService;
 
 import lombok.RequiredArgsConstructor;
