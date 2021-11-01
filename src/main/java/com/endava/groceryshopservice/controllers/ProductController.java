@@ -2,6 +2,7 @@ package com.endava.groceryshopservice.controllers;
 
 import com.endava.groceryshopservice.entities.Product;
 import com.endava.groceryshopservice.services.ProductService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -9,12 +9,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "T_USER")
 @Data
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column(name = "email")
     private String email;
