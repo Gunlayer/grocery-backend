@@ -9,10 +9,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "T_USER")
 @Data
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Builder
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @Column(name = "user_id")

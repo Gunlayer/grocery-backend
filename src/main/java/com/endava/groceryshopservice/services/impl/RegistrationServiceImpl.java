@@ -33,12 +33,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             throw new AlreadyExistingUserException("User with the email " + requestDTO.getEmail() + " already exists.");
         }
 
-        User user = User.builder()
-                .email(requestDTO.getEmail())
-                .password(requestDTO.getPassword())
-                .role(Role.USER)
-                .status(Status.ACTIVE)
-                .build();
+        User user = requestDTO.toUser();
         userRepository.save(user);
 
         String token = jwtTokenProvider.createToken(requestDTO.getEmail(), user.getRole().name());
