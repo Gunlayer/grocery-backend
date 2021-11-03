@@ -6,8 +6,9 @@ import com.endava.groceryshopservice.exceptions.NoProductFoundException;
 import com.endava.groceryshopservice.repositories.ProductRepository;
 import com.endava.groceryshopservice.services.ProductService;
 import com.endava.groceryshopservice.services.ViewsService;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;

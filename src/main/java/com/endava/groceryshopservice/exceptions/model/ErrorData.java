@@ -1,8 +1,8 @@
 package com.endava.groceryshopservice.exceptions.model;
 
+import org.springframework.http.HttpStatus;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 

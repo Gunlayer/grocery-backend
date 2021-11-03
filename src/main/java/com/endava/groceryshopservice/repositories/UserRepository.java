@@ -1,6 +1,7 @@
 package com.endava.groceryshopservice.repositories;
 
 import com.endava.groceryshopservice.entities.User;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

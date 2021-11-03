@@ -3,9 +3,10 @@ package com.endava.groceryshopservice.services.impl;
 import com.endava.groceryshopservice.entities.Views;
 import com.endava.groceryshopservice.repositories.ViewsRepository;
 import com.endava.groceryshopservice.services.ViewsService;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
