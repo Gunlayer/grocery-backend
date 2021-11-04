@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(value = "offers REST APIs to work with products")
+@Api(value = "Product controller offers REST APIs to work with products")
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor

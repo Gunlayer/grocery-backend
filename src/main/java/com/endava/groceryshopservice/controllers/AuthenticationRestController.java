@@ -41,7 +41,7 @@ public class AuthenticationRestController {
         return ResponseEntity.ok(ResponseData.builder().email(request.getEmail()).token(token).build());
     }
 
-    @ApiOperation(value = "sign out the user")
+    @ApiOperation(value = "signs out the user")
     @PostMapping("/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
