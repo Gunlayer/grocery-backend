@@ -1,0 +1,535 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Grocery Shop REST APIs Documentation",
+    "version": "1.0.0",
+    "title": "Grocery Shop",
+    "termsOfService": "www.hello.com",
+    "contact": {
+      "name": "Mister XYZ",
+      "url": "www.hello.com",
+      "email": "mrXYZ@gmail.com"
+    },
+    "license": {
+      "name": "License API",
+      "url": "www.hello.com"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "authentication-rest-controller",
+      "description": "Authentication Rest Controller"
+    },
+    {
+      "name": "product-controller",
+      "description": "Product Controller"
+    },
+    {
+      "name": "registration-rest-controller",
+      "description": "Registration Rest Controller"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "authentication-rest-controller"
+        ],
+        "summary": "authenticates user's request to log in the system",
+        "operationId": "authenticateUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "request",
+            "description": "request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AuthenticationRequestDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "authentication-rest-controller"
+        ],
+        "summary": "sign out the user",
+        "operationId": "logoutUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": [
+          "product-controller"
+        ],
+        "summary": "fetches all the products",
+        "operationId": "getAllUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductNoDescDTO"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "product-controller"
+        ],
+        "summary": "introduces new product",
+        "operationId": "addUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "product",
+            "description": "product",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ProductWithDescDTO"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/products/mostpopular": {
+      "get": {
+        "tags": [
+          "product-controller"
+        ],
+        "summary": "fetches certain number (15 by default) of mostly viewed products",
+        "operationId": "getMostPopularUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "number",
+            "in": "query",
+            "description": "number",
+            "required": false,
+            "type": "integer",
+            "default": 15,
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductNoDescDTO"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": [
+          "product-controller"
+        ],
+        "summary": "gets a product by ID",
+        "operationId": "getByIdUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ProductWithDescDTO"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/registration": {
+      "post": {
+        "tags": [
+          "registration-rest-controller"
+        ],
+        "summary": "processes user's request to perform registration into the system",
+        "operationId": "registerUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "requestDTO",
+            "description": "requestDTO",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegistrationRequestDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "AuthenticationRequestDTO": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "jorikbarba@gmail.com",
+          "description": "User's email"
+        },
+        "password": {
+          "type": "string",
+          "description": "User's password"
+        }
+      },
+      "title": "AuthenticationRequestDTO"
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "image": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "rating": {
+          "type": "number",
+          "format": "double"
+        },
+        "sizeType": {
+          "type": "string",
+          "enum": [
+            "PACKS",
+            "KILOS"
+          ]
+        },
+        "sizes": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "views": {
+          "$ref": "#/definitions/Views"
+        }
+      },
+      "title": "Product"
+    },
+    "ProductNoDescDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1,
+          "description": "Product's unique id"
+        },
+        "image": {
+          "type": "string",
+          "example": "https://www.mantralabsglobal.com/404",
+          "description": "Url to an image"
+        },
+        "name": {
+          "type": "string",
+          "example": "Eggs",
+          "description": "Product's name"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "example": 200.0,
+          "description": "Product's price"
+        },
+        "rating": {
+          "type": "number",
+          "format": "double",
+          "example": 4.5,
+          "description": "Product's rating"
+        },
+        "sizeType": {
+          "type": "string",
+          "example": "PACKS",
+          "description": "Product type",
+          "enum": [
+            "PACKS",
+            "KILOS"
+          ]
+        },
+        "sizes": {
+          "type": "array",
+          "example": [
+            1,
+            3,
+            5
+          ],
+          "description": "A list of available sizes for each product",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "title": "ProductNoDescDTO"
+    },
+    "ProductWithDescDTO": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "example": "This organic mamaliga is exceptional! Try it today, so you won't regret tomorrow!",
+          "description": "Description of the product"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1,
+          "description": "Product's unique id"
+        },
+        "image": {
+          "type": "string",
+          "example": "https://www.mantralabsglobal.com/404",
+          "description": "Url to an image"
+        },
+        "name": {
+          "type": "string",
+          "example": "Eggs",
+          "description": "Product's name"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "example": 200.0,
+          "description": "Product's price"
+        },
+        "rating": {
+          "type": "number",
+          "format": "double",
+          "example": 4.5,
+          "description": "Product's rating"
+        },
+        "sizeType": {
+          "type": "string",
+          "example": "PACKS",
+          "description": "Product type",
+          "enum": [
+            "PACKS",
+            "KILOS"
+          ]
+        },
+        "sizes": {
+          "type": "array",
+          "example": [
+            1,
+            3,
+            5
+          ],
+          "description": "A list of available sizes for each product",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "title": "ProductWithDescDTO"
+    },
+    "RegistrationRequestDTO": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "jorikbarba@gmail.com",
+          "description": "User's email"
+        },
+        "password": {
+          "type": "string",
+          "description": "User's password"
+        }
+      },
+      "title": "RegistrationRequestDTO"
+    },
+    "Views": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product": {
+          "$ref": "#/definitions/Product"
+        }
+      },
+      "title": "Views"
+    }
+  }
+}

@@ -6,6 +6,8 @@ import com.endava.groceryshopservice.exceptions.model.ResponseData;
 import com.endava.groceryshopservice.security.JwtTokenProvider;
 import com.endava.groceryshopservice.services.UserService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +22,7 @@ import lombok.AllArgsConstructor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Api(value = "Auth controller exposes sign-in and sign-up REST APIs ")
 @RestController
 @RequestMapping("/auth")
 @AllArgsConstructor
@@ -29,6 +32,7 @@ public class AuthenticationRestController {
     private UserService userService;
     private JwtTokenProvider jwtTokenProvider;
 
+    @ApiOperation(value = "authenticates user's request to log in the system")
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) throws AuthenticationException {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
@@ -37,6 +41,7 @@ public class AuthenticationRestController {
         return ResponseEntity.ok(ResponseData.builder().email(request.getEmail()).token(token).build());
     }
 
+    @ApiOperation(value = "sign out the user")
     @PostMapping("/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
