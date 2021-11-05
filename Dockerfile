@@ -2,6 +2,7 @@
 FROM maven:3.8.3-jdk-11-slim AS tests
 WORKDIR /home/app
 COPY . ./
+RUN mvn flyway:clean
 RUN mvn test
 
 # SonarQube Cloud analyses
@@ -12,8 +13,7 @@ RUN mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
 -Dsonar.projectKey=grocery-shop-service \
 -Dsonar.organization=corporation-of-good \
 -Dsonar.host.url=https://sonarcloud.io \
--Dsonar.login=2230c0e5a560570fef25de6494835227a3c962ff
-# -Dsonar.login=${SONAR_TOKEN}
+-Dsonar.login=${SONAR_TOKEN}
 
 
 # Build stage
