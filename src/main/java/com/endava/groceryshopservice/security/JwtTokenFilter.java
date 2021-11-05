@@ -4,6 +4,7 @@ import com.endava.groceryshopservice.exceptions.JwtAuthenticationException;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 
 @Component
@@ -30,7 +32,7 @@ public class JwtTokenFilter extends GenericFilterBean {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
-        } catch (JwtAuthenticationException e) {
+        } catch (JwtAuthenticationException | UsernameNotFoundException e) {
             SecurityContextHolder.clearContext();
         }
         filterChain.doFilter(servletRequest, servletResponse);

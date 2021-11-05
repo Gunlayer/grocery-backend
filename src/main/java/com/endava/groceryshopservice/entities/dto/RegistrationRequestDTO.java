@@ -1,11 +1,12 @@
 package com.endava.groceryshopservice.entities.dto;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
+
 import com.endava.groceryshopservice.entities.User;
 import com.endava.groceryshopservice.entities.user_permission.Role;
 import com.endava.groceryshopservice.entities.user_permission.Status;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

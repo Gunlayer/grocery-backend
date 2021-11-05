@@ -4,6 +4,7 @@ import com.endava.groceryshopservice.entities.User;
 import com.endava.groceryshopservice.repositories.UserRepository;
 import com.endava.groceryshopservice.services.UserService;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -26,11 +27,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No such User"));
+        return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid id"));
     }
 
     @Override
     public User getByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("No such User"));
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Invalid email"));
     }
 }

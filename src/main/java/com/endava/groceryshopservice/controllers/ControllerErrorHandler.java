@@ -1,6 +1,7 @@
 package com.endava.groceryshopservice.controllers;
 
 import com.endava.groceryshopservice.exceptions.AlreadyExistingUserException;
+import com.endava.groceryshopservice.exceptions.BadCredentialsException;
 import com.endava.groceryshopservice.exceptions.InvalidEmailException;
 import com.endava.groceryshopservice.exceptions.NoProductFoundException;
 import com.endava.groceryshopservice.exceptions.NotSuitablePasswordException;
@@ -9,8 +10,8 @@ import com.endava.groceryshopservice.exceptions.model.ErrorData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -22,7 +23,8 @@ public class ControllerErrorHandler {
             IllegalArgumentException.class,
             AlreadyExistingUserException.class,
             InvalidEmailException.class,
-            NotSuitablePasswordException.class})
+            NotSuitablePasswordException.class,
+            UsernameNotFoundException.class})
     public ResponseEntity<ErrorData> exceptionHandle(Exception exception) {
         return getErrorResponseEntity(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
@@ -33,9 +35,14 @@ public class ControllerErrorHandler {
         return getErrorResponseEntity(HttpStatus.UNAUTHORIZED, "Jwt is invalid");
     }
 
+    @ExceptionHandler({BadCredentialsException.class})
+    public ResponseEntity<ErrorData> BadCredentialsException(BadCredentialsException exception) {
+        return getErrorResponseEntity(HttpStatus.UNAUTHORIZED, exception.getMessage());
+    }
+
     private ResponseEntity<ErrorData> getErrorResponseEntity(HttpStatus code, String message) {
         return new ResponseEntity<>(ErrorData.builder()
-                .errorMessage(message)
+                .message(message)
                 .status(code)
                 .timeStamp(LocalDateTime.now())
                 .build(),
