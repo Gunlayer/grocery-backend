@@ -8,6 +8,7 @@ import com.endava.groceryshopservice.exceptions.model.ErrorData;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -26,7 +27,7 @@ public class ControllerErrorHandler {
         return getErrorResponseEntity(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
-    @ExceptionHandler(AuthenticationException.class)
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
     public ResponseEntity<ErrorData> AuthenticationExceptionHandler() {
         SecurityContextHolder.clearContext();
         return getErrorResponseEntity(HttpStatus.UNAUTHORIZED, "Jwt is invalid");
