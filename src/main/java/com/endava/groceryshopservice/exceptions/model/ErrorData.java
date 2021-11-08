@@ -10,6 +10,6 @@ import java.time.LocalDateTime;
 @Getter
 public class ErrorData {
     private LocalDateTime timeStamp;
-    private String errorMessage;
+    private String message;
     private HttpStatus status;
 }

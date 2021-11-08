@@ -1,13 +1,15 @@
 package com.endava.groceryshopservice.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import com.endava.groceryshopservice.entities.User;
 import com.endava.groceryshopservice.entities.dto.AuthenticationRequestDTO;
+import com.endava.groceryshopservice.exceptions.BadCredentialsException;
 import com.endava.groceryshopservice.exceptions.model.ResponseData;
 import com.endava.groceryshopservice.security.JwtTokenProvider;
 import com.endava.groceryshopservice.services.UserService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,9 +36,13 @@ public class AuthenticationRestController {
 
     @ApiOperation(value = "authenticates user's request to log in the system")
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) throws AuthenticationException {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) {
         User user = userService.getByEmail(request.getEmail());
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        } catch (AuthenticationException e) {
+            throw new BadCredentialsException(e.getMessage());
+        }
         String token = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name());
         return ResponseEntity.ok(ResponseData.builder().email(request.getEmail()).token(token).build());
     }

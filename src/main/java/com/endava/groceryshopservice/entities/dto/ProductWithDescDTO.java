@@ -1,8 +1,9 @@
 package com.endava.groceryshopservice.entities.dto;
 
-import com.endava.groceryshopservice.entities.Product;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
+
+import com.endava.groceryshopservice.entities.Product;
 
 @Api(value = "Product model info")
 public class ProductWithDescDTO extends ProductNoDescDTO {

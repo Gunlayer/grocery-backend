@@ -2,6 +2,7 @@ package com.endava.groceryshopservice.entities.dto;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
+
 import lombok.Data;
 
 @Api(value = "Model for authentication request")
