@@ -1,6 +1,7 @@
 package com.endava.groceryshopservice.entities.dto;
 
 import com.endava.groceryshopservice.entities.types.SizeTypes;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,13 +11,14 @@ import lombok.Data;
 @AllArgsConstructor
 public class ItemResponseDTO {
     private Long id;
-    private Integer quantity;
-    private Long cart_id;
+    private Long user_id;
     private Long product_id;
+    private Integer quantity;
     private String image;
     private String name;
     private Double price;
     private Double rating;
     private String description;
     private SizeTypes sizeType;
+    private Integer size;
 }

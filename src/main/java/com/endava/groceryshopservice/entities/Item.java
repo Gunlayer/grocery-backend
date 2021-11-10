@@ -1,13 +1,15 @@
 package com.endava.groceryshopservice.entities;
 
 import com.endava.groceryshopservice.entities.dto.ItemResponseDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,16 +36,18 @@ public class Item {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name="cart_id", nullable=false, updatable = false)
-    private Cart cart;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Column(name = "size")
+    private Integer size;
 
     public ItemResponseDTO toItemResponseDTO(){
         ItemResponseDTO itemResponseDTO = ItemResponseDTO.builder()
                 .id(this.id)
                 .quantity(this.quantity)
-                .cart_id(this.cart.getId())
+                .user_id(this.user.getId())
                 .product_id(this.product.getId())
                 .image(this.product.getImage())
                 .price(this.product.getPrice())
@@ -51,6 +55,7 @@ public class Item {
                 .rating(this.product.getRating())
                 .description(this.product.getDescription())
                 .sizeType(this.product.getSizeType())
+                .size(this.size)
                 .build();
         return itemResponseDTO;
     }

@@ -1,11 +1,13 @@
 package com.endava.groceryshopservice.exceptions.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 @Builder
-public class ResponseData {
+@AllArgsConstructor
+public class RegistrationResponseData {
     private String email;
     private String token;
 }

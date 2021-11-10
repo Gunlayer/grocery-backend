@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
-    List<Item> findByCart_UserEmail(String email);
+    List<Item> findByUser_Email(String email);
 }
