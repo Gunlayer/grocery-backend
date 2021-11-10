@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getMostViewed(int number) {
         List<Views> views = viewsService.getMostViewed(number);
-        return views.stream().map(Views::getProduct).collect(Collectors.toList());
+        return views.stream()
+                .map(Views::getProduct)
+                .sorted(Comparator.comparing(Product::getName))
+                .collect(Collectors.toList());
     }
 
     @Override

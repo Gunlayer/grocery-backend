@@ -18,7 +18,7 @@ public class ViewsServiceImpl implements ViewsService {
     public List<Views> getMostViewed(int number) {
         if (number <= 0)
             throw new IllegalArgumentException("Number of products must be at least 1");
-        return viewsRepository.findAllByOrderByNumberDesc(PageRequest.of(0, number));
+        return viewsRepository.findAllByNumberGreaterThanEqualOrderByNumberDesc(1L, PageRequest.of(0, number));
     }
 
     @Override
