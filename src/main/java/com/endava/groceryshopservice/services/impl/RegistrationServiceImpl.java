@@ -23,6 +23,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final RegistrationValidationService registrationValidationService;
+    private final CartServiceImpl cartService;
 
     @Override
     public ResponseEntity<?> register(RegistrationRequestDTO requestDTO) throws AlreadyExistingUserException {
@@ -36,7 +37,8 @@ public class RegistrationServiceImpl implements RegistrationService {
         User user = requestDTO.toUser();
         String encodedPassword = new BCryptPasswordEncoder(strength).encode(user.getPassword());
         user.setPassword(encodedPassword);
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        cartService.createCartForUser(savedUser);
 
         String token = jwtTokenProvider.createToken(requestDTO.getEmail(), user.getRole().name());
         return ResponseEntity.ok(ResponseData.builder().email(requestDTO.getEmail()).token(token).build());
