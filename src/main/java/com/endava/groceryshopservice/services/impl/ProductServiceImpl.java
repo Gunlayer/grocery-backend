@@ -7,6 +7,8 @@ import com.endava.groceryshopservice.repositories.ProductRepository;
 import com.endava.groceryshopservice.services.ProductService;
 import com.endava.groceryshopservice.services.ViewsService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -20,8 +22,8 @@ public class ProductServiceImpl implements ProductService {
     private final ViewsService viewsService;
 
     @Override
-    public List<Product> getAll() {
-        return productRepository.findAll();
+    public Page<Product> getAll(Pageable page) {
+        return productRepository.findAll(page);
     }
 
     @Override

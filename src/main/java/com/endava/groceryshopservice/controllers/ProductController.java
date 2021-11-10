@@ -8,6 +8,9 @@ import com.endava.groceryshopservice.entities.dto.ProductNoDescDTO;
 import com.endava.groceryshopservice.entities.dto.ProductWithDescDTO;
 import com.endava.groceryshopservice.services.ProductService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,11 +33,13 @@ public class ProductController {
 
     @ApiOperation(value = "fetches all the products")
     @GetMapping
-    List<ProductNoDescDTO> getAll() {
-        return productService.getAll()
+    Page<ProductNoDescDTO> getAll(Pageable page) {
+        List<ProductNoDescDTO> productNoDescDTOList = productService.getAll(page)
                 .stream()
                 .map(ProductNoDescDTO::new)
                 .collect(Collectors.toList());
+
+        return new PageImpl<>(productNoDescDTOList);
     }
 
     @ApiOperation(value = "gets a product by ID")
