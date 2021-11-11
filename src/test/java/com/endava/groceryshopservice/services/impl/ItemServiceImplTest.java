@@ -1,4 +1,4 @@
-package com.endava.groceryshopservice.services;
+package com.endava.groceryshopservice.services.impl;
 
 import com.endava.groceryshopservice.entities.dto.ItemResponseDTO;
 import com.endava.groceryshopservice.repositories.ItemRepository;

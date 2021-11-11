@@ -3,10 +3,13 @@ package com.endava.groceryshopservice.utils;
 import com.endava.groceryshopservice.entities.Item;
 import com.endava.groceryshopservice.entities.dto.ItemResponseDTO;
 import com.endava.groceryshopservice.entities.types.SizeTypes;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
 import java.util.List;
-import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT;
+
+import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_ONE;
 import static com.endava.groceryshopservice.utils.TestConstants.DESCRIPTION;
 import static com.endava.groceryshopservice.utils.TestConstants.ID_ONE;
 import static com.endava.groceryshopservice.utils.TestConstants.IMAGE;
@@ -21,7 +24,7 @@ public class ItemUtils {
     public static final List<Item> ITEMS_LIST = List.of(
             Item.builder()
                     .id(ID_ONE)
-                    .product(PRODUCT)
+                    .product(PRODUCT_ONE)
                     .size(SIZE)
                     .user(USER_ONE)
                     .quantity(2)

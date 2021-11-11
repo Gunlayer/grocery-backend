@@ -43,7 +43,7 @@ public class Item {
     @Column(name = "size")
     private Integer size;
 
-    public ItemResponseDTO toItemResponseDTO(){
+    public ItemResponseDTO toItemResponseDTO() {
         ItemResponseDTO itemResponseDTO = ItemResponseDTO.builder()
                 .id(this.id)
                 .quantity(this.quantity)

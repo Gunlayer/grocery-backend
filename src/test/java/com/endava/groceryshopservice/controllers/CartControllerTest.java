@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static com.endava.groceryshopservice.utils.ItemUtils.ITEM_RESPONSE_DTO;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
-
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,7 +33,7 @@ class CartControllerTest extends BaseController {
 
     @Test
     @WithMockUser
-    void shouldGetUserCard() throws Exception {
+    void shouldGetUserCart() throws Exception {
         when(itemService.findUserCart(USER_EMAIL)).thenReturn(ITEM_RESPONSE_DTO);
         mockMvc.perform(get("/cart/test@gmail.com"))
                 .andDo(print())

@@ -1,14 +1,14 @@
 package com.endava.groceryshopservice.controllers;
 
-import com.endava.groceryshopservice.exceptions.model.AuthenticationResponseData;
-import com.endava.groceryshopservice.services.ItemService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import com.endava.groceryshopservice.entities.User;
 import com.endava.groceryshopservice.entities.dto.AuthenticationRequestDTO;
 import com.endava.groceryshopservice.exceptions.BadCredentialsException;
+import com.endava.groceryshopservice.exceptions.model.AuthenticationResponseData;
 import com.endava.groceryshopservice.security.JwtTokenProvider;
+import com.endava.groceryshopservice.services.ItemService;
 import com.endava.groceryshopservice.services.UserService;
 
 import org.springframework.http.ResponseEntity;

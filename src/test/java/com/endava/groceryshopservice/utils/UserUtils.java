@@ -2,8 +2,10 @@ package com.endava.groceryshopservice.utils;
 
 import com.endava.groceryshopservice.entities.User;
 import com.endava.groceryshopservice.entities.user_permission.Status;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
 import static com.endava.groceryshopservice.entities.user_permission.Role.USER;
 import static com.endava.groceryshopservice.utils.TestConstants.ID_ONE;
 import static com.endava.groceryshopservice.utils.TestConstants.PASSWORD;
