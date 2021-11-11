@@ -3,6 +3,7 @@ package com.endava.groceryshopservice.entities;
 import com.endava.groceryshopservice.entities.types.SizeTypes;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder
 @Table(name = "T_PRODUCTS")
 @NoArgsConstructor
 @AllArgsConstructor

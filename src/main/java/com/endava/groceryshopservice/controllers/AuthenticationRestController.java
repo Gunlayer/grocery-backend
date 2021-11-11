@@ -50,7 +50,7 @@ public class AuthenticationRestController {
         return ResponseEntity.ok(AuthenticationResponseData.builder()
                 .email(request.getEmail())
                 .token(token)
-                .cartItems(itemService.findUserCard(request.getEmail()))
+                .cartItems(itemService.findUserCart(request.getEmail()))
                 .build());
     }
 

@@ -18,7 +18,7 @@ public class CartController {
     private final ItemService itemService;
 
     @GetMapping("/{userEmail}")
-    public List<ItemResponseDTO> getUserCard(@PathVariable("userEmail") String userEmail) {
-        return itemService.findUserCard(userEmail);
+    public List<ItemResponseDTO> getUserCart(@PathVariable("userEmail") String userEmail) {
+        return itemService.findUserCart(userEmail);
     }
 }

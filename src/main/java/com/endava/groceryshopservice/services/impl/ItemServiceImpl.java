@@ -17,7 +17,7 @@ public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
 
     @Override
-    public List<ItemResponseDTO> findUserCard(String email) {
+    public List<ItemResponseDTO> findUserCart(String email) {
         return itemRepository.findByUser_Email(email)
                 .stream()
                 .map(Item::toItemResponseDTO)
