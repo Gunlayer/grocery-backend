@@ -24,10 +24,10 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder
 @Table(name = "T_PRODUCTS")
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

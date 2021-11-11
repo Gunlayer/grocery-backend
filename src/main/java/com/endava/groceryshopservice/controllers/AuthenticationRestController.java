@@ -6,8 +6,9 @@ import io.swagger.annotations.ApiOperation;
 import com.endava.groceryshopservice.entities.User;
 import com.endava.groceryshopservice.entities.dto.AuthenticationRequestDTO;
 import com.endava.groceryshopservice.exceptions.BadCredentialsException;
-import com.endava.groceryshopservice.exceptions.model.ResponseData;
+import com.endava.groceryshopservice.exceptions.model.AuthenticationResponseData;
 import com.endava.groceryshopservice.security.JwtTokenProvider;
+import com.endava.groceryshopservice.services.ItemService;
 import com.endava.groceryshopservice.services.UserService;
 
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ public class AuthenticationRestController {
     private final AuthenticationManager authenticationManager;
     private UserService userService;
     private JwtTokenProvider jwtTokenProvider;
+    private final ItemService itemService;
 
     @ApiOperation(value = "authenticates user's request to log in the system")
     @PostMapping("/login")
@@ -44,7 +46,12 @@ public class AuthenticationRestController {
             throw new BadCredentialsException(e.getMessage());
         }
         String token = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name());
-        return ResponseEntity.ok(ResponseData.builder().email(request.getEmail()).token(token).build());
+
+        return ResponseEntity.ok(AuthenticationResponseData.builder()
+                .email(request.getEmail())
+                .token(token)
+                .cartItems(itemService.findUserCart(request.getEmail()))
+                .build());
     }
 
     @ApiOperation(value = "signs out the user")

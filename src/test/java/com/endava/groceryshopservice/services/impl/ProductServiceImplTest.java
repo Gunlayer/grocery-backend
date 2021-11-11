@@ -17,8 +17,8 @@ import org.springframework.data.domain.Pageable;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_NO_DESC_DTO_1;
-import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_NO_DESC_DTO_2;
+import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_ONE;
+import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_TWO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -35,8 +35,8 @@ public class ProductServiceImplTest {
     private ProductServiceImpl productService;
 
     @Test
-    void getAllShouldReturn() {
-        List<ProductNoDescDTO> products = Arrays.asList(PRODUCT_NO_DESC_DTO_1, PRODUCT_NO_DESC_DTO_2);
+    void getAllShouldReturnPageWithCorrectNumberOfProducts() {
+        List<ProductNoDescDTO> products = Arrays.asList(new ProductNoDescDTO(PRODUCT_ONE), new ProductNoDescDTO(PRODUCT_TWO));
         Page<Product> pagedResponse = new PageImpl(products);
         Pageable pageable = PageRequest.of(0, 2);
 
