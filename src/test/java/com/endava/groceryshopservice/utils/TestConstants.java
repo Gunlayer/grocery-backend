@@ -24,7 +24,7 @@ public class TestConstants {
     public static final Double RATING = 5.0;
     public static final String DESCRIPTION = "description";
     public static final Integer SIZE = 2;
-
+    public static final Integer QUANTITY = 1;
     public static final List<Integer> SIZES = Arrays.asList(5, 7, 10);
 
 }
