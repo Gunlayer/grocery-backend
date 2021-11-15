@@ -26,12 +26,12 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 
     @Override
-    public ResponseEntity<?> register(RegistrationRequestDTO requestDTO) throws AlreadyExistingUserException {
+    public ResponseEntity<RegistrationResponseData> register(RegistrationRequestDTO requestDTO) {
         registrationValidationService.testEmailValidation(requestDTO.getEmail());
         registrationValidationService.testPasswordValidation(requestDTO.getPassword());
 
         if (userRepository.findByEmail(requestDTO.getEmail()).isPresent()) {
-            throw new AlreadyExistingUserException("Invalid email");
+            throw new AlreadyExistingUserException("A user with the same email already exists");
         }
 
         User user = requestDTO.toUser();

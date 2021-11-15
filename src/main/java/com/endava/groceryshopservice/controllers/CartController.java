@@ -3,6 +3,7 @@ package com.endava.groceryshopservice.controllers;
 import com.endava.groceryshopservice.entities.dto.ItemResponseDTO;
 import com.endava.groceryshopservice.services.ItemService;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ public class CartController {
     private final ItemService itemService;
 
     @GetMapping("/{userEmail}")
+    @PreAuthorize("hasAuthority('users:read')")
     public List<ItemResponseDTO> getUserCart(@PathVariable("userEmail") String userEmail) {
         return itemService.findUserCart(userEmail);
     }
