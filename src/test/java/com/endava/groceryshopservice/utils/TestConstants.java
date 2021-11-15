@@ -1,5 +1,7 @@
 package com.endava.groceryshopservice.utils;
 
+import com.endava.groceryshopservice.entities.Views;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -10,9 +12,11 @@ import java.util.List;
 public class TestConstants {
     public static final Long ID_ONE = 1L;
     public static final Long ID_TWO = 2L;
+    public static final Long ID_THREE = 3L;
 
     public static final String USER_EMAIL = "test@gmail.com";
-    public static final String PASSWORD = "$2a$12$WQmh2G/A6nsrnO2pTFd71eAlhWlI9uKNsSLkY5mTgONXxdd5GLbf.";
+    public static final String PASSWORD = "testPassword";
+    public static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGVuZGF2YS5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYzNjk2NTc2MCwiZXhwIjoxNjM3NTcwNTYwfQ.zAYBUuEKyPZoBhJgnHtDUfe61kk6E2DIZYHVlVdaor0";
 
     public static final String IMAGE = "https://testImageUrl/";
     public static final String NAME = "Apples";
@@ -22,4 +26,5 @@ public class TestConstants {
     public static final Integer SIZE = 2;
 
     public static final List<Integer> SIZES = Arrays.asList(5, 7, 10);
+
 }

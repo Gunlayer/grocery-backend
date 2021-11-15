@@ -41,11 +41,7 @@ public class BaseController {
                 );
     }
 
-    protected <V> String createExpectedBody(V v) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(v);
-    }
-
-    protected <V> String createRequest(V v) throws JsonProcessingException {
+    protected <V> String createJsonString(V v) throws JsonProcessingException {
         return objectMapper.writeValueAsString(v);
     }
 }

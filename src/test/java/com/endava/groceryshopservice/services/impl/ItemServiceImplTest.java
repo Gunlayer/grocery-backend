@@ -2,7 +2,6 @@ package com.endava.groceryshopservice.services.impl;
 
 import com.endava.groceryshopservice.entities.dto.ItemResponseDTO;
 import com.endava.groceryshopservice.repositories.ItemRepository;
-import com.endava.groceryshopservice.services.impl.ItemServiceImpl;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
