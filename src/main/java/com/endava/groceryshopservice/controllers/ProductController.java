@@ -11,7 +11,6 @@ import com.endava.groceryshopservice.services.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,7 +55,6 @@ public class ProductController {
 
     @ApiOperation(value = "fetches certain number (15 by default) of mostly viewed products")
     @GetMapping("/mostpopular")
-    @PreAuthorize("hasAuthority('users:read')")
     List<ProductNoDescDTO> getMostPopular(@RequestParam(defaultValue = "15") int number) {
         return productService.getMostViewed(number)
                 .stream()
