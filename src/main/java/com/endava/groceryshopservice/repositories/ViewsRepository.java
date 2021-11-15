@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ViewsRepository extends JpaRepository<Views, Long> {
-    List<Views> findAllByNumberGreaterThanEqualOrderByNumberDesc(long startNumber, Pageable pageable);
+    List<Views> findAllByNumberGreaterThanEqualOrderByNumberDescProduct_nameAsc(long startNumber, Pageable pageable);
 }
