@@ -14,7 +14,6 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +27,7 @@ import static com.endava.groceryshopservice.utils.TestConstants.ID_ONE;
 import static com.endava.groceryshopservice.utils.TestConstants.SIZE;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
 import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
@@ -59,7 +59,7 @@ public class ItemServiceImplTest {
 
     @Test
     void shouldAddNewItemToCart() {
-        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(java.util.Optional.ofNullable(USER_ONE));
+        when(userRepository.getByEmail(USER_EMAIL)).thenReturn(USER_ONE);
         when(productRepository.findById(ID_ONE)).thenReturn(java.util.Optional.ofNullable(PRODUCT_ONE));
         when(itemRepository.findByUserAndProductAndSize(USER_ONE, PRODUCT_ONE, SIZE)).thenReturn(null);
         when(itemRepository.save(itemCapture.capture())).thenReturn(itemCapture.capture());
@@ -70,18 +70,8 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    void shouldThrowUserNotFoundException() {
-        when(userRepository.findByEmail(USER_EMAIL)).
-                thenReturn(Optional.empty());
-
-        Exception actualException = assertThrows(UsernameNotFoundException.class, () ->
-                itemService.addItemToCart(ITEM_TO_ADD_REQUEST_DTO));
-        assertEquals("Could not find user with email " + USER_EMAIL, actualException.getMessage());
-    }
-
-    @Test
     void shouldThrowProductNotFoundException() {
-        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(java.util.Optional.ofNullable(USER_ONE));
+        when(userRepository.getByEmail(USER_EMAIL)).thenReturn(USER_ONE);
 
         when(productRepository.findById(ID_ONE)).
                 thenReturn(Optional.empty());

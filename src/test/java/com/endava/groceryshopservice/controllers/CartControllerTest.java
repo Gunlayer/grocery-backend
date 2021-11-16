@@ -53,8 +53,9 @@ class CartControllerTest extends BaseController {
     @Test
     @WithMockUser
     void shouldAddItemToCart() throws Exception {
-        mockMvc.perform(post("/cart")
-                        .contentType(MediaType.APPLICATION_JSON)
+        prepareAuthorizedRequestForUser(USER_ONE, "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0M0BlbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYzNzA2MDAwMiwiZXhwIjoxNjM3NjY0ODAyfQ.bd2wJGmvQ5vcYTEOaYtusfiPlCE6tqMsB4q64qIVvgo");
+        mockMvc.perform(post("/cart").header("Authorization", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0M0BlbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYzNzA2MDAwMiwiZXhwIjoxNjM3NjY0ODAyfQ.bd2wJGmvQ5vcYTEOaYtusfiPlCE6tqMsB4q64qIVvgo")
+                .contentType(MediaType.APPLICATION_JSON)
                         .content(createRequest(ITEM_TO_ADD_REQUEST_DTO)))
                 .andDo(print())
                 .andExpect(status().isOk());
