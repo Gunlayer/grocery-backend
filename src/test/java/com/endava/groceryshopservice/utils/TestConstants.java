@@ -1,7 +1,5 @@
 package com.endava.groceryshopservice.utils;
 
-import com.endava.groceryshopservice.entities.Views;
-
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -26,5 +24,4 @@ public class TestConstants {
     public static final Integer SIZE = 2;
     public static final Integer QUANTITY = 1;
     public static final List<Integer> SIZES = Arrays.asList(5, 7, 10);
-
 }

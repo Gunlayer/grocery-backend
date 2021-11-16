@@ -16,8 +16,8 @@ import static com.endava.groceryshopservice.utils.ItemUtils.ITEM_RESPONSE_DTO;
 import static com.endava.groceryshopservice.utils.ItemUtils.ITEM_TO_ADD_REQUEST_DTO;
 import static com.endava.groceryshopservice.utils.TestConstants.TOKEN;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
-
 import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -53,10 +53,10 @@ class CartControllerTest extends BaseController {
     @Test
     @WithMockUser
     void shouldAddItemToCart() throws Exception {
-        prepareAuthorizedRequestForUser(USER_ONE, "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0M0BlbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYzNzA2MDAwMiwiZXhwIjoxNjM3NjY0ODAyfQ.bd2wJGmvQ5vcYTEOaYtusfiPlCE6tqMsB4q64qIVvgo");
-        mockMvc.perform(post("/cart").header("Authorization", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0M0BlbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYzNzA2MDAwMiwiZXhwIjoxNjM3NjY0ODAyfQ.bd2wJGmvQ5vcYTEOaYtusfiPlCE6tqMsB4q64qIVvgo")
+        prepareAuthorizedRequestForUser(USER_ONE, TOKEN);
+        mockMvc.perform(post("/cart").header("authorization", TOKEN)
                 .contentType(MediaType.APPLICATION_JSON)
-                        .content(createRequest(ITEM_TO_ADD_REQUEST_DTO)))
+                        .content(createJsonString(ITEM_TO_ADD_REQUEST_DTO)))
                 .andDo(print())
                 .andExpect(status().isOk());
         verify(itemService).addItemToCart(ITEM_TO_ADD_REQUEST_DTO);
