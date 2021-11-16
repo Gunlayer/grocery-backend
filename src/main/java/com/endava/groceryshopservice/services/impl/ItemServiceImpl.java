@@ -13,7 +13,6 @@ import com.endava.groceryshopservice.repositories.ProductRepository;
 import com.endava.groceryshopservice.repositories.UserRepository;
 import com.endava.groceryshopservice.services.ItemService;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -37,14 +36,13 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void addItemToCart(ItemToAddRequestDTO requestDTO) {
-        User user = userRepository.findByEmail(requestDTO.getUserEmail()).orElseThrow(
-                () -> new UsernameNotFoundException("Could not find user with email " + requestDTO.getUserEmail())
-        );
+        User user = userRepository.getByEmail(requestDTO.getUserEmail());
         Product product = productRepository.findById(requestDTO.getProductId()).orElseThrow(
                 () -> new NoProductFoundException("Could not find a product with id " + requestDTO.getProductId()));
         Item existingItem = itemRepository.findByUserAndProductAndSize(user, product, requestDTO.getSize());
         if (existingItem != null) {
-            itemRepository.updateQuantity(existingItem.getId(), existingItem.getQuantity() + requestDTO.getQuantity());
+            existingItem.setQuantity(existingItem.getQuantity() + requestDTO.getQuantity());
+            itemRepository.save(existingItem);
         } else {
             Item item = Item.builder()
                     .user(user)

@@ -28,6 +28,7 @@ public class CartController {
     }
 
     @PostMapping()
+    @PreAuthorize("hasAuthority('users:read')")
     public void addItemToCart(@RequestBody ItemToAddRequestDTO requestDTO){
         itemService.addItemToCart(requestDTO);
     }
