@@ -1,15 +1,15 @@
 package com.endava.groceryshopservice.entities.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
-@Builder
-@AllArgsConstructor
-public class ItemToAddRequestDTO {
+@Getter
+public class ItemToAddRequestDTO extends ItemRequestDTO{
     private String userEmail;
-    private Integer quantity;
-    private Integer size;
-    private Long productId;
+
+    @Builder
+    public ItemToAddRequestDTO(Integer quantity, Integer size, Long productId, String userEmail) {
+        super(quantity, size, productId);
+        this.userEmail = userEmail;
+    }
 }
