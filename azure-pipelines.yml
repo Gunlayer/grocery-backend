@@ -21,7 +21,7 @@ resources:
         include:
         - develop
         - releases/*
-        # - feature/*
+        - feature/*
 
 
 name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
@@ -51,7 +51,7 @@ stages:
         includeLatestTag: true
 
     - task: Docker@0
-      # condition: or(and(succeeded(), eq(variables.isDevOps, 'true')), and(succeeded(), eq(variables.isRelease, 'true')))
+      condition: or(and(succeeded(), eq(variables.isDevelop, 'true')), and(succeeded(), eq(variables.isRelease, 'true')))
       displayName: Push an image
       inputs:
         azureSubscriptionEndpoint: 38386be4-ac4e-425b-8cd7-0127b8f9c0d9
