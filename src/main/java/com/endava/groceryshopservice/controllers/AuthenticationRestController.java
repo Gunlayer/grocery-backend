@@ -43,7 +43,7 @@ public class AuthenticationRestController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         } catch (AuthenticationException e) {
-            throw new BadCredentialsException(e.getMessage());
+            throw new BadCredentialsException("Incorrect combination of email and/or password");
         }
         itemService.addItems(request);
         String token = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name());

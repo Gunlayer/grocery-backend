@@ -95,7 +95,7 @@ class UserServiceImplTest {
         Mockito.when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> userService.getByEmail(USER_EMAIL))
-                .isInstanceOf(UsernameNotFoundException.class).hasMessage("Invalid email");
+                .isInstanceOf(UsernameNotFoundException.class).hasMessage("Incorrect combination of email and/or password");
     }
 
 
