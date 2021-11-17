@@ -2,3 +2,4 @@ HELP.md
 README.md
 mvnw.*
 .gitignore
+manifests/*
