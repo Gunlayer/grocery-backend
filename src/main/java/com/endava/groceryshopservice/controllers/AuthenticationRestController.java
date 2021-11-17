@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import com.endava.groceryshopservice.entities.User;
-import com.endava.groceryshopservice.entities.dto.AuthenticationRequestDTO;
+import com.endava.groceryshopservice.entities.dto.UserRequestDTO;
 import com.endava.groceryshopservice.exceptions.BadCredentialsException;
 import com.endava.groceryshopservice.exceptions.model.AuthenticationResponseData;
 import com.endava.groceryshopservice.security.JwtTokenProvider;
@@ -38,13 +38,14 @@ public class AuthenticationRestController {
 
     @ApiOperation(value = "authenticates user's request to log in the system")
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponseData> authenticate(@RequestBody AuthenticationRequestDTO request) {
+    public ResponseEntity<AuthenticationResponseData> authenticate(@RequestBody UserRequestDTO request) {
         User user = userService.getByEmail(request.getEmail());
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         } catch (AuthenticationException e) {
             throw new BadCredentialsException(e.getMessage());
         }
+        itemService.addItems(request);
         String token = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name());
 
         return ResponseEntity.ok(AuthenticationResponseData.builder()

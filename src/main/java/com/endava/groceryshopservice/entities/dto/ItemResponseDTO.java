@@ -10,15 +10,11 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class ItemResponseDTO {
-    private Long id;
-    private Long user_id;
-    private Long product_id;
+    private Long productId;
     private Integer quantity;
     private String image;
     private String name;
     private Double price;
-    private Double rating;
-    private String description;
     private SizeTypes sizeType;
     private Integer size;
 }

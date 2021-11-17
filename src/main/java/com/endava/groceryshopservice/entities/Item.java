@@ -51,15 +51,11 @@ public class Item {
 
     public ItemResponseDTO toItemResponseDTO() {
         ItemResponseDTO itemResponseDTO = ItemResponseDTO.builder()
-                .id(this.id)
                 .quantity(this.quantity)
-                .user_id(this.user.getId())
-                .product_id(this.product.getId())
+                .productId(this.product.getId())
                 .image(this.product.getImage())
                 .price(this.product.getPrice())
                 .name(this.product.getName())
-                .rating(this.product.getRating())
-                .description(this.product.getDescription())
                 .sizeType(this.product.getSizeType())
                 .size(this.size)
                 .build();
