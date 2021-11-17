@@ -1,0 +1,73 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: grocery-shop-service-deployment-demo
+  labels:
+    env: demo
+    app: grocery-shop-service
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: grocery-shop-service-demo
+
+  template:
+    metadata:
+      labels:
+        env: demo
+        project: grocery-shop-service-demo
+    spec:
+      containers:
+      - name: grocery-shop-service-demo-pod
+        image: mddinternship2021h2project.azurecr.io/grocery-shop-service:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: 1.0
+            memory: 2Gi
+          limits:
+            cpu: 2.0
+            memory: 4Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grocery-shop-service-service-demo
+  labels:
+    env: demo
+spec:
+  selector:
+    project: grocery-shop-service-demo
+  ports:
+    - name      : app-listener
+      protocol  : TCP
+      port      : 8080
+      targetPort: 8080
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grocery-shop-ingress-demo
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+
+spec:
+  rules:
+  # - host: www..com
+  - http:
+      paths:
+      - path: /grocery-shop-demo(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: grocery-shop-service-service-demo
+            port:
+              number: 8080
+            
+            
