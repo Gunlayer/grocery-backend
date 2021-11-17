@@ -33,8 +33,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getMostViewed(int number) {
-        List<Views> views = viewsService.getMostViewed(number);
+    public List<Product> getMostViewed(int productsAmount) {
+        List<Views> views = viewsService.getMostViewed(productsAmount);
         return views.stream()
                 .map(Views::getProduct)
                 .collect(Collectors.toList());

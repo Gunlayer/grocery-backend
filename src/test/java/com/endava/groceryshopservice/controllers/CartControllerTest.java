@@ -13,7 +13,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.endava.groceryshopservice.utils.ItemUtils.ITEM_RESPONSE_DTO;
+import static com.endava.groceryshopservice.utils.TestConstants.TOKEN;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
+import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,12 +36,13 @@ class CartControllerTest extends BaseController {
     @Test
     @WithMockUser
     void shouldGetUserCart() throws Exception {
+        prepareAuthorizedRequestForUser(USER_ONE, TOKEN);
         when(itemService.findUserCart(USER_EMAIL)).thenReturn(ITEM_RESPONSE_DTO);
-        mockMvc.perform(get("/cart/test@gmail.com"))
+        mockMvc.perform(get("/cart/test@gmail.com").header("authorization", TOKEN))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(createExpectedBody(ITEM_RESPONSE_DTO)));
+                .andExpect(content().json(createJsonString(ITEM_RESPONSE_DTO)));
 
         verify(itemService).findUserCart(USER_EMAIL);
     }

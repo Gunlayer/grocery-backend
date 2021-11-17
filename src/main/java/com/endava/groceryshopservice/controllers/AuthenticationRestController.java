@@ -38,7 +38,7 @@ public class AuthenticationRestController {
 
     @ApiOperation(value = "authenticates user's request to log in the system")
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) {
+    public ResponseEntity<AuthenticationResponseData> authenticate(@RequestBody AuthenticationRequestDTO request) {
         User user = userService.getByEmail(request.getEmail());
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
