@@ -3,8 +3,6 @@ variables:
 - group: grocery-list
 - name: BuildParameters.dockerFile
   value: '**/Dockerfile'
-- name: pool
-  value: Default
 # - name: vmImageName
 #   value: ubuntu-18.04
 - name: isDevelop
