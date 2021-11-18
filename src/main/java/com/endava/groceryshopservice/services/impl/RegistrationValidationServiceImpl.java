@@ -20,7 +20,7 @@ public class RegistrationValidationServiceImpl implements RegistrationValidation
 
     @Override
     public void testPasswordValidation(String password) {
-        if (Objects.isNull(password) || !password.matches("^[a-zA-Z0-9]+$")) {
+        if (Objects.isNull(password) || !password.matches("^[a-zA-Z0-9@&$*#]+$")) {
             throw new NotSuitablePasswordException("Password is not valid.");
         }
     }
