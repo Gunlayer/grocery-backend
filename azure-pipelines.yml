@@ -35,7 +35,7 @@ stages:
   jobs:
   - job: Build
     displayName: Utests_N_Build job
-    pool: $(pool)
+    pool: Default
       # vmImage: $(vmImageName)
     steps:
     - checkout: self
@@ -55,7 +55,7 @@ stages:
   jobs:
   - job: Build
     displayName: Build_N_Push job
-    pool: $(pool)
+    pool: Default
       # vmImage: $(vmImageName)
     steps:
     - checkout: self
@@ -89,7 +89,7 @@ stages:
   jobs:
     - job: Deploy
       displayName: Deploy to dev-AKS job
-      pool: $(pool)
+      pool: Default
         # vmImage: $(vmImageName)
       
       steps:
@@ -110,7 +110,7 @@ stages:
   jobs:
     - job: Deploy
       displayName: Deploy to demo-AKS job
-      pool: $(pool)
+      pool: Default
         # vmImage: $(vmImageName)
       
       steps:
