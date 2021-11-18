@@ -28,13 +28,13 @@ name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 
 stages:
 
-- stage: Utests-N-Build
+- stage: Utests_N_Build
   condition: and(eq(variables.isDevelop, 'false'), eq(variables.isRelease, 'false'))
   displayName: 'Run unite tests, code scan and build image'
 
   jobs:
   - job: Build
-    displayName: Utests-N-Build job
+    displayName: Utests_N_Build job
     pool: $(pool)
       # vmImage: $(vmImageName)
     steps:
@@ -54,7 +54,7 @@ stages:
 
   jobs:
   - job: Build
-    displayName: Build-N-Push job
+    displayName: Build_N_Push job
     pool: $(pool)
       # vmImage: $(vmImageName)
     steps:
