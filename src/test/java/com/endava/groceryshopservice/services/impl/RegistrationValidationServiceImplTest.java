@@ -20,7 +20,7 @@ class RegistrationValidationServiceImplTest {
     @Test
     void testEmailValidation_admit_correctData() {
         assertThatCode(() ->
-                validationService.testEmailValidation("stefan_cel-mare.si0sfint@its.endava.com")
+                validationService.testEmailValidation("stefancel.mare.si0sfint@its.endava.com")
         ).doesNotThrowAnyException();
     }
 
@@ -34,10 +34,10 @@ class RegistrationValidationServiceImplTest {
                         validationService.testEmailValidation("")
                 ).isInstanceOf(InvalidEmailException.class).hasMessage("Email is not valid."),
                 () -> assertThatThrownBy(() ->
-                        validationService.testEmailValidation("to_long_domain_name@system.daac.md")
+                        validationService.testEmailValidation("to.long.domain.name@system.daaaaaaaaaaac.md")
                 ).isInstanceOf(InvalidEmailException.class).hasMessage("Email is not valid."),
                 () -> assertThatThrownBy(() ->
-                        validationService.testEmailValidation("to_short_domain_name@daac.m")
+                        validationService.testEmailValidation("to.short.domain.name@daac.")
                 ).isInstanceOf(InvalidEmailException.class).hasMessage("Email is not valid."),
                 () -> assertThatThrownBy(() ->
                         validationService.testEmailValidation(".test@daac.md")
@@ -73,7 +73,7 @@ class RegistrationValidationServiceImplTest {
                         validationService.testPasswordValidation("")
                 ).isInstanceOf(NotSuitablePasswordException.class).hasMessage("Password is not valid."),
                 () -> assertThatThrownBy(() ->
-                        validationService.testPasswordValidation("oleg.ciornei")
+                        validationService.testPasswordValidation("123")
                 ).isInstanceOf(NotSuitablePasswordException.class).hasMessage("Password is not valid."),
                 () -> assertThatThrownBy(() ->
                         validationService.testPasswordValidation("ZAQ!XSW@CDE#")
