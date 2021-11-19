@@ -13,14 +13,14 @@ public class RegistrationValidationServiceImpl implements RegistrationValidation
 
     @Override
     public void testEmailValidation(String email) {
-        if (Objects.isNull(email) || !email.matches("^(?![._-])[A-z0-9._-]{1,30}@[A-z._-]{2,10}.[A-z]{2,6}$")) {
+        if (Objects.isNull(email) || !email.matches("^(?![.])[A-z0-9.]{5,35}@[A-z0-9.]{1,10}\\.[A-z0-9.]{1,11}$")) {
             throw new InvalidEmailException("Email is not valid.");
         }
     }
 
     @Override
     public void testPasswordValidation(String password) {
-        if (Objects.isNull(password) || !password.matches("^[a-zA-Z0-9@&$*#]+$")) {
+        if (Objects.isNull(password) || !password.matches("^[A-z0-9'~!@#$%^&*()_+\\-=?.,;:'\\/\\\"|\\{\\}<>\\[\\]]{5,10}$")) {
             throw new NotSuitablePasswordException("Password is not valid.");
         }
     }
