@@ -73,9 +73,6 @@ class RegistrationValidationServiceImplTest {
                         validationService.testPasswordValidation("")
                 ).isInstanceOf(NotSuitablePasswordException.class).hasMessage("Password is not valid."),
                 () -> assertThatThrownBy(() ->
-                        validationService.testPasswordValidation("12345*6789")
-                ).isInstanceOf(NotSuitablePasswordException.class).hasMessage("Password is not valid."),
-                () -> assertThatThrownBy(() ->
                         validationService.testPasswordValidation("oleg.ciornei")
                 ).isInstanceOf(NotSuitablePasswordException.class).hasMessage("Password is not valid."),
                 () -> assertThatThrownBy(() ->
