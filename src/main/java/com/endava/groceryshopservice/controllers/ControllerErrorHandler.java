@@ -23,8 +23,7 @@ public class ControllerErrorHandler {
             IllegalArgumentException.class,
             AlreadyExistingUserException.class,
             InvalidEmailException.class,
-            NotSuitablePasswordException.class,
-            UsernameNotFoundException.class})
+            NotSuitablePasswordException.class})
     public ResponseEntity<ErrorData> exceptionHandle(Exception exception) {
         return getErrorResponseEntity(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
@@ -35,8 +34,8 @@ public class ControllerErrorHandler {
         return getErrorResponseEntity(HttpStatus.UNAUTHORIZED, "Jwt is invalid");
     }
 
-    @ExceptionHandler({BadCredentialsException.class})
-    public ResponseEntity<ErrorData> BadCredentialsException(BadCredentialsException exception) {
+    @ExceptionHandler({UsernameNotFoundException.class,BadCredentialsException.class})
+    public ResponseEntity<ErrorData> BadCredentialsException(Exception exception) {
         return getErrorResponseEntity(HttpStatus.UNAUTHORIZED, exception.getMessage());
     }
 

@@ -32,6 +32,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Invalid email"));
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Incorrect combination of email and/or password"));
     }
 }
