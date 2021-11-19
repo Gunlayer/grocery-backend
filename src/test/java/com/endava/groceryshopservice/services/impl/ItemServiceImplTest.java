@@ -27,7 +27,6 @@ import static com.endava.groceryshopservice.utils.TestConstants.ID_ONE;
 import static com.endava.groceryshopservice.utils.TestConstants.SIZE;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
 import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;

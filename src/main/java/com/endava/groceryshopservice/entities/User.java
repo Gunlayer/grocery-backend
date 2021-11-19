@@ -34,14 +34,27 @@ public class User {
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "grocery_shop_sequence")
     private Long id;
+
     @Column(name = "email")
     private String email;
+
     @Column(name = "password")
     private String password;
+
     @Enumerated(value = EnumType.STRING)
     @Column(name = "user_role")
     private Role role;
+
     @Enumerated(value = EnumType.STRING)
     @Column(name = "user_status")
     private Status status;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                '}';
+    }
 }

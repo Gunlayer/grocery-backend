@@ -12,5 +12,6 @@ import java.util.List;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByUser_Email(String email);
+
     Item findByUserAndProductAndSize(User user, Product product, Integer size);
 }

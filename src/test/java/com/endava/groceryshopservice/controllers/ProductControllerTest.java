@@ -2,25 +2,36 @@ package com.endava.groceryshopservice.controllers;
 
 import com.endava.groceryshopservice.entities.dto.ProductNoDescDTO;
 import com.endava.groceryshopservice.entities.dto.ProductWithDescDTO;
+import com.endava.groceryshopservice.entities.dto.ProductWithReviewsDTO;
+import com.endava.groceryshopservice.entities.dto.ReviewDTO;
 import com.endava.groceryshopservice.exceptions.NoProductFoundException;
 import com.endava.groceryshopservice.services.ProductService;
+import com.endava.groceryshopservice.services.ReviewService;
+import com.endava.groceryshopservice.services.UserService;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
 import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_ONE;
 import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_TWO;
+import static com.endava.groceryshopservice.utils.ReviewUtils.REVIEW;
+import static com.endava.groceryshopservice.utils.ReviewUtils.REVIEW_LIST_PRODUCT_ONE;
 import static com.endava.groceryshopservice.utils.TestConstants.ID_ONE;
-
+import static com.endava.groceryshopservice.utils.TestConstants.TOKEN;
+import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
+import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -32,8 +43,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ProductController.class)
 class ProductControllerTest extends BaseController {
 
+    @Autowired
+    MockMvc mockMvc;
+
+    @MockBean
+    ReviewService reviewService;
+
     @MockBean
     ProductService productService;
+
+    @MockBean
+    UserService userService;
 
     @Test
     void getAll_pageNoProdDto_correctData() throws Exception {
@@ -59,6 +79,22 @@ class ProductControllerTest extends BaseController {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(createJsonString(expected)));
+    }
+
+    @Test
+    void shouldGetProductById() throws Exception {
+        when(productService.getById(ID_ONE)).thenReturn(PRODUCT_ONE);
+        when(reviewService.getAllReviewsByProductId(ID_ONE)).thenReturn(REVIEW_LIST_PRODUCT_ONE);
+
+        mockMvc.perform(get("/products/1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(createJsonString(
+                        new ProductWithReviewsDTO(PRODUCT_ONE, REVIEW_LIST_PRODUCT_ONE))));
+
+        verify(productService).getById(ID_ONE);
+        verify(reviewService).getAllReviewsByProductId(ID_ONE);
     }
 
     @Test
@@ -106,5 +142,25 @@ class ProductControllerTest extends BaseController {
         mockMvc.perform(get("/products/mostpopular?number=0"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldAddReview() throws Exception {
+        prepareAuthorizedRequestForUser(USER_ONE, TOKEN);
+
+        when(productService.getById(ID_ONE)).thenReturn(PRODUCT_ONE);
+        when(userService.getByEmail(USER_EMAIL)).thenReturn(USER_ONE);
+        when(reviewService.addReview(ID_ONE, USER_EMAIL, REVIEW)).thenReturn(REVIEW);
+
+        mockMvc.perform(post("/products/1/add_review")
+                        .header("authorization", TOKEN)
+                        .content(createJsonString(REVIEW))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isAccepted())
+                .andExpect(content().json(createJsonString(new ReviewDTO(REVIEW))));
+
+        verify(reviewService).addReview(ID_ONE, USER_EMAIL, REVIEW);
     }
 }

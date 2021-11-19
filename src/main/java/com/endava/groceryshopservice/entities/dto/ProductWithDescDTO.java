@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import com.endava.groceryshopservice.entities.Product;
 
-@Api(value = "Product model info")
+@Api(value = "Product model information")
 public class ProductWithDescDTO extends ProductNoDescDTO {
 
     @ApiModelProperty(value = "Description of the product",

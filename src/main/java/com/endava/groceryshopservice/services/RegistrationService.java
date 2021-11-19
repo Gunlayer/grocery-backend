@@ -6,5 +6,5 @@ import com.endava.groceryshopservice.exceptions.model.RegistrationResponseData;
 import org.springframework.http.ResponseEntity;
 
 public interface RegistrationService {
-    ResponseEntity<RegistrationResponseData> register(UserRequestDTO requestDTO) ;
+    ResponseEntity<RegistrationResponseData> register(UserRequestDTO requestDTO);
 }

@@ -19,11 +19,13 @@ import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class ControllerErrorHandler {
-    @ExceptionHandler({NoProductFoundException.class,
-            IllegalArgumentException.class,
+    @ExceptionHandler({
             AlreadyExistingUserException.class,
+            IllegalArgumentException.class,
             InvalidEmailException.class,
-            NotSuitablePasswordException.class})
+            NoProductFoundException.class,
+            NotSuitablePasswordException.class
+    })
     public ResponseEntity<ErrorData> exceptionHandle(Exception exception) {
         return getErrorResponseEntity(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
@@ -34,7 +36,7 @@ public class ControllerErrorHandler {
         return getErrorResponseEntity(HttpStatus.UNAUTHORIZED, "Jwt is invalid");
     }
 
-    @ExceptionHandler({UsernameNotFoundException.class,BadCredentialsException.class})
+    @ExceptionHandler({UsernameNotFoundException.class, BadCredentialsException.class})
     public ResponseEntity<ErrorData> BadCredentialsException(Exception exception) {
         return getErrorResponseEntity(HttpStatus.UNAUTHORIZED, exception.getMessage());
     }
