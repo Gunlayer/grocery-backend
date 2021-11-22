@@ -1,7 +1,7 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: grocery-shop-service-deployment-demo
+  name: grocery-shop-service-demo
   labels:
     env: demo
     app: grocery-shop-service
@@ -50,24 +50,24 @@ spec:
   type: ClusterIP
 
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: grocery-shop-ingress-demo
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: grocery-shop-ingress-demo
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: /$2
 
-spec:
-  rules:
-  # - host: www..com
-  - http:
-      paths:
-      - path: /grocery-shop-demo(/|$)(.*)
-        pathType: Prefix
-        backend:
-          service:
-            name: grocery-shop-service-service-demo
-            port:
-              number: 8080
+# spec:
+#   rules:
+#   # - host: www..com
+#   - http:
+#       paths:
+#       - path: /grocery-shop-demo(/|$)(.*)
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: grocery-shop-service-service-demo
+#             port:
+#               number: 8080
             
             
