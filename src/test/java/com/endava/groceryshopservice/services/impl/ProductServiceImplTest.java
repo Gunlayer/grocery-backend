@@ -26,12 +26,21 @@ import java.util.Optional;
 
 import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_ONE;
 import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_TWO;
-import static com.endava.groceryshopservice.utils.TestConstants.*;
+import static com.endava.groceryshopservice.utils.TestConstants.DESCRIPTION;
+import static com.endava.groceryshopservice.utils.TestConstants.ID_ONE;
+import static com.endava.groceryshopservice.utils.TestConstants.ID_THREE;
+import static com.endava.groceryshopservice.utils.TestConstants.IMAGE;
+import static com.endava.groceryshopservice.utils.TestConstants.NAME;
+import static com.endava.groceryshopservice.utils.TestConstants.PRICE;
+import static com.endava.groceryshopservice.utils.TestConstants.RATING;
+import static com.endava.groceryshopservice.utils.TestConstants.SIZES;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -121,5 +130,12 @@ public class ProductServiceImplTest {
                 () -> assertThat(actualProduct.getViews()).isNotNull(),
                 () -> assertThat(actualProduct.getViews().getNumber()).isEqualTo(0L)
         );
+    }
+
+    @Test
+    void shouldCalculateRating(){
+        productRepository.setRatingForProduct(ID_ONE);
+
+        verify(productRepository, times(1)).setRatingForProduct(ID_ONE);
     }
 }

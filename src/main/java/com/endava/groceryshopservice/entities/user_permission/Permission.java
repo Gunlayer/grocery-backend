@@ -3,7 +3,8 @@ package com.endava.groceryshopservice.entities.user_permission;
 public enum Permission {
     USERS_READ("users:read"),
     USERS_ADD_IN_BAG("users:addInBag"),
-    USERS_WRITE("users:write");
+    USERS_WRITE("users:write"),
+    USERS_ADD_REVIEW("users:addReview");
 
     private final String permission;
 

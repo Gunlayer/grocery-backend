@@ -47,4 +47,9 @@ public class ProductServiceImpl implements ProductService {
         viewsService.increaseViewNumber(res.getViews());
         return res;
     }
+
+    @Override
+    public void setRatingForProduct(long productId) {
+        productRepository.setRatingForProduct(productId);
+    }
 }

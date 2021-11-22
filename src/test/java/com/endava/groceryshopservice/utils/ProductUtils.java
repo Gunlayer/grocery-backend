@@ -1,13 +1,19 @@
 package com.endava.groceryshopservice.utils;
 
 import com.endava.groceryshopservice.entities.Product;
-import com.endava.groceryshopservice.entities.Views;
 import com.endava.groceryshopservice.entities.types.SizeTypes;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import static com.endava.groceryshopservice.utils.TestConstants.*;
+import static com.endava.groceryshopservice.utils.TestConstants.DESCRIPTION;
+import static com.endava.groceryshopservice.utils.TestConstants.ID_ONE;
+import static com.endava.groceryshopservice.utils.TestConstants.ID_TWO;
+import static com.endava.groceryshopservice.utils.TestConstants.IMAGE;
+import static com.endava.groceryshopservice.utils.TestConstants.NAME;
+import static com.endava.groceryshopservice.utils.TestConstants.PRICE;
+import static com.endava.groceryshopservice.utils.TestConstants.RATING;
+import static com.endava.groceryshopservice.utils.TestConstants.SIZES;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductUtils {
@@ -31,6 +37,6 @@ public class ProductUtils {
             .rating(RATING)
             .description(DESCRIPTION)
             .sizes(SIZES)
-            .sizeType(SizeTypes.PACKS)
+            .sizeType(SizeTypes.KILOS)
             .build();
 }

@@ -10,7 +10,7 @@ import lombok.Data;
 
 import java.util.List;
 
-@Api(value = "Product model info")
+@Api(value = "Product model (without product description) information")
 @Data
 public class ProductNoDescDTO {
 
@@ -27,7 +27,8 @@ public class ProductNoDescDTO {
     @ApiModelProperty(value = "Product's price", example = "200.00")
     private Double price;
 
-    @ApiModelProperty(value = "Product's rating", example = "4.5")
+    @ApiModelProperty(value = "Product's rating", example = "4.5",
+            notes = "cannot be set up manually, it is recalcuulated with each newly added review")
     private Double rating;
 
     @ApiModelProperty(value = "A list of available sizes for each product", example = "[1,3,5]")

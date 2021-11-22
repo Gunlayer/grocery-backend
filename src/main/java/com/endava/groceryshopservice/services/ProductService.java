@@ -15,4 +15,6 @@ public interface ProductService {
     List<Product> getMostViewed(int number);
 
     Product getById(long id);
+
+    void setRatingForProduct(long productId);
 }
