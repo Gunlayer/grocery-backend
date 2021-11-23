@@ -1,10 +1,11 @@
 package com.endava.groceryshopservice.controllers;
 
 import com.endava.groceryshopservice.entities.dto.ItemResponseDTO;
-import com.endava.groceryshopservice.entities.dto.ItemToAddRequestDTO;
+import com.endava.groceryshopservice.entities.dto.ItemToAddDeleteRequestDTO;
 import com.endava.groceryshopservice.services.ItemService;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +30,13 @@ public class CartController {
 
     @PostMapping()
     @PreAuthorize("hasAuthority('users:read')")
-    public void addItemToCart(@RequestBody ItemToAddRequestDTO requestDTO) {
+    public void addItemToCart(@RequestBody ItemToAddDeleteRequestDTO requestDTO) {
         itemService.addItemToCart(requestDTO);
+    }
+
+    @DeleteMapping
+    @PreAuthorize("hasAuthority('users:read')")
+    public void deleteItem(@RequestBody ItemToAddDeleteRequestDTO deleteItemRequestDTO){
+        itemService.deleteItem(deleteItemRequestDTO);
     }
 }

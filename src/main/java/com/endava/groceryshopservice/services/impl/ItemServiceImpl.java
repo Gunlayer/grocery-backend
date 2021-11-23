@@ -5,8 +5,10 @@ import com.endava.groceryshopservice.entities.Product;
 import com.endava.groceryshopservice.entities.User;
 import com.endava.groceryshopservice.entities.dto.ItemRequestDTO;
 import com.endava.groceryshopservice.entities.dto.ItemResponseDTO;
-import com.endava.groceryshopservice.entities.dto.ItemToAddRequestDTO;
+import com.endava.groceryshopservice.entities.dto.ItemToAddDeleteRequestDTO;
 import com.endava.groceryshopservice.entities.dto.UserRequestDTO;
+import com.endava.groceryshopservice.exceptions.InvalidQuantityException;
+import com.endava.groceryshopservice.exceptions.NoItemFoundException;
 import com.endava.groceryshopservice.exceptions.NoProductFoundException;
 import com.endava.groceryshopservice.repositories.ItemRepository;
 import com.endava.groceryshopservice.repositories.ProductRepository;
@@ -25,6 +27,8 @@ public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final ProductServiceImpl productService;
+    private final UserServiceImpl userService;
 
     @Override
     public List<ItemResponseDTO> findUserCart(String email) {
@@ -35,7 +39,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void addItemToCart(ItemToAddRequestDTO requestDTO) {
+    public void addItemToCart(ItemToAddDeleteRequestDTO requestDTO) {
         User user = userRepository.getByEmail(requestDTO.getUserEmail());
         Product product = productRepository.findById(requestDTO.getProductId()).orElseThrow(
                 () -> new NoProductFoundException("Could not find a product with id " + requestDTO.getProductId()));
@@ -56,10 +60,10 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void addItems(UserRequestDTO requestDTO) {
-        ItemToAddRequestDTO item;
+        ItemToAddDeleteRequestDTO item;
         if (requestDTO.getCartItems() != null && !requestDTO.getCartItems().isEmpty()) {
             for (ItemRequestDTO itemRequestDTO : requestDTO.getCartItems()) {
-                item = ItemToAddRequestDTO.builder()
+                item = ItemToAddDeleteRequestDTO.builder()
                         .quantity(itemRequestDTO.getQuantity())
                         .size(itemRequestDTO.getSize())
                         .userEmail(requestDTO.getEmail())
@@ -67,6 +71,27 @@ public class ItemServiceImpl implements ItemService {
                         .build();
                 addItemToCart(item);
             }
+        }
+    }
+
+    @Override
+    public void deleteItem(ItemToAddDeleteRequestDTO itemToDeleteRequestDTO) {
+        User user = userService.getByEmail(itemToDeleteRequestDTO.getUserEmail());
+        Product product = productService.getById(itemToDeleteRequestDTO.getProductId());
+        Item item = itemRepository.findByUserAndProductAndSize(user, product, itemToDeleteRequestDTO.getSize());
+        if (item == null) {
+            throw new NoItemFoundException("Could not find item ");
+        }
+
+        if (itemToDeleteRequestDTO.getQuantity() > item.getQuantity()) {
+            throw new InvalidQuantityException("Requested quantity cannot be bigger than stored quantity");
+        }
+
+        if (item.getQuantity() > itemToDeleteRequestDTO.getQuantity()) {
+            item.setQuantity(item.getQuantity() - itemToDeleteRequestDTO.getQuantity());
+            itemRepository.save(item);
+        } else {
+            itemRepository.delete(item);
         }
     }
 }

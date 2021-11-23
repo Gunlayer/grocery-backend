@@ -2,7 +2,7 @@ package com.endava.groceryshopservice.utils;
 
 import com.endava.groceryshopservice.entities.Item;
 import com.endava.groceryshopservice.entities.dto.ItemResponseDTO;
-import com.endava.groceryshopservice.entities.dto.ItemToAddRequestDTO;
+import com.endava.groceryshopservice.entities.dto.ItemToAddDeleteRequestDTO;
 import com.endava.groceryshopservice.entities.types.SizeTypes;
 
 import lombok.AccessLevel;
@@ -16,6 +16,7 @@ import static com.endava.groceryshopservice.utils.TestConstants.IMAGE;
 import static com.endava.groceryshopservice.utils.TestConstants.NAME;
 import static com.endava.groceryshopservice.utils.TestConstants.PRICE;
 import static com.endava.groceryshopservice.utils.TestConstants.QUANTITY;
+import static com.endava.groceryshopservice.utils.TestConstants.QUANTITY_TWO;
 import static com.endava.groceryshopservice.utils.TestConstants.SIZE;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
 import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
@@ -28,6 +29,13 @@ public class ItemUtils {
             .size(SIZE)
             .user(USER_ONE)
             .quantity(QUANTITY)
+            .build();
+
+    public static final Item ITEM_TWO = Item.builder()
+            .product(PRODUCT_ONE)
+            .size(SIZE)
+            .user(USER_ONE)
+            .quantity(QUANTITY_TWO)
             .build();
 
     public static final Item FINAL_ITEM = Item.builder()
@@ -50,10 +58,17 @@ public class ItemUtils {
             .size(SIZE)
             .build());
 
-    public static final ItemToAddRequestDTO ITEM_TO_ADD_REQUEST_DTO = ItemToAddRequestDTO.builder()
+    public static final ItemToAddDeleteRequestDTO ITEM_TO_ADD_DELETE_REQUEST_DTO = ItemToAddDeleteRequestDTO.builder()
             .userEmail(USER_EMAIL)
             .productId(PRODUCT_ONE.getId())
             .quantity(QUANTITY)
+            .size(SIZE)
+            .build();
+
+    public static final ItemToAddDeleteRequestDTO ITEM_TO_DELETE_REQUEST_DTO = ItemToAddDeleteRequestDTO.builder()
+            .userEmail(USER_EMAIL)
+            .productId(PRODUCT_ONE.getId())
+            .quantity(QUANTITY_TWO)
             .size(SIZE)
             .build();
 }
