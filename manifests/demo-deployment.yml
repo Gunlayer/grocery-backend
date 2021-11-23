@@ -1,7 +1,7 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: grocery-shop-service-demo
+  name: grocery-shop-service-deployment-demo
   labels:
     env: demo
     app: grocery-shop-service
@@ -15,7 +15,6 @@ spec:
   template:
     metadata:
       labels:
-        env: demo
         project: grocery-shop-service-demo
     spec:
       containers:
@@ -24,13 +23,13 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
-        resources:
-          requests:
-            cpu: 1.0
-            memory: 2Gi
-          limits:
-            cpu: 2.0
-            memory: 4Gi
+        # resources:
+          # requests:
+            # cpu: 1.0
+            # memory: 2Gi
+          # limits:
+            # cpu: 2.0
+            # memory: 4Gi
 
 ---
 apiVersion: v1
@@ -50,24 +49,24 @@ spec:
   type: ClusterIP
 
 ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: grocery-shop-ingress-demo
-#   annotations:
-#     nginx.ingress.kubernetes.io/rewrite-target: /$2
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grocery-shop-service-ingress-demo
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 
-# spec:
-#   rules:
-#   # - host: www..com
-#   - http:
-#       paths:
-#       - path: /grocery-shop-demo(/|$)(.*)
-#         pathType: Prefix
-#         backend:
-#           service:
-#             name: grocery-shop-service-service-demo
-#             port:
-#               number: 8080
+spec:
+  rules:
+  # - host: www..com
+  - http:
+      paths:
+      - path: /grocery-list-demo(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: grocery-shop-service-service-demo
+            port:
+              number: 8080
             
             
