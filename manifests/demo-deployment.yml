@@ -15,7 +15,6 @@ spec:
   template:
     metadata:
       labels:
-        env: demo
         project: grocery-shop-service-demo
     spec:
       containers:
@@ -24,13 +23,13 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
-        resources:
-          requests:
-            cpu: 1.0
-            memory: 2Gi
-          limits:
-            cpu: 2.0
-            memory: 4Gi
+        # resources:
+          # requests:
+            # cpu: 1.0
+            # memory: 2Gi
+          # limits:
+            # cpu: 2.0
+            # memory: 4Gi
 
 ---
 apiVersion: v1
@@ -53,7 +52,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: grocery-shop-ingress-demo
+  name: grocery-shop-service-ingress-demo
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 
@@ -62,7 +61,7 @@ spec:
   # - host: www..com
   - http:
       paths:
-      - path: /grocery-shop-demo(/|$)(.*)
+      - path: /grocery-list-demo(/|$)(.*)
         pathType: Prefix
         backend:
           service:

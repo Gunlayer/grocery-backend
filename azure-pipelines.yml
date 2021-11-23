@@ -21,6 +21,10 @@ resources:
         include:
         - develop
         - releases/*
+        exclude:
+        - feature/*
+        - hotfix/*
+        - bugfix/*
 
 name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 
@@ -37,6 +41,12 @@ stages:
       # vmImage: $(vmImageName)
     steps:
     - checkout: self
+
+    - task: Docker@0
+      displayName: Clean previous images
+      inputs:
+        action: Run a Docker command
+        customCommand: system prune -af
 
     - task: Docker@0
       displayName: Build an image
@@ -57,6 +67,12 @@ stages:
       # vmImage: $(vmImageName)
     steps:
     - checkout: self
+
+    - task: Docker@0
+      displayName: Clean previous images
+      inputs:
+        action: Run a Docker command
+        customCommand: system prune -af
 
     - task: Docker@0
       displayName: Build an image
@@ -81,7 +97,7 @@ stages:
 
 - stage: Deploy2dev
   dependsOn: Build_N_Push
-  condition: and(succeeded(), eq(variables.isDevelop, 'true'))
+  condition: eq(variables.isDevelop, 'true')
   displayName: Deploy to AKS dev
 
   jobs:
