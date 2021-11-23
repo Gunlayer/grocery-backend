@@ -44,7 +44,7 @@ public class ProductController {
 
     @ApiOperation(value = "fetches all the products")
     @GetMapping
-    Page<ProductNoDescDTO> getAllProducts(Pageable page) {
+    public Page<ProductNoDescDTO> getAllProducts(Pageable page) {
         List<ProductNoDescDTO> productNoDescDTOList = productService.getAll(page)
                 .stream()
                 .map(ProductNoDescDTO::new)
@@ -55,7 +55,7 @@ public class ProductController {
 
     @ApiOperation(value = "gets a product by ID")
     @GetMapping("/{id}")
-    ProductWithReviewsDTO getProductById(@PathVariable long id) {
+    public ProductWithReviewsDTO getProductById(@PathVariable long id) {
         Product product = productService.getById(id);
         List<Review> reviews = reviewService.getAllReviewsByProductId(id);
         return new ProductWithReviewsDTO(product, reviews);
@@ -63,13 +63,13 @@ public class ProductController {
 
     @ApiOperation(value = "introduces new product")
     @PostMapping
-    ProductWithDescDTO addProduct(@RequestBody Product product) {
+    public ProductWithDescDTO addProduct(@RequestBody Product product) {
         return new ProductWithDescDTO(productService.save(product));
     }
 
     @ApiOperation(value = "fetches certain number (15 by default) of mostly viewed products")
     @GetMapping("/mostpopular")
-    List<ProductNoDescDTO> getMostPopular(@RequestParam(defaultValue = "15") int number) {
+    public List<ProductNoDescDTO> getMostPopular(@RequestParam(defaultValue = "15") int number) {
         return productService.getMostViewed(number)
                 .stream()
                 .map(ProductNoDescDTO::new)
@@ -79,7 +79,7 @@ public class ProductController {
     @ApiOperation(value = "adds a review from an authorized user for a product with specific id")
     @PostMapping("/{id}/add_review")
     @PreAuthorize("hasAuthority('users:addReview')")
-    ResponseEntity<ReviewDTO> addReview(@PathVariable long id, @RequestBody Review review, @RequestHeader HashMap<String, String> headers) {
+    public ResponseEntity<ReviewDTO> addReview(@PathVariable long id, @RequestBody Review review, @RequestHeader HashMap<String, String> headers) {
         String userEmail = tokenProvider.getUsername(headers.get("authorization"));
         ReviewDTO savedReview = new ReviewDTO(reviewService.addReview(id, userEmail, review));
         return new ResponseEntity<>(savedReview, HttpStatus.ACCEPTED);
