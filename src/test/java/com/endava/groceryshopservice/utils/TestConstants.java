@@ -11,9 +11,10 @@ public class TestConstants {
     public static final Long ID_ONE = 1L;
     public static final Long ID_TWO = 2L;
     public static final Long ID_THREE = 3L;
+    public static final Long ID_FOUR = 4L;
 
-    public static final String USER_EMAIL = "test@gmail.com";
-    public static final String PASSWORD = "testPassword";
+    public static final String USER_EMAIL = "user@endava.com";
+    public static final String PASSWORD = "user";
     public static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGVuZGF2YS5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYzNjk2NTc2MCwiZXhwIjoxNjM3NTcwNTYwfQ.zAYBUuEKyPZoBhJgnHtDUfe61kk6E2DIZYHVlVdaor0";
 
     public static final String IMAGE = "https://testImageUrl/";
@@ -23,5 +24,6 @@ public class TestConstants {
     public static final String DESCRIPTION = "description";
     public static final Integer SIZE = 2;
     public static final Integer QUANTITY = 1;
+
     public static final List<Integer> SIZES = Arrays.asList(5, 7, 10);
 }

@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ItemToAddRequestDTO extends ItemRequestDTO{
+public class ItemToAddRequestDTO extends ItemRequestDTO {
     private String userEmail;
 
     @Builder

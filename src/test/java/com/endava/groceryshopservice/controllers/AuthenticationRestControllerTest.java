@@ -13,15 +13,10 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import static com.endava.groceryshopservice.utils.RegistrationReqDtoUtils.REGISTRATION_REQUEST;
 import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -47,7 +42,7 @@ class AuthenticationRestControllerTest extends BaseController {
                 .cartItems(itemService.findUserCart(USER_ONE.getEmail()))
                 .build();
         when(userService.getByEmail(USER_ONE.getEmail())).thenReturn(USER_ONE);
-        when(jwtTokenProvider.createToken(USER_ONE.getEmail(), USER_ONE.getRole().name()))
+        when(tokenProvider.createToken(USER_ONE.getEmail(), USER_ONE.getRole().name()))
                 .thenReturn(TOKEN);
 
         mockMvc.perform(

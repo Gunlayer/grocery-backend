@@ -4,6 +4,7 @@ import com.endava.groceryshopservice.entities.Item;
 import com.endava.groceryshopservice.entities.dto.ItemResponseDTO;
 import com.endava.groceryshopservice.entities.dto.ItemToAddRequestDTO;
 import com.endava.groceryshopservice.entities.types.SizeTypes;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -34,7 +35,7 @@ public class ItemUtils {
             .product(PRODUCT_ONE)
             .size(SIZE)
             .user(USER_ONE)
-            .quantity(QUANTITY+QUANTITY)
+            .quantity(QUANTITY + QUANTITY)
             .build();
 
     public static final List<Item> ITEMS_LIST = List.of(ITEM_ONE);

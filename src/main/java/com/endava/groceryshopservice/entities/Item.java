@@ -50,7 +50,7 @@ public class Item {
     private Integer size;
 
     public ItemResponseDTO toItemResponseDTO() {
-        ItemResponseDTO itemResponseDTO = ItemResponseDTO.builder()
+        return ItemResponseDTO.builder()
                 .quantity(this.quantity)
                 .productId(this.product.getId())
                 .image(this.product.getImage())
@@ -59,6 +59,5 @@ public class Item {
                 .sizeType(this.product.getSizeType())
                 .size(this.size)
                 .build();
-        return itemResponseDTO;
     }
 }

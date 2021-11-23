@@ -13,6 +13,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.servlet.ServletException;
+
+import java.io.IOException;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -25,20 +29,21 @@ public class BaseController {
     protected JwtConfigurer jwtConfigurer;
 
     @MockBean
-    protected JwtTokenProvider jwtTokenProvider;
+    protected JwtTokenProvider tokenProvider;
 
     @MockBean
     protected AuthenticationManager authenticationManagerBean;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    protected void prepareAuthorizedRequestForUser(User user, String token) {
-        when(jwtTokenProvider.resolveToken(any())).thenReturn(token);
-        when(jwtTokenProvider.validateToken(token)).thenReturn(true);
-        when(jwtTokenProvider.getAuthentication(token))
+    protected void prepareAuthorizedRequestForUser(User user, String token) throws ServletException, IOException {
+        when(tokenProvider.resolveToken(any())).thenReturn(token);
+        when(tokenProvider.validateToken(token)).thenReturn(true);
+        when(tokenProvider.getAuthentication(token))
                 .thenReturn(new UsernamePasswordAuthenticationToken(
                         SecurityUser.fromUser(user), "", SecurityUser.fromUser(user).getAuthorities())
                 );
+        when(tokenProvider.getUsername(token)).thenReturn(user.getEmail());
     }
 
     protected <V> String createJsonString(V v) throws JsonProcessingException {
