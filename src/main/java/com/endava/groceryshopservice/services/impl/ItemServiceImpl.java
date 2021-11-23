@@ -82,11 +82,9 @@ public class ItemServiceImpl implements ItemService {
         if (item == null) {
             throw new NoItemFoundException("Could not find item ");
         }
-
-        if (itemToDeleteRequestDTO.getQuantity() > item.getQuantity()) {
+        if (item.getQuantity() < itemToDeleteRequestDTO.getQuantity()) {
             throw new InvalidQuantityException("Requested quantity cannot be bigger than stored quantity");
         }
-
         if (item.getQuantity() > itemToDeleteRequestDTO.getQuantity()) {
             item.setQuantity(item.getQuantity() - itemToDeleteRequestDTO.getQuantity());
             itemRepository.save(item);
