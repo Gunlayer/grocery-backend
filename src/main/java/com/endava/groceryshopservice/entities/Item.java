@@ -43,7 +43,7 @@ public class Item {
     private Integer quantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "email")
     private User user;
 
     @Column(name = "size")

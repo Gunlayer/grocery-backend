@@ -133,7 +133,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    void shouldCalculateRating(){
+    void shouldCalculateRating() {
         productRepository.setRatingForProduct(ID_ONE);
 
         verify(productRepository, times(1)).setRatingForProduct(ID_ONE);

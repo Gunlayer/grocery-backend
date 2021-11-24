@@ -12,10 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -26,15 +23,6 @@ import javax.persistence.Table;
 @AllArgsConstructor
 public class User {
     @Id
-    @Column(name = "user_id")
-    @SequenceGenerator(
-            name = "grocery_shop_sequence",
-            sequenceName = "grocery_shop_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "grocery_shop_sequence")
-    private Long id;
-
     @Column(name = "email")
     private String email;
 
@@ -52,8 +40,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
+                "email='" + email + '\'' +
                 ", role=" + role +
                 '}';
     }

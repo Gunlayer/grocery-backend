@@ -39,7 +39,7 @@ public class Review {
     private int rating;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "email")
     private User user;
 
     @ManyToOne(targetEntity = Product.class)

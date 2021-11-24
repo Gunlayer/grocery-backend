@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import com.endava.groceryshopservice.entities.Product;
 import com.endava.groceryshopservice.entities.Review;
 
+import lombok.Getter;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 public class ProductWithReviewsDTO extends ProductWithDescDTO {
 
     @ApiModelProperty(value = "List of product reviews", example = "Review #1, Review #2")
+    @Getter
     private List<ReviewForProductDTO> reviews;
 
     public ProductWithReviewsDTO(Product product, List<Review> reviews) {
@@ -20,10 +23,6 @@ public class ProductWithReviewsDTO extends ProductWithDescDTO {
         this.reviews = reviews.stream()
                 .map(ReviewForProductDTO::new)
                 .collect(Collectors.toList());
-    }
-
-    public List<ReviewForProductDTO> getReviews() {
-        return reviews;
     }
 
     public void setReviews(List<Review> reviews) {

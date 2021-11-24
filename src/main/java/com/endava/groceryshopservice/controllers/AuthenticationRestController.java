@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,12 +28,12 @@ import javax.servlet.http.HttpServletResponse;
 @Api(value = "Auth controller exposes sign-in and sign-up REST APIs ")
 @RestController
 @RequestMapping("/auth")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthenticationRestController {
 
     private final AuthenticationManager authenticationManager;
-    private UserService userService;
-    private JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
     private final ItemService itemService;
 
     @ApiOperation(value = "authenticates user's request to log in the system")
