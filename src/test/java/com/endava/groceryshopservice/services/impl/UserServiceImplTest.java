@@ -56,27 +56,6 @@ class UserServiceImplTest {
         );
     }
 
-    @Test
-    void getById_user_correctData() {
-        final long id = 12L;
-        Mockito.when(userRepository.findById(id)).thenReturn(Optional.of(user));
-
-        User result = userService.getById(id);
-
-        assertAll(
-                () -> assertThat(result).isNotNull(),
-                () -> assertThat(result).isEqualTo(user)
-        );
-    }
-
-    @Test
-    void getById_throwsException_incorrectData() {
-        final long id = 12L;
-        Mockito.when(userRepository.findById(id)).thenReturn(Optional.empty());
-
-        assertThatThrownBy(() -> userService.getById(id))
-                .isInstanceOf(IllegalArgumentException.class).hasMessage("Invalid id");
-    }
 
     @Test
     void getByEmail_user_correctData() {

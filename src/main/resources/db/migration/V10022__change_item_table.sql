@@ -11,6 +11,3 @@ FROM t_items;
 
 ALTER TABLE t_items
     ADD email varchar(255) NOT NULL;
-
--- ALTER TABLE t_items
---     ADD CONSTRAINT FK_items_users_email FOREIGN KEY (email) REFERENCES t_users (email);

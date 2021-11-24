@@ -9,7 +9,5 @@ public interface UserService {
 
     User save(User user);
 
-    User getById(Long id);
-
     User getByEmail(String email);
 }

@@ -3,8 +3,8 @@ package com.endava.groceryshopservice.controllers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import com.endava.groceryshopservice.entities.dto.RegistrationResponseDTO;
 import com.endava.groceryshopservice.entities.dto.UserRequestDTO;
-import com.endava.groceryshopservice.exceptions.model.RegistrationResponseData;
 import com.endava.groceryshopservice.services.RegistrationService;
 
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class RegistrationRestController {
 
     @ApiOperation(value = "processes user's request to perform registration into the system")
     @PostMapping
-    public ResponseEntity<RegistrationResponseData> register(@RequestBody UserRequestDTO requestDTO) {
+    public ResponseEntity<RegistrationResponseDTO> register(@RequestBody UserRequestDTO requestDTO) {
         return registrationService.register(requestDTO);
     }
 }

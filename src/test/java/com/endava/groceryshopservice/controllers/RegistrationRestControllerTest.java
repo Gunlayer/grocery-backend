@@ -1,6 +1,6 @@
 package com.endava.groceryshopservice.controllers;
 
-import com.endava.groceryshopservice.exceptions.model.RegistrationResponseData;
+import com.endava.groceryshopservice.entities.dto.RegistrationResponseDTO;
 import com.endava.groceryshopservice.services.RegistrationService;
 
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class RegistrationRestControllerTest extends BaseController {
 
     @Test
     void register_registrationResponseData_validData() throws Exception {
-        RegistrationResponseData responseData = RegistrationResponseData.builder()
+        RegistrationResponseDTO responseData = RegistrationResponseDTO.builder()
                 .email(REGISTRATION_REQUEST.getEmail()).token(TOKEN).build();
         when(registrationService.register(REGISTRATION_REQUEST)).thenReturn(ResponseEntity.ok(responseData));
 

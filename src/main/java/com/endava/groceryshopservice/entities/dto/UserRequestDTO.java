@@ -22,9 +22,10 @@ public class UserRequestDTO {
     @ApiModelProperty(value = "User's email", example = "jorikbarba@gmail.com")
     private String email;
 
-    @ApiModelProperty(value = "User's password", notes = "User's password comes encoded")
+    @ApiModelProperty(value = "User's password")
     private String password;
 
+    @ApiModelProperty(value = "User's cart")
     private List<ItemRequestDTO> cartItems;
 
     public User toUser() {
