@@ -1,11 +1,11 @@
 package com.endava.groceryshopservice.controllers;
 
-import com.endava.groceryshopservice.security.JwtTokenProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import com.endava.groceryshopservice.entities.dto.ItemResponseDTO;
 import com.endava.groceryshopservice.entities.dto.ItemToAddDeleteRequestDTO;
+import com.endava.groceryshopservice.security.JwtTokenProvider;
 import com.endava.groceryshopservice.services.ItemService;
 
 import org.springframework.http.HttpStatus;
@@ -50,7 +50,7 @@ public class CartController {
     @ApiOperation(value = "delete item")
     @DeleteMapping
     @PreAuthorize("hasAuthority('users:addInBag')")
-    public ResponseEntity<HttpStatus> deleteItem(@RequestBody ItemToAddDeleteRequestDTO item){
+    public ResponseEntity<HttpStatus> deleteItem(@RequestBody ItemToAddDeleteRequestDTO item) {
         itemService.deleteItem(item);
         return new ResponseEntity<>(HttpStatus.OK);
     }

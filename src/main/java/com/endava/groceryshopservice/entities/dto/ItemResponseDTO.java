@@ -1,9 +1,9 @@
 package com.endava.groceryshopservice.entities.dto;
 
-import com.endava.groceryshopservice.entities.types.SizeTypes;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
+
+import com.endava.groceryshopservice.entities.types.SizeTypes;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

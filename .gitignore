@@ -27,3 +27,4 @@ hs_err_pid*
 /test.mv.db
 /mvnw
 /mvnw.cmd
+/test.trace.db

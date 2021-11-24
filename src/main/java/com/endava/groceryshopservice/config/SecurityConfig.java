@@ -25,10 +25,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final JwtConfigurer jwtConfigurer;
     @Value("${jwt.strength}")
     private int strength;
-
-    private final JwtConfigurer jwtConfigurer;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

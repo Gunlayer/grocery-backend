@@ -1,6 +1,10 @@
 package com.endava.groceryshopservice.services;
 
-public interface RegistrationValidationService {
+import com.endava.groceryshopservice.entities.User;
+
+public interface UserValidationService {
+    void testUserValidation(User user);
+
     void testEmailValidation(String email);
 
     void testPasswordValidation(String password);

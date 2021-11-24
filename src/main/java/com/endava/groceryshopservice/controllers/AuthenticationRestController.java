@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthenticationRestController {
-
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -42,8 +41,9 @@ public class AuthenticationRestController {
     @ApiOperation(value = "authenticates user's request to log in the system")
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponseDTO> authenticate(@RequestBody UserRequestDTO request) {
-        User user = userService.getByEmail(request.getEmail());
+        User user;
         try {
+            user = userService.getByEmail(request.getEmail());
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Incorrect combination of email and/or password");

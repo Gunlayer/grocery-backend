@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @ExtendWith(MockitoExtension.class)
 class RegistrationValidationServiceImplTest {
     @InjectMocks
-    private RegistrationValidationServiceImpl validationService;
+    private UserValidationServiceImpl validationService;
 
     @Test
     void testEmailValidation_admit_correctData() {

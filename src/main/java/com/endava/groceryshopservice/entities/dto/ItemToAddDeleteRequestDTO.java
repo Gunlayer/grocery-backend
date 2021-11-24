@@ -11,7 +11,7 @@ import lombok.Getter;
 public class ItemToAddDeleteRequestDTO extends ItemRequestDTO {
 
     @ApiModelProperty(value = "User's email", example = "user@gmail.com")
-    private String userEmail;
+    private final String userEmail;
 
     @Builder
     public ItemToAddDeleteRequestDTO(Integer quantity, Integer size, Long productId, String userEmail) {

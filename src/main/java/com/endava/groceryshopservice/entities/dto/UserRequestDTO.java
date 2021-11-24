@@ -37,7 +37,7 @@ public class UserRequestDTO {
                 .build();
     }
 
-    public ItemToAddDeleteRequestDTO toItemToAddRequestDTO(ItemRequestDTO itemRequestDTO){
+    public ItemToAddDeleteRequestDTO toItemToAddRequestDTO(ItemRequestDTO itemRequestDTO) {
         return ItemToAddDeleteRequestDTO.builder()
                 .quantity(itemRequestDTO.getQuantity())
                 .size(itemRequestDTO.getSize())

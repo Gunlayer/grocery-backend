@@ -14,10 +14,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static com.endava.groceryshopservice.utils.ItemUtils.ITEM_RESPONSE_DTO;
 import static com.endava.groceryshopservice.utils.ItemUtils.ITEM_TO_ADD_DELETE_REQUEST_DTO;
-import static com.endava.groceryshopservice.utils.TestConstants.TOKEN;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
+import static com.endava.groceryshopservice.utils.TestConstants.USER_TOKEN;
 import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
-
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -41,9 +40,9 @@ class CartControllerTest extends BaseController {
     @Test
     @WithMockUser
     void shouldGetUserCart() throws Exception {
-        prepareAuthorizedRequestForUser(USER_ONE, TOKEN);
+        prepareAuthorizedRequestForUser(USER_ONE, USER_TOKEN);
         when(itemService.findUserCart(USER_EMAIL)).thenReturn(ITEM_RESPONSE_DTO);
-        mockMvc.perform(get("/cart").header("authorization", TOKEN))
+        mockMvc.perform(get("/cart").header("authorization", USER_TOKEN))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -55,8 +54,8 @@ class CartControllerTest extends BaseController {
     @Test
     @WithMockUser
     void shouldAddItemToCart() throws Exception {
-        prepareAuthorizedRequestForUser(USER_ONE, TOKEN);
-        mockMvc.perform(post("/cart").header("authorization", TOKEN)
+        prepareAuthorizedRequestForUser(USER_ONE, USER_TOKEN);
+        mockMvc.perform(post("/cart").header("authorization", USER_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createJsonString(ITEM_TO_ADD_DELETE_REQUEST_DTO)))
                 .andDo(print())
@@ -67,10 +66,10 @@ class CartControllerTest extends BaseController {
     @Test
     @WithMockUser
     void shouldDeleteItem() throws Exception {
-        prepareAuthorizedRequestForUser(USER_ONE, TOKEN);
+        prepareAuthorizedRequestForUser(USER_ONE, USER_TOKEN);
         doNothing().when(itemService).deleteItem(ITEM_TO_ADD_DELETE_REQUEST_DTO);
 
-        mockMvc.perform(delete("/cart").header("Authorization", TOKEN)
+        mockMvc.perform(delete("/cart").header("Authorization", USER_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createJsonString(ITEM_TO_ADD_DELETE_REQUEST_DTO)))
                 .andDo(print())

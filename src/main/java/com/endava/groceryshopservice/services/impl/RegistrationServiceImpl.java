@@ -8,7 +8,7 @@ import com.endava.groceryshopservice.repositories.UserRepository;
 import com.endava.groceryshopservice.security.JwtTokenProvider;
 import com.endava.groceryshopservice.services.ItemService;
 import com.endava.groceryshopservice.services.RegistrationService;
-import com.endava.groceryshopservice.services.RegistrationValidationService;
+import com.endava.groceryshopservice.services.UserValidationService;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +19,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
-    @Value("${jwt.strength}")
-    private int strength;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final ItemService itemService;
-    private final RegistrationValidationService registrationValidationService;
+    private final UserValidationService registrationValidationService;
+    @Value("${jwt.strength}")
+    private int strength;
 
     @Override
     public ResponseEntity<RegistrationResponseDTO> register(UserRequestDTO requestDTO) throws AlreadyExistingUserException {
