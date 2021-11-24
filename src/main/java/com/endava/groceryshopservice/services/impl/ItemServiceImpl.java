@@ -9,10 +9,7 @@ import com.endava.groceryshopservice.entities.dto.ItemToAddDeleteRequestDTO;
 import com.endava.groceryshopservice.entities.dto.UserRequestDTO;
 import com.endava.groceryshopservice.exceptions.InvalidQuantityException;
 import com.endava.groceryshopservice.exceptions.NoItemFoundException;
-import com.endava.groceryshopservice.exceptions.NoProductFoundException;
 import com.endava.groceryshopservice.repositories.ItemRepository;
-import com.endava.groceryshopservice.repositories.ProductRepository;
-import com.endava.groceryshopservice.repositories.UserRepository;
 import com.endava.groceryshopservice.services.ItemService;
 
 import com.endava.groceryshopservice.services.ProductService;
