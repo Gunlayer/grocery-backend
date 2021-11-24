@@ -15,20 +15,21 @@ import com.endava.groceryshopservice.repositories.ProductRepository;
 import com.endava.groceryshopservice.repositories.UserRepository;
 import com.endava.groceryshopservice.services.ItemService;
 
+import com.endava.groceryshopservice.services.ProductService;
+import com.endava.groceryshopservice.services.UserService;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
-    private final UserRepository userRepository;
-    private final ProductRepository productRepository;
-    private final ProductServiceImpl productService;
-    private final UserServiceImpl userService;
+    private final ProductService productService;
+    private final UserService userService;
 
     @Override
     public List<ItemResponseDTO> findUserCart(String email) {
@@ -40,9 +41,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void addItemToCart(ItemToAddDeleteRequestDTO requestDTO) {
-        User user = userRepository.getByEmail(requestDTO.getUserEmail());
-        Product product = productRepository.findById(requestDTO.getProductId()).orElseThrow(
-                () -> new NoProductFoundException("Could not find a product with id " + requestDTO.getProductId()));
+        User user = userService.getByEmail(requestDTO.getUserEmail());
+        Product product = productService.getById(requestDTO.getProductId());
         Item existingItem = itemRepository.findByUserAndProductAndSize(user, product, requestDTO.getSize());
         if (existingItem != null) {
             existingItem.setQuantity(existingItem.getQuantity() + requestDTO.getQuantity());
@@ -75,21 +75,29 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void deleteItem(ItemToAddDeleteRequestDTO itemToDeleteRequestDTO) {
-        User user = userService.getByEmail(itemToDeleteRequestDTO.getUserEmail());
-        Product product = productService.getById(itemToDeleteRequestDTO.getProductId());
-        Item item = itemRepository.findByUserAndProductAndSize(user, product, itemToDeleteRequestDTO.getSize());
+    public void deleteItem(ItemToAddDeleteRequestDTO requestDTO) {
+        User user = userService.getByEmail(requestDTO.getUserEmail());
+        Product product = productService.getById(requestDTO.getProductId());
+        Item existingItem = itemRepository.findByUserAndProductAndSize(user, product, requestDTO.getSize());
+        if (Objects.equals(existingItem.getQuantity(), requestDTO.getQuantity())) {
+            itemRepository.delete(existingItem);
+        } else {
+            updateItem(user, product, requestDTO);
+        }
+    }
+
+    @Override
+    public Item updateItem(User user, Product product, ItemToAddDeleteRequestDTO requestDTO) {
+        Item item = itemRepository.findByUserAndProductAndSize(user, product, requestDTO.getSize());
         if (item == null) {
             throw new NoItemFoundException("Could not find item ");
         }
-        if (item.getQuantity() < itemToDeleteRequestDTO.getQuantity()) {
+        if (item.getQuantity() < requestDTO.getQuantity()) {
             throw new InvalidQuantityException("Requested quantity cannot be bigger than stored quantity");
         }
-        if (item.getQuantity() > itemToDeleteRequestDTO.getQuantity()) {
-            item.setQuantity(item.getQuantity() - itemToDeleteRequestDTO.getQuantity());
-            itemRepository.save(item);
-        } else {
-            itemRepository.delete(item);
-        }
+        if (item.getQuantity() > requestDTO.getQuantity())
+            item.setQuantity(item.getQuantity() - requestDTO.getQuantity());
+
+        return itemRepository.save(item);
     }
 }
