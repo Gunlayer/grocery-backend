@@ -8,11 +8,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -36,6 +38,9 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "user_status")
     private Status status;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Address address;
 
     @Override
     public String toString() {

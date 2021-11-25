@@ -1,8 +1,8 @@
 package com.endava.groceryshopservice.services.impl;
 
 import com.endava.groceryshopservice.entities.User;
+import com.endava.groceryshopservice.entities.dto.RegistrationResponseDTO;
 import com.endava.groceryshopservice.exceptions.AlreadyExistingUserException;
-import com.endava.groceryshopservice.exceptions.model.RegistrationResponseData;
 import com.endava.groceryshopservice.repositories.UserRepository;
 import com.endava.groceryshopservice.security.JwtTokenProvider;
 
@@ -53,7 +53,7 @@ class RegistrationServiceImplTest {
         Mockito.when(userRepository.findByEmail(REGISTRATION_REQUEST.getEmail())).thenReturn(Optional.empty());
         Mockito.when(tokenProvider.createToken(user.getEmail(), user.getRole().name())).thenReturn(TOKEN);
 
-        ResponseEntity<RegistrationResponseData> response = registrationService.register(REGISTRATION_REQUEST);
+        ResponseEntity<RegistrationResponseDTO> response = registrationService.register(REGISTRATION_REQUEST);
 
         assertAll(
                 () -> verify(validationService).testEmailValidation(REGISTRATION_REQUEST.getEmail()),

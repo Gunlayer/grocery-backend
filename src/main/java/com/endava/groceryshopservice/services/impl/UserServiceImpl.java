@@ -26,11 +26,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid id"));
-    }
-
-    @Override
     public User getByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Incorrect combination of email and/or password"));
     }

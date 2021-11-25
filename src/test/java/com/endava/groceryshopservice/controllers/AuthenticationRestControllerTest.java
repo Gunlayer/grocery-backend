@@ -1,6 +1,8 @@
 package com.endava.groceryshopservice.controllers;
 
-import com.endava.groceryshopservice.exceptions.model.AuthenticationResponseData;
+import com.endava.groceryshopservice.entities.dto.AddressDTO;
+import com.endava.groceryshopservice.entities.dto.AuthenticationResponseDTO;
+import com.endava.groceryshopservice.services.AddressService;
 import com.endava.groceryshopservice.services.ItemService;
 import com.endava.groceryshopservice.services.UserService;
 
@@ -13,7 +15,9 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static com.endava.groceryshopservice.utils.AddressUtils.ADDRESS_ONE;
 import static com.endava.groceryshopservice.utils.RegistrationReqDtoUtils.REGISTRATION_REQUEST;
+import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
 import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -34,16 +38,21 @@ class AuthenticationRestControllerTest extends BaseController {
     @MockBean
     private SecurityContextLogoutHandler securityContextLogoutHandler;
 
+    @MockBean
+    private AddressService addressService;
+
     @Test
     void whenAuthenticateShouldReturnResponseEntity() throws Exception {
-        AuthenticationResponseData authenticationResponseData = AuthenticationResponseData.builder()
+        AuthenticationResponseDTO authenticationResponseDTO = AuthenticationResponseDTO.builder()
                 .email(USER_ONE.getEmail())
                 .token(TOKEN)
+                .address(new AddressDTO(ADDRESS_ONE))
                 .cartItems(itemService.findUserCart(USER_ONE.getEmail()))
                 .build();
         when(userService.getByEmail(USER_ONE.getEmail())).thenReturn(USER_ONE);
         when(tokenProvider.createToken(USER_ONE.getEmail(), USER_ONE.getRole().name()))
                 .thenReturn(TOKEN);
+        when(addressService.findByEmail(USER_EMAIL)).thenReturn(ADDRESS_ONE);
 
         mockMvc.perform(
                         post("/auth/login")
@@ -52,6 +61,6 @@ class AuthenticationRestControllerTest extends BaseController {
                 )
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.content().json(createJsonString(authenticationResponseData)));
+                .andExpect(MockMvcResultMatchers.content().json(createJsonString(authenticationResponseDTO)));
     }
 }

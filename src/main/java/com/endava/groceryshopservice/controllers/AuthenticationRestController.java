@@ -4,10 +4,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import com.endava.groceryshopservice.entities.User;
+import com.endava.groceryshopservice.entities.dto.AddressDTO;
+import com.endava.groceryshopservice.entities.dto.AuthenticationResponseDTO;
 import com.endava.groceryshopservice.entities.dto.UserRequestDTO;
 import com.endava.groceryshopservice.exceptions.BadCredentialsException;
-import com.endava.groceryshopservice.exceptions.model.AuthenticationResponseData;
 import com.endava.groceryshopservice.security.JwtTokenProvider;
+import com.endava.groceryshopservice.services.AddressService;
 import com.endava.groceryshopservice.services.ItemService;
 import com.endava.groceryshopservice.services.UserService;
 
@@ -35,10 +37,11 @@ public class AuthenticationRestController {
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
     private final ItemService itemService;
+    private final AddressService addressService;
 
     @ApiOperation(value = "authenticates user's request to log in the system")
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponseData> authenticate(@RequestBody UserRequestDTO request) {
+    public ResponseEntity<AuthenticationResponseDTO> authenticate(@RequestBody UserRequestDTO request) {
         User user = userService.getByEmail(request.getEmail());
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
@@ -47,10 +50,12 @@ public class AuthenticationRestController {
         }
         itemService.addItems(request);
         String token = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name());
+        AddressDTO address = new AddressDTO(addressService.findByEmail(user.getEmail()));
 
-        return ResponseEntity.ok(AuthenticationResponseData.builder()
+        return ResponseEntity.ok(AuthenticationResponseDTO.builder()
                 .email(request.getEmail())
                 .token(token)
+                .address(address)
                 .cartItems(itemService.findUserCart(request.getEmail()))
                 .build());
     }
