@@ -11,6 +11,8 @@ variables:
   value: $[eq(variables['Build.SourceBranch'], 'refs/heads/releases/*')]
 - name: isDevOps
   value: $[eq(variables['Build.SourceBranch'], 'refs/heads/xxx')]
+- name: isPR
+  value: $[eq(variables['Build.Reason'], 'PullRequest')]
 
 resources:
   pipelines:
@@ -31,7 +33,7 @@ name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 stages:
 
 - stage: Utests_N_Build
-  condition: and(eq(variables.isDevelop, 'false'), eq(variables.isRelease, 'false'))
+  condition: and(eq(variables.isPR, 'true'), eq(variables.isDevelop, 'false'), eq(variables.isRelease, 'false'))
   displayName: 'Run unite tests, code scan and build image'
 
   jobs:
