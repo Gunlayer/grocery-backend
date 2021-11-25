@@ -3,6 +3,8 @@ package com.endava.groceryshopservice.controllers;
 import com.endava.groceryshopservice.exceptions.AlreadyExistingUserException;
 import com.endava.groceryshopservice.exceptions.BadCredentialsException;
 import com.endava.groceryshopservice.exceptions.InvalidEmailException;
+import com.endava.groceryshopservice.exceptions.InvalidQuantityException;
+import com.endava.groceryshopservice.exceptions.NoItemFoundException;
 import com.endava.groceryshopservice.exceptions.NoProductFoundException;
 import com.endava.groceryshopservice.exceptions.NotSuitablePasswordException;
 import com.endava.groceryshopservice.exceptions.model.ErrorData;
@@ -24,7 +26,9 @@ public class ControllerErrorHandler {
             IllegalArgumentException.class,
             InvalidEmailException.class,
             NoProductFoundException.class,
-            NotSuitablePasswordException.class
+            NotSuitablePasswordException.class,
+            NoItemFoundException.class,
+            InvalidQuantityException.class
     })
     public ResponseEntity<ErrorData> exceptionHandle(Exception exception) {
         return getErrorResponseEntity(HttpStatus.BAD_REQUEST, exception.getMessage());
