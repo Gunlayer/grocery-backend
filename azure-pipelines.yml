@@ -55,7 +55,7 @@ stages:
         includeLatestTag: true
 
 - stage: Build_N_Push
-  condition: eq(variables.isDevelop, 'true')
+  condition: or(eq(variables.isDevelop, 'true'), eq(variables.isDevOps, 'true'))
   displayName: 'Run build and push image to ACR'
 
   jobs:
@@ -95,7 +95,7 @@ stages:
 
 - stage: Deploy2dev
   dependsOn: Build_N_Push
-  condition: eq(variables.isDevelop, 'true')
+  condition: or(eq(variables.isDevelop, 'true'), eq(variables.isDevOps, 'true'))
   displayName: Deploy to AKS dev
 
   jobs:
