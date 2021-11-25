@@ -10,7 +10,7 @@ variables:
 - name: isRelease
   value: $[eq(variables['Build.SourceBranch'], 'refs/heads/releases/*')]
 - name: isDevOps
-  value: $[eq(variables['Build.SourceBranch'], 'refs/heads/xxx')]
+  value: $[eq(variables['Build.SourceBranch'], 'refs/heads/devops/*')]
 - name: isPR
   value: $[eq(variables['Build.Reason'], 'PullRequest')]
 
@@ -23,10 +23,6 @@ resources:
         include:
         - develop
         - releases/*
-        exclude:
-        - feature/*
-        - hotfix/*
-        - bugfix/*
 
 name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 
