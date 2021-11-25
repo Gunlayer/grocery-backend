@@ -43,7 +43,7 @@ class CartControllerTest extends BaseController {
     void shouldGetUserCart() throws Exception {
         prepareAuthorizedRequestForUser(USER_ONE, TOKEN);
         when(itemService.findUserCart(USER_EMAIL)).thenReturn(ITEM_RESPONSE_DTO);
-        mockMvc.perform(get(String.format("/cart/%s", USER_EMAIL)).header("authorization", TOKEN))
+        mockMvc.perform(get("/cart").header("authorization", TOKEN))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

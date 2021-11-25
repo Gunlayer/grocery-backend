@@ -35,4 +35,13 @@ public class UserRequestDTO {
                 .status(Status.ACTIVE)
                 .build();
     }
+
+    public ItemToAddDeleteRequestDTO toItemToAddRequestDTO(ItemRequestDTO itemRequestDTO){
+        return ItemToAddDeleteRequestDTO.builder()
+                .quantity(itemRequestDTO.getQuantity())
+                .size(itemRequestDTO.getSize())
+                .userEmail(this.getEmail())
+                .productId(itemRequestDTO.getProductId())
+                .build();
+    }
 }

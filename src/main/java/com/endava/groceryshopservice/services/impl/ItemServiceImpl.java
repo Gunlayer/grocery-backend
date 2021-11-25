@@ -3,7 +3,6 @@ package com.endava.groceryshopservice.services.impl;
 import com.endava.groceryshopservice.entities.Item;
 import com.endava.groceryshopservice.entities.Product;
 import com.endava.groceryshopservice.entities.User;
-import com.endava.groceryshopservice.entities.dto.ItemRequestDTO;
 import com.endava.groceryshopservice.entities.dto.ItemResponseDTO;
 import com.endava.groceryshopservice.entities.dto.ItemToAddDeleteRequestDTO;
 import com.endava.groceryshopservice.entities.dto.UserRequestDTO;
@@ -57,17 +56,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void addItems(UserRequestDTO requestDTO) {
-        ItemToAddDeleteRequestDTO item;
         if (requestDTO.getCartItems() != null && !requestDTO.getCartItems().isEmpty()) {
-            for (ItemRequestDTO itemRequestDTO : requestDTO.getCartItems()) {
-                item = ItemToAddDeleteRequestDTO.builder()
-                        .quantity(itemRequestDTO.getQuantity())
-                        .size(itemRequestDTO.getSize())
-                        .userEmail(requestDTO.getEmail())
-                        .productId(itemRequestDTO.getProductId())
-                        .build();
-                addItemToCart(item);
-            }
+            requestDTO.getCartItems().forEach(itemRequestDTO -> addItemToCart(requestDTO.toItemToAddRequestDTO(itemRequestDTO)));
         }
     }
 
@@ -76,19 +66,18 @@ public class ItemServiceImpl implements ItemService {
         User user = userService.getByEmail(requestDTO.getUserEmail());
         Product product = productService.getById(requestDTO.getProductId());
         Item existingItem = itemRepository.findByUserAndProductAndSize(user, product, requestDTO.getSize());
+        if (existingItem == null) {
+            throw new NoItemFoundException("Could not find item ");
+        }
         if (Objects.equals(existingItem.getQuantity(), requestDTO.getQuantity())) {
             itemRepository.delete(existingItem);
         } else {
-            updateItem(user, product, requestDTO);
+            updateItem(existingItem, requestDTO);
         }
     }
 
     @Override
-    public Item updateItem(User user, Product product, ItemToAddDeleteRequestDTO requestDTO) {
-        Item item = itemRepository.findByUserAndProductAndSize(user, product, requestDTO.getSize());
-        if (item == null) {
-            throw new NoItemFoundException("Could not find item ");
-        }
+    public Item updateItem(Item item, ItemToAddDeleteRequestDTO requestDTO) {
         if (item.getQuantity() < requestDTO.getQuantity()) {
             throw new InvalidQuantityException("Requested quantity cannot be bigger than stored quantity");
         }

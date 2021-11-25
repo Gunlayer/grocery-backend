@@ -84,32 +84,28 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    void shouldUpdateQuantity() {
-        when(itemRepository.findByUserAndProductAndSize(USER_ONE, PRODUCT_ONE, SIZE)).thenReturn(ITEM_TWO);
-        when(itemRepository.save(ITEM_TWO)).thenReturn(ITEM_ONE);
+    void shouldThrowItemNotFoundException() {
+        when(userService.getByEmail(USER_EMAIL)).thenReturn(USER_ONE);
+        when(productService.getById(ID_ONE)).thenReturn(PRODUCT_ONE);
+        when(itemRepository.findByUserAndProductAndSize(USER_ONE, PRODUCT_ONE, SIZE)).thenReturn(null);
 
-        Item item = itemService.updateItem(USER_ONE, PRODUCT_ONE, ITEM_TO_ADD_DELETE_REQUEST_DTO);
+        Exception actualException = assertThrows(NoItemFoundException.class, () ->
+                itemService.deleteItem(ITEM_TO_ADD_DELETE_REQUEST_DTO));
+        assertEquals(ITEM_NOT_FOUND_EXCEPTION, actualException.getMessage());
+    }
+
+    @Test
+    void shouldUpdateQuantity() {
+        when(itemRepository.save(ITEM_TWO)).thenReturn(ITEM_ONE);
+        Item item = itemService.updateItem(ITEM_TWO, ITEM_TO_ADD_DELETE_REQUEST_DTO);
 
         assertEquals(item, ITEM_ONE);
     }
 
     @Test
-    void shouldThrowItemNotFoundException() {
-        when(itemRepository.findByUserAndProductAndSize(USER_ONE, PRODUCT_ONE, SIZE)).thenReturn(null);
-
-        Exception actualException = assertThrows(NoItemFoundException.class, () ->
-                itemService.updateItem(USER_ONE, PRODUCT_ONE, ITEM_TO_ADD_DELETE_REQUEST_DTO));
-        assertEquals(ITEM_NOT_FOUND_EXCEPTION, actualException.getMessage());
-    }
-
-    @Test
     void shouldThrowInvalidQuantityException() {
-        when(userService.getByEmail(USER_EMAIL)).thenReturn(USER_ONE);
-        when(productService.getById(ID_ONE)).thenReturn(PRODUCT_ONE);
-        when(itemRepository.findByUserAndProductAndSize(USER_ONE, PRODUCT_ONE, SIZE)).thenReturn(ITEM_ONE);
-
         Exception actualException = assertThrows(InvalidQuantityException.class, () ->
-                itemService.deleteItem(ITEM_TO_DELETE_REQUEST_DTO));
+                itemService.updateItem(ITEM_ONE, ITEM_TO_DELETE_REQUEST_DTO));
         assertEquals(QUANTITY_EXCEPTION, actualException.getMessage());
     }
 }
