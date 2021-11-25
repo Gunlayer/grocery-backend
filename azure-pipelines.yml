@@ -103,9 +103,18 @@ stages:
       displayName: Deploy to dev-AKS job
       pool: Default
         # vmImage: $(vmImageName)
-      
+
       steps:
       - checkout: self
+
+      - task: KubernetesManifest@0
+        displayName: Delete
+        inputs:
+          action: delete
+          arguments: deployment grocery-shop-service
+          kubernetesServiceConnection: 'grocery-list-dev-sc'
+          namespace: 'grocery-list-dev'
+
       - task: KubernetesManifest@0
         displayName: deploy
         inputs:
@@ -127,6 +136,15 @@ stages:
       
       steps:
       - checkout: self
+
+      - task: KubernetesManifest@0
+        displayName: Delete
+        inputs:
+          action: delete
+          arguments: deployment grocery-shop-service
+          kubernetesServiceConnection: 'grocery-list-demo-sc'
+          namespace: 'grocery-list-demo'
+
       - task: KubernetesManifest@0
         displayName: deploy
         inputs:
