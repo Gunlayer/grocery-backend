@@ -8,9 +8,9 @@ variables:
 - name: isDevelop
   value: $[eq(variables['Build.SourceBranch'], 'refs/heads/develop')]
 - name: isRelease
-  value: $[eq(variables['Build.SourceBranch'], 'refs/heads/releases/')]
+  value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/releases/')]
 - name: isDevOps
-  value: $[eq(variables['Build.SourceBranch'], 'refs/heads/devops/')]
+  value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/devops/')]
 - name: isPR
   value: $[eq(variables['Build.Reason'], 'PullRequest')]
 
