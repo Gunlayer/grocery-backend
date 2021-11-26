@@ -8,9 +8,9 @@ variables:
 - name: isDevelop
   value: $[eq(variables['Build.SourceBranch'], 'refs/heads/develop')]
 - name: isRelease
-  value: $[eq(variables['Build.SourceBranch'], 'refs/heads/releases/*')]
+  value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/releases/')]
 - name: isDevOps
-  value: $[eq(variables['Build.SourceBranch'], 'refs/heads/xxx')]
+  value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/devops/')]
 - name: isPR
   value: $[eq(variables['Build.Reason'], 'PullRequest')]
 
@@ -23,10 +23,6 @@ resources:
         include:
         - develop
         - releases/*
-        exclude:
-        - feature/*
-        - hotfix/*
-        - bugfix/*
 
 name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 
@@ -59,7 +55,7 @@ stages:
         includeLatestTag: true
 
 - stage: Build_N_Push
-  condition: eq(variables.isDevelop, 'true')
+  condition: or(eq(variables.isDevelop, 'true'), eq(variables.isDevOps, 'true'))
   displayName: 'Run build and push image to ACR'
 
   jobs:
@@ -99,7 +95,7 @@ stages:
 
 - stage: Deploy2dev
   dependsOn: Build_N_Push
-  condition: eq(variables.isDevelop, 'true')
+  condition: or(eq(variables.isDevelop, 'true'), eq(variables.isDevOps, 'true'))
   displayName: Deploy to AKS dev
 
   jobs:
@@ -107,11 +103,20 @@ stages:
       displayName: Deploy to dev-AKS job
       pool: Default
         # vmImage: $(vmImageName)
-      
+
       steps:
       - checkout: self
+
       - task: KubernetesManifest@0
-        displayName: deploy
+        displayName: Delete previous deployment
+        inputs:
+          action: delete
+          arguments: deployment grocery-shop-service
+          kubernetesServiceConnection: 'grocery-list-dev-sc'
+          namespace: 'grocery-list-dev'
+
+      - task: KubernetesManifest@0
+        displayName: Deploy
         inputs:
           action: 'deploy'
           kubernetesServiceConnection: 'grocery-list-dev-sc'
@@ -131,8 +136,17 @@ stages:
       
       steps:
       - checkout: self
+
       - task: KubernetesManifest@0
-        displayName: deploy
+        displayName: Delete previous deployment
+        inputs:
+          action: delete
+          arguments: deployment grocery-shop-service
+          kubernetesServiceConnection: 'grocery-list-demo-sc'
+          namespace: 'grocery-list-demo'
+
+      - task: KubernetesManifest@0
+        displayName: Deploy
         inputs:
           action: 'deploy'
           kubernetesServiceConnection: 'grocery-list-demo-sc'
