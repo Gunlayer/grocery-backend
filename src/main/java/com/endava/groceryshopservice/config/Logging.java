@@ -1,4 +1,4 @@
-package com.endava.groceryshopservice;
+package com.endava.groceryshopservice.config;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;

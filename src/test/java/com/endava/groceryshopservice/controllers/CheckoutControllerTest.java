@@ -15,8 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static com.endava.groceryshopservice.utils.AddressUtils.ADDRESS_ONE;
 import static com.endava.groceryshopservice.utils.CheckoutRequest.CHECKOUT_REQUEST;
-import static com.endava.groceryshopservice.utils.TestConstants.TOKEN;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
+import static com.endava.groceryshopservice.utils.TestConstants.USER_TOKEN;
 import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -44,11 +44,11 @@ class CheckoutControllerTest extends BaseController {
     @Test
     void shouldSaveAddressAtCheckout() throws Exception {
         when(addressService.save(ADDRESS_ONE)).thenReturn(ADDRESS_ONE);
-        when(tokenProvider.getUsername(TOKEN)).thenReturn(USER_EMAIL);
+        when(tokenProvider.getUsername(USER_TOKEN)).thenReturn(USER_EMAIL);
         when(userService.getByEmail(USER_EMAIL)).thenReturn(USER_ONE);
 
         mvc.perform(post("/checkout")
-                        .header("authorization", TOKEN)
+                        .header("authorization", USER_TOKEN)
                         .content(createJsonString(CHECKOUT_REQUEST))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

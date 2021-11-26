@@ -20,7 +20,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.util.Optional;
 
 import static com.endava.groceryshopservice.utils.RegistrationReqDtoUtils.REGISTRATION_REQUEST;
-import static com.endava.groceryshopservice.utils.TestConstants.TOKEN;
+import static com.endava.groceryshopservice.utils.TestConstants.USER_TOKEN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -37,7 +37,7 @@ class RegistrationServiceImplTest {
     private UserRepository userRepository;
 
     @Mock
-    private RegistrationValidationServiceImpl validationService;
+    private UserValidationServiceImpl validationService;
 
     @Mock
     private ItemServiceImpl itemService;
@@ -51,7 +51,7 @@ class RegistrationServiceImplTest {
         ReflectionTestUtils.setField(registrationService, "strength", 12);
         User user = REGISTRATION_REQUEST.toUser();
         Mockito.when(userRepository.findByEmail(REGISTRATION_REQUEST.getEmail())).thenReturn(Optional.empty());
-        Mockito.when(tokenProvider.createToken(user.getEmail(), user.getRole().name())).thenReturn(TOKEN);
+        Mockito.when(tokenProvider.createToken(user.getEmail(), user.getRole().name())).thenReturn(USER_TOKEN);
 
         ResponseEntity<RegistrationResponseDTO> response = registrationService.register(REGISTRATION_REQUEST);
 
@@ -70,7 +70,7 @@ class RegistrationServiceImplTest {
                 () -> assertThat(response.getBody().getEmail()).isNotNull(),
                 () -> assertThat(response.getBody().getEmail()).isEqualTo(REGISTRATION_REQUEST.getEmail()),
                 () -> assertThat(response.getBody().getToken()).isNotNull(),
-                () -> assertThat(response.getBody().getToken()).isEqualTo(TOKEN)
+                () -> assertThat(response.getBody().getToken()).isEqualTo(USER_TOKEN)
         );
     }
 

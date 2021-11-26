@@ -13,14 +13,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.servlet.ServletException;
-
-import java.io.IOException;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 public class BaseController {
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     protected MockMvc mockMvc;
@@ -34,9 +32,7 @@ public class BaseController {
     @MockBean
     protected AuthenticationManager authenticationManagerBean;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    protected void prepareAuthorizedRequestForUser(User user, String token) throws ServletException, IOException {
+    protected void prepareAuthorizedRequestForUser(User user, String token) {
         when(tokenProvider.resolveToken(any())).thenReturn(token);
         when(tokenProvider.validateToken(token)).thenReturn(true);
         when(tokenProvider.getAuthentication(token))

@@ -14,8 +14,11 @@ public class TestConstants {
     public static final Long ID_FOUR = 4L;
 
     public static final String USER_EMAIL = "user@endava.com";
-    public static final String PASSWORD = "user";
-    public static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGVuZGF2YS5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYzNjk2NTc2MCwiZXhwIjoxNjM3NTcwNTYwfQ.zAYBUuEKyPZoBhJgnHtDUfe61kk6E2DIZYHVlVdaor0";
+    public static final String ADMIN_EMAIL = "admin@endava.com";
+    public static final String USER_PASSWORD = "user";
+    public static final String ADMIN_PASSWORD = "admin";
+    public static final String USER_TOKEN = "eyJhbGciOiJIUzI1NiJ9.1.3";
+    public static final String ADMIN_TOKEN = "eyJhbGciOiJIUzI1NiJ9.2.4";
     public static final String FIRST_NAME = "Jorik";
     public static final String LAST_NAME = "Barba";
     public static final String ADDRESS = "MD, Chisinau, Dacia 5";

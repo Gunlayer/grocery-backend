@@ -1,15 +1,22 @@
 package com.endava.groceryshopservice.services.impl;
 
+import com.endava.groceryshopservice.entities.User;
 import com.endava.groceryshopservice.exceptions.InvalidEmailException;
 import com.endava.groceryshopservice.exceptions.NotSuitablePasswordException;
-import com.endava.groceryshopservice.services.RegistrationValidationService;
+import com.endava.groceryshopservice.services.UserValidationService;
 
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
 @Service
-public class RegistrationValidationServiceImpl implements RegistrationValidationService {
+public class UserValidationServiceImpl implements UserValidationService {
+
+    @Override
+    public void testUserValidation(User user) {
+        testEmailValidation(user.getEmail());
+        testPasswordValidation(user.getPassword());
+    }
 
     @Override
     public void testEmailValidation(String email) {

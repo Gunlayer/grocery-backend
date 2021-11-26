@@ -1,5 +1,6 @@
 package com.endava.groceryshopservice.entities;
 
+import com.endava.groceryshopservice.entities.dto.UserInformationDto;
 import com.endava.groceryshopservice.entities.user_permission.Role;
 import com.endava.groceryshopservice.entities.user_permission.Status;
 
@@ -38,9 +39,17 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "user_status")
     private Status status;
-
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Address address;
+
+    public static UserInformationDto toUserInformationDto(User user) {
+        return UserInformationDto.builder()
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .role(user.getRole())
+                .status(user.getStatus())
+                .build();
+    }
 
     @Override
     public String toString() {

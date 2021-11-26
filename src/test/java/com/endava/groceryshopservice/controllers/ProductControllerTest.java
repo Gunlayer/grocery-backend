@@ -27,8 +27,8 @@ import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_TWO;
 import static com.endava.groceryshopservice.utils.ReviewUtils.REVIEW;
 import static com.endava.groceryshopservice.utils.ReviewUtils.REVIEW_LIST_PRODUCT_ONE;
 import static com.endava.groceryshopservice.utils.TestConstants.ID_ONE;
-import static com.endava.groceryshopservice.utils.TestConstants.TOKEN;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
+import static com.endava.groceryshopservice.utils.TestConstants.USER_TOKEN;
 import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
@@ -44,16 +44,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProductControllerTest extends BaseController {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockBean
-    ReviewService reviewService;
+    private ReviewService reviewService;
 
     @MockBean
-    ProductService productService;
+    private ProductService productService;
 
     @MockBean
-    UserService userService;
+    private UserService userService;
 
     @Test
     void getAll_pageNoProdDto_correctData() throws Exception {
@@ -146,14 +146,14 @@ class ProductControllerTest extends BaseController {
 
     @Test
     void shouldAddReview() throws Exception {
-        prepareAuthorizedRequestForUser(USER_ONE, TOKEN);
+        prepareAuthorizedRequestForUser(USER_ONE, USER_TOKEN);
 
         when(productService.getById(ID_ONE)).thenReturn(PRODUCT_ONE);
         when(userService.getByEmail(USER_EMAIL)).thenReturn(USER_ONE);
         when(reviewService.addReview(ID_ONE, USER_EMAIL, REVIEW)).thenReturn(REVIEW);
 
         mockMvc.perform(post("/products/1/add_review")
-                        .header("authorization", TOKEN)
+                        .header("authorization", USER_TOKEN)
                         .content(createJsonString(REVIEW))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

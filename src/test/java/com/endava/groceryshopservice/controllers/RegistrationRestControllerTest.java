@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static com.endava.groceryshopservice.utils.RegistrationReqDtoUtils.REGISTRATION_REQUEST;
-import static com.endava.groceryshopservice.utils.TestConstants.TOKEN;
+import static com.endava.groceryshopservice.utils.TestConstants.USER_TOKEN;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -28,7 +28,7 @@ class RegistrationRestControllerTest extends BaseController {
     @Test
     void register_registrationResponseData_validData() throws Exception {
         RegistrationResponseDTO responseData = RegistrationResponseDTO.builder()
-                .email(REGISTRATION_REQUEST.getEmail()).token(TOKEN).build();
+                .email(REGISTRATION_REQUEST.getEmail()).token(USER_TOKEN).build();
         when(registrationService.register(REGISTRATION_REQUEST)).thenReturn(ResponseEntity.ok(responseData));
 
         mockMvc.perform(

@@ -46,6 +46,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceImplTest {
 
+    private Product product;
+
     @Mock
     private ProductRepository productRepository;
 
@@ -54,8 +56,6 @@ public class ProductServiceImplTest {
 
     @InjectMocks
     private ProductServiceImpl productService;
-
-    public Product product;
 
     @BeforeEach
     void setUp() {
