@@ -9,9 +9,13 @@ import java.util.List;
 
 import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_PASSWORD;
+import static com.endava.groceryshopservice.utils.TestConstants.VISITOR_ID;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RegistrationReqDtoUtils {
-    public final static UserRequestDTO REGISTRATION_REQUEST =
-            new UserRequestDTO(USER_EMAIL, USER_PASSWORD, List.of());
+    public static final UserRequestDTO REGISTRATION_REQUEST = UserRequestDTO.builder()
+            .email(USER_EMAIL)
+            .password(USER_PASSWORD)
+            .visitorId(VISITOR_ID)
+            .build();
 }

@@ -6,6 +6,7 @@ import com.endava.groceryshopservice.services.AddressService;
 import com.endava.groceryshopservice.services.ItemService;
 import com.endava.groceryshopservice.services.UserService;
 
+import com.endava.groceryshopservice.services.VisitorService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,7 +19,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static com.endava.groceryshopservice.utils.AddressUtils.ADDRESS_ONE;
 import static com.endava.groceryshopservice.utils.RegistrationReqDtoUtils.REGISTRATION_REQUEST;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
+import static com.endava.groceryshopservice.utils.TestConstants.VISITOR_ID;
 import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -41,6 +44,9 @@ class AuthenticationRestControllerTest extends BaseController {
     @MockBean
     private AddressService addressService;
 
+    @MockBean
+    private VisitorService visitorService;
+
     @Test
     void whenAuthenticateShouldReturnResponseEntity() throws Exception {
         AuthenticationResponseDTO authenticationResponseDTO = AuthenticationResponseDTO.builder()
@@ -53,6 +59,7 @@ class AuthenticationRestControllerTest extends BaseController {
         when(tokenProvider.createToken(USER_ONE.getEmail(), USER_ONE.getRole().name()))
                 .thenReturn(TOKEN);
         when(addressService.findByEmail(USER_EMAIL)).thenReturn(ADDRESS_ONE);
+        doNothing().when(visitorService).deleteVisitor(VISITOR_ID);
 
         mockMvc.perform(
                         post("/auth/login")

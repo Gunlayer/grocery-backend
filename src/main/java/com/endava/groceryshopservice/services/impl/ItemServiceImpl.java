@@ -16,6 +16,7 @@ import com.endava.groceryshopservice.services.UserService;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -46,6 +47,7 @@ public class ItemServiceImpl implements ItemService {
         } else {
             Item item = Item.builder()
                     .user(user)
+                    .addingDate(LocalDate.now())
                     .product(product)
                     .size(requestDTO.getSize())
                     .quantity(requestDTO.getQuantity())
@@ -85,5 +87,10 @@ public class ItemServiceImpl implements ItemService {
             item.setQuantity(item.getQuantity() - requestDTO.getQuantity());
 
         return itemRepository.save(item);
+    }
+
+    @Override
+    public List<Item> findIncompleteOrders() {
+        return itemRepository.findByAddingDateAfter(LocalDate.now().minusDays(7));
     }
 }

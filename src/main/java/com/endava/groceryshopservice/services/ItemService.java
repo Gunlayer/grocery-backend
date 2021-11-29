@@ -17,4 +17,6 @@ public interface ItemService {
     void deleteItem(ItemToAddDeleteRequestDTO requestDTO);
 
     Item updateItem(Item item, ItemToAddDeleteRequestDTO requestDTO);
+
+    List<Item> findIncompleteOrders();
 }
