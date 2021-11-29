@@ -15,5 +15,5 @@ import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AddressUtils {
 
-    public static final Address ADDRESS_ONE = new Address(USER_EMAIL, USER_ONE, FIRST_NAME, LAST_NAME, ADDRESS, APARTMENT);
+    public static final Address ADDRESS_ONE = new Address(USER_EMAIL, USER_ONE, USER_EMAIL, FIRST_NAME, LAST_NAME, ADDRESS, APARTMENT);
 }

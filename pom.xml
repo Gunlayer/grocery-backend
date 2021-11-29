@@ -18,9 +18,9 @@
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <flyway-db.user>root</flyway-db.user>
-        <flyway-db.password></flyway-db.password>
-        <flyway-db.url>jdbc:h2:file:./test;DB_CLOSE_ON_EXIT=FALSE</flyway-db.url>
+        <flyway-db.user>novateam</flyway-db.user>
+        <flyway-db.password>K@pib@r@dbs21</flyway-db.password>
+        <flyway-db.url>jdbc:sqlserver://grocery-list-sql.database.windows.net:1433;database=GroceryList-dev;</flyway-db.url>
     </properties>
     <dependencies>
         <dependency>

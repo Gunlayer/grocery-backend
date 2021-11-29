@@ -67,9 +67,6 @@ public class Product {
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private Views views;
 
-    @OneToOne(mappedBy = "product")
-    private OrderContent orderContent;
-
     @OneToMany(mappedBy = "product")
     private List<Review> productsReviews;
 

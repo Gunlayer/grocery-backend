@@ -1,6 +1,10 @@
 package com.endava.groceryshopservice.controllers;
 
+import com.endava.groceryshopservice.entities.User;
+import com.endava.groceryshopservice.entities.user_permission.Status;
 import com.endava.groceryshopservice.services.AddressService;
+import com.endava.groceryshopservice.services.CheckoutService;
+import com.endava.groceryshopservice.services.ItemService;
 import com.endava.groceryshopservice.services.ProductService;
 import com.endava.groceryshopservice.services.UserService;
 
@@ -13,17 +17,18 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.endava.groceryshopservice.utils.AddressUtils.ADDRESS_ONE;
-import static com.endava.groceryshopservice.utils.CheckoutRequest.CHECKOUT_REQUEST;
+import static com.endava.groceryshopservice.entities.user_permission.Role.USER;
+import static com.endava.groceryshopservice.utils.CheckoutRequestUtils.CHECKOUT_REQUEST;
+import static com.endava.groceryshopservice.utils.OrderUtils.ORDER_ONE;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
+import static com.endava.groceryshopservice.utils.TestConstants.USER_PASSWORD;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_TOKEN;
-import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(CheckoutController.class)
@@ -41,11 +46,24 @@ class CheckoutControllerTest extends BaseController {
     @MockBean
     ProductService productService;
 
+    @MockBean
+    CheckoutService checkoutService;
+
+    @MockBean
+    ItemService itemService;
+
     @Test
     void shouldSaveAddressAtCheckout() throws Exception {
-        when(addressService.save(ADDRESS_ONE)).thenReturn(ADDRESS_ONE);
+        User user = User.builder()
+                .email(USER_EMAIL)
+                .password(USER_PASSWORD)
+                .role(USER)
+                .status(Status.ACTIVE)
+                .build();
         when(tokenProvider.getUsername(USER_TOKEN)).thenReturn(USER_EMAIL);
-        when(userService.getByEmail(USER_EMAIL)).thenReturn(USER_ONE);
+        when(userService.getByEmail(USER_EMAIL)).thenReturn(user);
+        when(checkoutService.save(CHECKOUT_REQUEST)).thenReturn(ORDER_ONE);
+        doNothing().when(itemService).deleteAllByEmail(USER_EMAIL);
 
         mvc.perform(post("/checkout")
                         .header("authorization", USER_TOKEN)
@@ -53,8 +71,10 @@ class CheckoutControllerTest extends BaseController {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
-        verify(addressService).save(ADDRESS_ONE);
+        verify(userService).save(user);
+        verify(checkoutService).save(CHECKOUT_REQUEST);
+        verify(itemService).deleteAllByEmail(USER_EMAIL);
     }
 }

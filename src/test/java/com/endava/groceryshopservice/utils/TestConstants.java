@@ -36,10 +36,11 @@ public class TestConstants {
     public static final Integer SIZE = 2;
     public static final Integer QUANTITY = 1;
     public static final Integer QUANTITY_TWO = 2;
+    public static final boolean IS_TRUE = true;
 
     public static final List<Integer> SIZES = Arrays.asList(5, 7, 10);
     public static final String PRODUCT_NOT_FOUND_EXCEPTION = "Could not find a product with id " + ID_ONE;
     public static final String ITEM_NOT_FOUND_EXCEPTION = "Could not find item ";
     public static final String QUANTITY_EXCEPTION = "Requested quantity cannot be bigger than stored quantity";
-    public static final LocalDate CURRENT_DATE = LocalDate.of(1990, 10, 11);
+    public static final LocalDate CURRENT_DATE = LocalDate.now();
 }

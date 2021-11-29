@@ -45,7 +45,7 @@ public class CheckoutRequestDTO {
 
     public Address toAddress() {
         return Address.builder()
-                .email(email)
+                .addressEmail(email)
                 .firstName(firstName)
                 .lastName(lastName)
                 .address(address)

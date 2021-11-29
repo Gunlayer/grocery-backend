@@ -1,22 +1,27 @@
 package com.endava.groceryshopservice.services.impl;
 
+import com.endava.groceryshopservice.entities.Order;
 import com.endava.groceryshopservice.repositories.OrderContentRepository;
 import com.endava.groceryshopservice.repositories.OrderRepository;
 import com.endava.groceryshopservice.repositories.ProductRepository;
-import com.endava.groceryshopservice.services.ItemService;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
+import java.time.LocalDate;
 
-import static com.endava.groceryshopservice.utils.OrderContentUtil.ORDER_CONTENT;
+import static com.endava.groceryshopservice.utils.CheckoutRequestUtils.CHECKOUT_REQUEST_TWO;
 import static com.endava.groceryshopservice.utils.OrderUtils.ORDER_ONE;
 import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_TWO;
 import static com.endava.groceryshopservice.utils.TestConstants.ID_FIVE;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,21 +33,24 @@ public class CheckoutServiceImplTest {
     OrderContentRepository orderContentRepository;
     @Mock
     ProductRepository productRepository;
-    @Mock
-    ItemService itemService;
-
+    @Captor
+    ArgumentCaptor<Order> orderCapture;
     @InjectMocks
     CheckoutServiceImpl checkoutService;
 
     @Test
     void save() {
-        when(orderRepository.save(ORDER_ONE)).thenReturn(ORDER_ONE);
-        when(orderContentRepository.saveAll(List.of(ORDER_CONTENT))).thenReturn(List.of(ORDER_CONTENT));
+        String fullAddress = CHECKOUT_REQUEST_TWO.getFirstName() + " " + CHECKOUT_REQUEST_TWO.getLastName() + ", " +
+                CHECKOUT_REQUEST_TWO.getAddress() + " " + CHECKOUT_REQUEST_TWO.getApartment();
+        Order expectedOrder = Order.builder().id(5L).email("order.email@endava.com").address(fullAddress)
+                .price(20.0).orderDate(LocalDate.now()).build();
+        when(orderRepository.save(orderCapture.capture())).thenReturn(orderCapture.capture());
         when(productRepository.getById(ID_FIVE)).thenReturn(PRODUCT_TWO);
 
+        checkoutService.save(CHECKOUT_REQUEST_TWO);
 
-//        assertThat((checkoutService.save()))
+        assertThat(ORDER_ONE).isEqualTo(expectedOrder);
+        verify(orderRepository, times(1)).save(orderCapture.capture());
+        verify(productRepository, times(1)).getById(ID_FIVE);
     }
-
-
 }

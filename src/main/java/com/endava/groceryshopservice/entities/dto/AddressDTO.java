@@ -33,7 +33,7 @@ public class AddressDTO {
     private String apartment;
 
     public AddressDTO(Address address) {
-        this.email = address.getEmail();
+        this.email = address.getAddressEmail();
         this.firstName = address.getFirstName();
         this.lastName = address.getLastName();
         this.address = address.getAddress();
