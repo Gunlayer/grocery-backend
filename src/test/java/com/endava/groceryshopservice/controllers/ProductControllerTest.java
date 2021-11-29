@@ -56,19 +56,6 @@ class ProductControllerTest extends BaseController {
     private UserService userService;
 
     @Test
-    void getAll_pageNoProdDto_correctData() throws Exception {
-        when(productService.getAll(PageRequest.of(0, 40)))
-                .thenReturn(new PageImpl<>(List.of(PRODUCT_ONE, PRODUCT_TWO)));
-        List<ProductNoDescDTO> expected = List.of(new ProductNoDescDTO(PRODUCT_ONE), new ProductNoDescDTO(PRODUCT_TWO));
-
-        mockMvc.perform(get("/products"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(createJsonString(new PageImpl(expected))));
-    }
-
-    @Test
     void getById_productWithDescDto_correctId() throws Exception {
         when(productService.getById(ID_ONE)).thenReturn(PRODUCT_ONE);
 

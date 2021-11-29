@@ -22,14 +22,38 @@ public class ProductServiceImpl implements ProductService {
     private final ViewsService viewsService;
 
     @Override
-    public Page<Product> getAll(Pageable page) {
-        return productRepository.findAll(page);
+    public Page<Product> getAll(String name, Pageable page) {
+        if (name.isEmpty())
+            return productRepository.findAll(page);
+        return productRepository.findByNameContainsIgnoreCase(name, page);
+    }
+
+    @Override
+    public long getCountAll(String name) {
+        if (name.isEmpty())
+            return productRepository.count();
+        return productRepository.countByNameContainsIgnoreCase(name);
     }
 
     @Override
     public Product save(Product product) {
-        product.setViews(new Views(product, 0));
+        if (product.getId() == null) {
+            product.setViews(new Views(product, 0));
+        } else {
+            Product existingProduct = productRepository.findById(product.getId()).orElseThrow(
+                    () -> new NoProductFoundException(String.format("Could not find a product with specified id[%d]", product.getId())));
+            product.setViews(existingProduct.getViews());
+            product.setProductsReviews(existingProduct.getProductsReviews());
+        }
         return productRepository.save(product);
+    }
+
+    @Override
+    public Product deleteById(long id) {
+        Product product = productRepository.findById(id).orElseThrow(
+                () -> new NoProductFoundException(String.format("Could not find a product with specified id[%d]", id)));
+        productRepository.delete(product);
+        return product;
     }
 
     @Override

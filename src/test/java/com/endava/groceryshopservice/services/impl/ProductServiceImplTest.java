@@ -72,17 +72,6 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    void getAllShouldReturnPageWithCorrectNumberOfProducts() {
-        List<ProductNoDescDTO> products = Arrays.asList(new ProductNoDescDTO(PRODUCT_ONE), new ProductNoDescDTO(PRODUCT_TWO));
-        Page<Product> pagedResponse = new PageImpl(products);
-        Pageable pageable = PageRequest.of(0, 2);
-
-        when(productRepository.findAll(pageable)).thenReturn(pagedResponse);
-        productService.getAll(pageable);
-        assertThat(productRepository.findAll(pageable).getSize()).isEqualTo(pagedResponse.getSize());
-    }
-
-    @Test
     void getByIdShouldReturnProduct() {
         product.setViews(new Views(product, 0));
         when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));

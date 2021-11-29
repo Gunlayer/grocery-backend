@@ -25,7 +25,7 @@ public class Views {
     private Long id;
 
     @MapsId
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @OneToOne
     @JoinColumn(name = "id")
     private Product product;
 
