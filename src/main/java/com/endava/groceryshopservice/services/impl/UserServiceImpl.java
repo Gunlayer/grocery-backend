@@ -1,10 +1,12 @@
 package com.endava.groceryshopservice.services.impl;
 
 import com.endava.groceryshopservice.entities.User;
+import com.endava.groceryshopservice.entities.Visitor;
 import com.endava.groceryshopservice.entities.dto.UserInformationDto;
 import com.endava.groceryshopservice.exceptions.AlreadyExistingUserException;
 import com.endava.groceryshopservice.exceptions.InvalidEmailException;
 import com.endava.groceryshopservice.repositories.UserRepository;
+import com.endava.groceryshopservice.repositories.VisitorRepository;
 import com.endava.groceryshopservice.services.UserService;
 import com.endava.groceryshopservice.services.UserValidationService;
 
@@ -13,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -70,5 +74,10 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
 
         return user;
+    }
+
+    @Override
+    public List<User> findNewRegisteredUsers() {
+        return userRepository.findByRegistrationDateAfter(LocalDate.now().minusDays(7));
     }
 }

@@ -17,6 +17,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "T_USERS")
@@ -41,6 +42,9 @@ public class User {
     private Status status;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Address address;
+
+    @Column(name = "registration_date")
+    private LocalDate registrationDate;
 
     public static UserInformationDto toUserInformationDto(User user) {
         return UserInformationDto.builder()

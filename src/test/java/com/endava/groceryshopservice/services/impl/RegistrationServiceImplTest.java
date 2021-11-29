@@ -21,9 +21,11 @@ import java.util.Optional;
 
 import static com.endava.groceryshopservice.utils.RegistrationReqDtoUtils.REGISTRATION_REQUEST;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_TOKEN;
+import static com.endava.groceryshopservice.utils.TestConstants.VISITOR_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -42,6 +44,9 @@ class RegistrationServiceImplTest {
     @Mock
     private ItemServiceImpl itemService;
 
+    @Mock
+    private VisitorServiceImpl visitorService;
+
     @InjectMocks
     private RegistrationServiceImpl registrationService;
 
@@ -51,6 +56,7 @@ class RegistrationServiceImplTest {
         ReflectionTestUtils.setField(registrationService, "strength", 12);
         User user = REGISTRATION_REQUEST.toUser();
         Mockito.when(userRepository.findByEmail(REGISTRATION_REQUEST.getEmail())).thenReturn(Optional.empty());
+        doNothing().when(visitorService).deleteVisitor(VISITOR_ID);
         Mockito.when(tokenProvider.createToken(user.getEmail(), user.getRole().name())).thenReturn(USER_TOKEN);
 
         ResponseEntity<RegistrationResponseDTO> response = registrationService.register(REGISTRATION_REQUEST);
