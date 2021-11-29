@@ -14,6 +14,7 @@ import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CheckoutRequest {
 
-    public static final CheckoutRequestDTO CHECKOUT_REQUEST = new CheckoutRequestDTO(
-            true, USER_EMAIL, FIRST_NAME, LAST_NAME, ADDRESS, APARTMENT);
+    public static final CheckoutRequestDTO CHECKOUT_REQUEST = CheckoutRequestDTO.builder()
+            .needToSave(true).email(USER_EMAIL).firstName(FIRST_NAME).lastName(LAST_NAME)
+            .address(ADDRESS).apartment(APARTMENT).build();
 }
