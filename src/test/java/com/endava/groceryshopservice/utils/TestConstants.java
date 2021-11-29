@@ -29,6 +29,7 @@ public class TestConstants {
 
 
     public static final String IMAGE = "https://testImageUrl/";
+    public static final String NAME = "Apples";
     public static final String APPLES = "Apples";
     public static final String PLUMS = "Plums";
     public static final Double PRICE = 20.0;
@@ -45,4 +46,8 @@ public class TestConstants {
     public static final String ITEM_NOT_FOUND_EXCEPTION = "Could not find item ";
     public static final String QUANTITY_EXCEPTION = "Requested quantity cannot be bigger than stored quantity";
     public static final LocalDate CURRENT_DATE = LocalDate.now();
+
+    public static final String VISITOR_ID = "865a384269d7602015c8eeddaf2fe329";
+
+
 }

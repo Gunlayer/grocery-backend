@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -48,6 +49,9 @@ public class Item {
 
     @Column(name = "size")
     private Integer size;
+
+    @Column(name = "add_date")
+    private LocalDate addingDate;
 
     public ItemResponseDTO toItemResponseDTO() {
         return ItemResponseDTO.builder()

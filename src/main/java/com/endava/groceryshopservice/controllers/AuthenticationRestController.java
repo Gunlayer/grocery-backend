@@ -1,5 +1,6 @@
 package com.endava.groceryshopservice.controllers;
 
+import com.endava.groceryshopservice.services.VisitorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -37,6 +38,7 @@ public class AuthenticationRestController {
     private final JwtTokenProvider jwtTokenProvider;
     private final ItemService itemService;
     private final AddressService addressService;
+    private final VisitorService visitorService;
 
     @ApiOperation(value = "authenticates user's request to log in the system")
     @PostMapping("/login")
@@ -49,6 +51,7 @@ public class AuthenticationRestController {
             throw new BadCredentialsException("Incorrect combination of email and/or password");
         }
         itemService.addItems(request);
+        visitorService.deleteVisitor(request.getVisitorId());
         String token = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name());
         AddressDTO address = new AddressDTO(addressService.findByEmail(user.getEmail()));
 

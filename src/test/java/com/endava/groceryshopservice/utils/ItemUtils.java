@@ -8,6 +8,7 @@ import com.endava.groceryshopservice.entities.types.SizeTypes;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_ONE;
@@ -29,6 +30,7 @@ public class ItemUtils {
             .size(SIZE)
             .user(USER_ONE)
             .quantity(QUANTITY)
+            .addingDate(LocalDate.now())
             .build();
 
     public static final Item ITEM_TWO = Item.builder()
@@ -36,14 +38,7 @@ public class ItemUtils {
             .size(SIZE)
             .user(USER_ONE)
             .quantity(QUANTITY_TWO)
-            .build();
-
-    public static final Item FINAL_ITEM = Item.builder()
-            .id(ID_ONE)
-            .product(PRODUCT_ONE)
-            .size(SIZE)
-            .user(USER_ONE)
-            .quantity(QUANTITY + QUANTITY)
+            .addingDate(LocalDate.now())
             .build();
 
     public static final List<Item> ITEMS_LIST = List.of(ITEM_ONE);
