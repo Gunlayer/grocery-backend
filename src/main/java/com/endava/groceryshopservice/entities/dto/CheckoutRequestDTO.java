@@ -6,11 +6,13 @@ import io.swagger.annotations.ApiModelProperty;
 import com.endava.groceryshopservice.entities.Address;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Api(value = "Checkout model information", description = "DRAFT")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CheckoutRequestDTO {
@@ -35,7 +37,7 @@ public class CheckoutRequestDTO {
 
     public Address toAddress() {
         return Address.builder()
-                .email(email)
+                .addressEmail(email)
                 .firstName(firstName)
                 .lastName(lastName)
                 .address(address)

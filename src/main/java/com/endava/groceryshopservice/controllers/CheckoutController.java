@@ -7,7 +7,6 @@ import com.endava.groceryshopservice.entities.Address;
 import com.endava.groceryshopservice.entities.User;
 import com.endava.groceryshopservice.entities.dto.CheckoutRequestDTO;
 import com.endava.groceryshopservice.security.JwtTokenProvider;
-import com.endava.groceryshopservice.services.AddressService;
 import com.endava.groceryshopservice.services.UserService;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,6 @@ import java.util.Map;
 @RequestMapping("/checkout")
 @RequiredArgsConstructor
 public class CheckoutController {
-    private final AddressService addressService;
     private final JwtTokenProvider tokenProvider;
     private final UserService userService;
 
@@ -39,7 +37,8 @@ public class CheckoutController {
             User user = userService.getByEmail(userEmail);
             Address address = requestDTO.toAddress();
             address.setUser(user);
-            addressService.save(address);
+            user.setAddress(address);
+            userService.save(user);
         }
     }
 }

@@ -16,9 +16,4 @@ public class AddressServiceImpl implements AddressService {
     public Address findByEmail(String email) {
         return addressRepository.findById(email).orElse(new Address());
     }
-
-    @Override
-    public Address save(Address address) {
-        return addressRepository.save(address);
-    }
 }
