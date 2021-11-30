@@ -4,8 +4,10 @@ import com.endava.groceryshopservice.entities.types.SizeTypes;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,8 +25,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import java.util.List;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Builder
 @Table(name = "T_PRODUCTS")
@@ -68,6 +72,7 @@ public class Product {
     private Views views;
 
     @OneToMany(mappedBy = "product")
+    @ToString.Exclude
     private List<Review> productsReviews;
 
     @Override
@@ -82,5 +87,18 @@ public class Product {
                 ", sizes=" + sizes +
                 ", sizeType=" + sizeType +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id.equals(product.id) && name.equals(product.name) && sizes.equals(product.sizes) && sizeType == product.sizeType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, sizes, sizeType);
     }
 }

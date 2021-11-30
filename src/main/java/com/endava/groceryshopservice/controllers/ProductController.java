@@ -67,7 +67,7 @@ public class ProductController {
     @PreAuthorize("hasAuthority('users:write')")
     @PostMapping
     public ResponseEntity<ProductWithDescDTO> saveProduct(@RequestBody Product product) {
-        return ResponseEntity.status(HttpStatus.OK).body(new ProductWithDescDTO(productService.save(product)));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ProductWithDescDTO(productService.save(product)));
     }
 
     @ApiOperation(value = "deletes a product by id")

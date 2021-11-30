@@ -6,11 +6,12 @@ import com.endava.groceryshopservice.entities.types.SizeTypes;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import static com.endava.groceryshopservice.utils.TestConstants.APPLES;
 import static com.endava.groceryshopservice.utils.TestConstants.DESCRIPTION;
 import static com.endava.groceryshopservice.utils.TestConstants.ID_ONE;
 import static com.endava.groceryshopservice.utils.TestConstants.ID_TWO;
 import static com.endava.groceryshopservice.utils.TestConstants.IMAGE;
-import static com.endava.groceryshopservice.utils.TestConstants.NAME;
+import static com.endava.groceryshopservice.utils.TestConstants.PLUMS;
 import static com.endava.groceryshopservice.utils.TestConstants.PRICE;
 import static com.endava.groceryshopservice.utils.TestConstants.RATING;
 import static com.endava.groceryshopservice.utils.TestConstants.SIZES;
@@ -21,7 +22,7 @@ public class ProductUtils {
     public static final Product PRODUCT_ONE = Product.builder()
             .id(ID_ONE)
             .image(IMAGE)
-            .name(NAME)
+            .name(APPLES)
             .price(PRICE)
             .rating(RATING)
             .description(DESCRIPTION)
@@ -32,7 +33,7 @@ public class ProductUtils {
     public static final Product PRODUCT_TWO = Product.builder()
             .id(ID_TWO)
             .image(IMAGE)
-            .name(NAME)
+            .name(PLUMS)
             .price(PRICE)
             .rating(RATING)
             .description(DESCRIPTION)

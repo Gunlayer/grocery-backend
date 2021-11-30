@@ -26,13 +26,17 @@ import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_ONE;
 import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_TWO;
 import static com.endava.groceryshopservice.utils.ReviewUtils.REVIEW;
 import static com.endava.groceryshopservice.utils.ReviewUtils.REVIEW_LIST_PRODUCT_ONE;
+import static com.endava.groceryshopservice.utils.TestConstants.ADMIN_TOKEN;
+import static com.endava.groceryshopservice.utils.TestConstants.EMPTY_STRING;
 import static com.endava.groceryshopservice.utils.TestConstants.ID_ONE;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_TOKEN;
+import static com.endava.groceryshopservice.utils.UserUtils.ADMIN_ONE;
 import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -96,11 +100,13 @@ class ProductControllerTest extends BaseController {
 
     @Test
     void add_productWithDescDTO() throws Exception {
+        prepareAuthorizedRequestForUser(ADMIN_ONE, ADMIN_TOKEN);
         when(productService.save(PRODUCT_ONE)).thenReturn(PRODUCT_ONE);
 
         ProductWithDescDTO expected = new ProductWithDescDTO(PRODUCT_ONE);
 
         mockMvc.perform(post("/products")
+                        .header("authorization", ADMIN_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createJsonString(PRODUCT_ONE))).andDo(print())
                 .andExpect(status().isOk())
@@ -149,5 +155,61 @@ class ProductControllerTest extends BaseController {
                 .andExpect(content().json(createJsonString(new ReviewDTO(REVIEW))));
 
         verify(reviewService).addReview(ID_ONE, USER_EMAIL, REVIEW);
+    }
+
+    @Test
+    void getAllProducts_pageProductWithDescDto_PageSizeTwo() throws Exception {
+        final long totalProducts = 41L;
+        prepareAuthorizedRequestForUser(ADMIN_ONE, ADMIN_TOKEN);
+        when(productService.getAll(EMPTY_STRING, PageRequest.of(0, 2)))
+                .thenReturn(new PageImpl<>(List.of(PRODUCT_ONE, PRODUCT_TWO)));
+        when(productService.getCountAll(EMPTY_STRING)).thenReturn(totalProducts);
+        List<ProductWithDescDTO> expected = List.of(new ProductWithDescDTO(PRODUCT_ONE), new ProductWithDescDTO(PRODUCT_TWO));
+
+        mockMvc.perform(get("/products?pageNumber=0&pageSize=2").header("authorization", ADMIN_TOKEN))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(createJsonString(new PageImpl<>(expected, PageRequest.of(0, 2), totalProducts))));
+    }
+
+    @Test
+    void getAllProducts_Forbidden_Unauthorized() throws Exception {
+        mockMvc.perform(get("/products?pageNumber=0&pageSize=2"))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void DeleteMapping_ResponseEntityProdWithDesc_correctId() throws Exception {
+        prepareAuthorizedRequestForUser(ADMIN_ONE, ADMIN_TOKEN);
+        when(productService.deleteById(ID_ONE)).thenReturn(PRODUCT_ONE);
+
+        ProductWithDescDTO expected = new ProductWithDescDTO(PRODUCT_ONE);
+
+        mockMvc.perform(delete((String.format("/products/%d", ID_ONE)))
+                        .header("authorization", ADMIN_TOKEN))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(createJsonString(expected)));
+    }
+
+    @Test
+    void DeleteMapping_BadRequest_incorrectId() throws Exception {
+        prepareAuthorizedRequestForUser(ADMIN_ONE, ADMIN_TOKEN);
+        when(productService.deleteById(ID_ONE)).thenThrow(new NoProductFoundException(String.format("Could not find a product with specified id[%d]", ID_ONE)));
+
+        mockMvc.perform(delete((String.format("/products/%d", ID_ONE)))
+                        .header("authorization", ADMIN_TOKEN))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void DeleteMapping_Forbidden_Unauthorized() throws Exception {
+        mockMvc.perform(delete((String.format("/products/%d", ID_ONE))))
+                .andDo(print())
+                .andExpect(status().isForbidden());
     }
 }
