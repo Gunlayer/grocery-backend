@@ -12,7 +12,7 @@ variables:
 # - name: isRelease
 #   value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/release/')]
 - name: isRelease
-  value: $[startsWith(variables['Build.SourceBranch'], 'refs/tags/')]
+  value: $[startsWith(variables['Build.SourceBranch'], 'refs/tags/v')]
 - name: isDevOps
   value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/devops/')]
 - name: isPR
@@ -60,7 +60,7 @@ stages:
         customCommand: image rm gr-list-back-test -f
 
 - stage: Build_N_Push
-  condition: or(eq(variables.isMain, 'true'), eq(variables.isRelease, 'true'))
+  condition: or(eq(variables.isDevelop, 'true'), eq(variables.isRelease, 'true'))
   displayName: 'Run build and push image to ACR'
 
   jobs:
