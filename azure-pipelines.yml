@@ -28,6 +28,7 @@ resources:
         - refs/heads/develop
         # - release/*
       tags:
+        include:
         - refs/tags/v*
 
 name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
