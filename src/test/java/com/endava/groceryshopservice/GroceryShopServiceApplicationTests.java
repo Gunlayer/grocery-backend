@@ -9,5 +9,4 @@ class GroceryShopServiceApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
