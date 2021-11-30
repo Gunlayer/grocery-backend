@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: tomcat-dev
-        image: mddinternship2021h2project.azurecr.io/grocery-shop-service:latest
+        image: mddinternship2021h2project.azurecr.io/grocery-shop-service
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
