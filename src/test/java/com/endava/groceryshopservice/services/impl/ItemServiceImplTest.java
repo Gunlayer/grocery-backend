@@ -32,6 +32,8 @@ import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -80,6 +82,13 @@ public class ItemServiceImplTest {
         itemService.deleteItem(ITEM_TO_ADD_DELETE_REQUEST_DTO);
 
         assertEquals(ITEM_ONE, itemCapture.getValue());
+    }
+
+    @Test
+    void shouldDeleteItemsByEmail() {
+        itemService.deleteAllByEmail(USER_EMAIL);
+
+        verify(itemRepository, times(1)).deleteAllByUser_Email(USER_EMAIL);
     }
 
     @Test

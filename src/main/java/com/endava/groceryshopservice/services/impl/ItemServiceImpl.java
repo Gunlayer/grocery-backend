@@ -86,4 +86,9 @@ public class ItemServiceImpl implements ItemService {
 
         return itemRepository.save(item);
     }
+
+    @Override
+    public void deleteAllByEmail(String email) {
+        itemRepository.deleteAllByUser_Email(email);
+    }
 }
