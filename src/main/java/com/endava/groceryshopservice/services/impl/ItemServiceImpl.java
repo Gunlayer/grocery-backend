@@ -47,6 +47,7 @@ public class ItemServiceImpl implements ItemService {
         } else {
             Item item = Item.builder()
                     .user(user)
+                    .addingDate(LocalDate.now())
                     .product(product)
                     .size(requestDTO.getSize())
                     .quantity(requestDTO.getQuantity())
