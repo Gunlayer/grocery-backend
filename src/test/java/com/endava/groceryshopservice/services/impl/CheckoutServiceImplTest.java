@@ -14,12 +14,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static com.endava.groceryshopservice.utils.CheckoutRequestUtils.CHECKOUT_REQUEST_TWO;
+import static com.endava.groceryshopservice.utils.OrderUtils.ORDER_LIST;
 import static com.endava.groceryshopservice.utils.OrderUtils.ORDER_ONE;
 import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_TWO;
 import static com.endava.groceryshopservice.utils.TestConstants.ID_FIVE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -52,5 +55,14 @@ public class CheckoutServiceImplTest {
         assertThat(ORDER_ONE).isEqualTo(expectedOrder);
         verify(orderRepository, times(1)).save(orderCapture.capture());
         verify(productRepository, times(1)).getById(ID_FIVE);
+    }
+
+    @Test
+    void shouldFindNewOrders() {
+        when(orderRepository.findByOrderDateAfter(LocalDate.now().minusDays(7))).thenReturn(ORDER_LIST);
+
+        List<Order> orderList = checkoutService.findWeeklyOrders();
+
+        assertEquals(orderList, ORDER_LIST);
     }
 }
