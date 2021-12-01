@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor
@@ -32,11 +30,14 @@ public class VisitorServiceImpl implements VisitorService {
     @Override
     public void deleteVisitor(String visitorId) {
         Visitor existingVisitor = visitorRepository.findByVisitorId(visitorId);
+        if (existingVisitor != null)
          visitorRepository.delete(existingVisitor);
     }
 
     @Override
-    public List<Visitor> findVisitors() {
-        return visitorRepository.findByAddingDateAfter(LocalDate.now().minusDays(7));
-    }
+    public Long findVisitors() {
+        return visitorRepository.findByAddingDateAfter(LocalDate.now().minusDays(7)).stream()
+                .map(Visitor::getVisitorId)
+                .distinct()
+                .count();    }
 }

@@ -54,11 +54,11 @@ public class VisitorServiceImplTest {
     }
 
     @Test
-    void shouldFindVisitors(){
+    void shouldFindVisitors() {
         when(visitorRepository.findByAddingDateAfter(LocalDate.now().minusDays(7))).thenReturn(VISITOR_LIST);
 
-        List<Visitor> expected =  visitorService.findVisitors();
+        Long expected = visitorService.findVisitors();
 
-        assertEquals(expected, VISITOR_LIST);
+        assertEquals(expected, 1L);
     }
 }

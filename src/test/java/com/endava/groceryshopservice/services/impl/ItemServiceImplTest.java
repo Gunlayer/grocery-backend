@@ -119,11 +119,11 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    void ShouldFindIncompleteOrders(){
+    void ShouldFindIncompleteOrders() {
         when(itemRepository.findByAddingDateAfter(LocalDate.now().minusDays(7))).thenReturn(ITEMS_LIST);
 
-        List<Item> expected = itemService.findIncompleteOrders();
+        Long expected = itemService.findIncompleteOrders();
 
-        assertEquals(expected, ITEMS_LIST);
+        assertEquals(expected, 1L);
     }
 }

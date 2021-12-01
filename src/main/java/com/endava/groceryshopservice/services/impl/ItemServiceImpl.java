@@ -94,7 +94,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> findIncompleteOrders() {
-        return itemRepository.findByAddingDateAfter(LocalDate.now().minusDays(7));
+    public Long findIncompleteOrders() {
+        return itemRepository.findByAddingDateAfter(LocalDate.now().minusDays(7)).stream()
+                .map(Item::getUser)
+                .map(User::getEmail)
+                .distinct()
+                .count();
     }
 }

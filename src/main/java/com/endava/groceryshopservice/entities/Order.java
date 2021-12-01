@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +17,6 @@ import javax.persistence.Table;
 
 import java.time.LocalDate;
 import java.util.List;
-
 
 @Data
 @Entity
@@ -48,7 +48,7 @@ public class Order {
     @Column(name = "order_date")
     private LocalDate orderDate;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     private List<OrderContent> orderContent;
 
     @Override

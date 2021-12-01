@@ -12,7 +12,7 @@ import java.util.List;
 public class Dashboard {
     private Long newUserRegistrations;
     private Long uniqueUsers;
-//    private Long newOrders;
+    private Long newOrders;
     private Long incompleteOrders;
-//    private List<MostSoldProductDTO> mostSoldProducts;
+    private List<MostSoldProductDTO> mostSoldProducts;
 }
