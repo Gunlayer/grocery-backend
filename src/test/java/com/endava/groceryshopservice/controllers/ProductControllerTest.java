@@ -109,7 +109,7 @@ class ProductControllerTest extends BaseController {
                         .header("authorization", ADMIN_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createJsonString(PRODUCT_ONE))).andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(createJsonString(expected)));
     }

@@ -6,6 +6,7 @@ import com.endava.groceryshopservice.entities.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,4 +15,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByUser_Email(String email);
 
     Item findByUserAndProductAndSize(User user, Product product, Integer size);
+
+    @Transactional
+    void deleteAllByUser_Email(String email);
 }

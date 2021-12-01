@@ -1,11 +1,12 @@
 package com.endava.groceryshopservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,13 +23,17 @@ import javax.persistence.Table;
 @AllArgsConstructor
 public class Address {
     @Id
-    @Column(name = "email")
-    private String email;
+    @Column(name = "user_email")
+    private String userEmail;
 
     @MapsId
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "email")
+    @OneToOne
+    @JoinColumn(name = "user_email")
+    @JsonIgnore
     private User user;
+
+    @Column(name = "address_email")
+    private String addressEmail;
 
     @Column(name = "first_name")
     private String firstName;
@@ -41,4 +46,9 @@ public class Address {
 
     @Column(name = "apartment")
     private String apartment;
+
+    public void setUser(User user) {
+        this.userEmail = user.getEmail();
+        this.user = user;
+    }
 }

@@ -30,11 +30,4 @@ class AddressServiceImplTest {
 
         assertThat(addressService.findByEmail(USER_EMAIL)).isEqualTo(ADDRESS_ONE);
     }
-
-    @Test
-    void save() {
-        when(addressRepository.save(ADDRESS_ONE)).thenReturn(ADDRESS_ONE);
-
-        assertThat(addressService.save(ADDRESS_ONE)).isEqualTo(ADDRESS_ONE);
-    }
 }
