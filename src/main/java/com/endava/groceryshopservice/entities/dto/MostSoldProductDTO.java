@@ -1,11 +1,9 @@
 package com.endava.groceryshopservice.entities.dto;
 
 import com.endava.groceryshopservice.entities.Product;
-import com.endava.groceryshopservice.entities.types.SizeTypes;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import java.util.List;
 
 @Api(value = "Most sold product model information")
 @Data
@@ -21,8 +19,9 @@ public class MostSoldProductDTO {
     @ApiModelProperty(value = "Product's quantity", example = "1")
     private Integer quantity;
 
-    public MostSoldProductDTO(Product product) {
+    public MostSoldProductDTO(Product product, Integer quantity) {
         image = product.getImage();
         name = product.getName();
+        this.quantity = quantity;
     }
 }
