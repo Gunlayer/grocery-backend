@@ -4,6 +4,8 @@ import com.endava.groceryshopservice.entities.Product;
 import com.endava.groceryshopservice.entities.Views;
 import com.endava.groceryshopservice.entities.types.SizeTypes;
 import com.endava.groceryshopservice.exceptions.NoProductFoundException;
+import com.endava.groceryshopservice.repositories.ItemRepository;
+import com.endava.groceryshopservice.repositories.OrderContentRepository;
 import com.endava.groceryshopservice.repositories.ProductRepository;
 import com.endava.groceryshopservice.services.ViewsService;
 
@@ -37,7 +39,10 @@ import static com.endava.groceryshopservice.utils.TestConstants.SIZES;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -49,6 +54,12 @@ public class ProductServiceImplTest {
 
     @Mock
     private ProductRepository productRepository;
+
+    @Mock
+    private OrderContentRepository orderContentRepository;
+
+    @Mock
+    private ItemRepository itemRepository;
 
     @Mock
     private ViewsService viewsService;
@@ -225,9 +236,12 @@ public class ProductServiceImplTest {
     @Test
     void deleteById_DeletedProduct_CorrectId() {
         when(productRepository.findById(ID_THREE)).thenReturn(Optional.of(product));
+        product.setId(ID_THREE);
 
         productService.deleteById(ID_THREE);
 
+        verify(orderContentRepository).deleteByProduct_Id(ID_THREE);
+        verify(itemRepository).deleteByProduct_Id(ID_THREE);
         verify(productRepository).delete(product);
     }
 

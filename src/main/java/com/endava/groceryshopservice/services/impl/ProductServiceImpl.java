@@ -3,6 +3,8 @@ package com.endava.groceryshopservice.services.impl;
 import com.endava.groceryshopservice.entities.Product;
 import com.endava.groceryshopservice.entities.Views;
 import com.endava.groceryshopservice.exceptions.NoProductFoundException;
+import com.endava.groceryshopservice.repositories.ItemRepository;
+import com.endava.groceryshopservice.repositories.OrderContentRepository;
 import com.endava.groceryshopservice.repositories.ProductRepository;
 import com.endava.groceryshopservice.services.ProductService;
 import com.endava.groceryshopservice.services.ViewsService;
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final ItemRepository itemRepository;
+    private final OrderContentRepository orderContentRepository;
     private final ViewsService viewsService;
 
     @Override
@@ -52,6 +56,8 @@ public class ProductServiceImpl implements ProductService {
     public Product deleteById(long id) {
         Product product = productRepository.findById(id).orElseThrow(
                 () -> new NoProductFoundException(String.format("Could not find a product with specified id[%d]", id)));
+        itemRepository.deleteByProduct_Id(product.getId());
+        orderContentRepository.deleteByProduct_Id(product.getId());
         productRepository.delete(product);
         return product;
     }

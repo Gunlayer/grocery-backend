@@ -18,4 +18,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @Transactional
     void deleteAllByUser_Email(String email);
+
+    @Transactional
+    void deleteByProduct_Id(Long id);
 }
