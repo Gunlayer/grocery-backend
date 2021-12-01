@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,36 +50,15 @@ class UserControllerTest extends BaseController {
     void getAllShouldReturnAllUsers() throws Exception {
         prepareAuthorizedRequestForUser(ADMIN_ONE, ADMIN_TOKEN);
 
-        when(userService.getAll(PageRequest.of(0, 2)))
+        when(userService.getAll(PageRequest.of(0, 2), ""))
                 .thenReturn(new PageImpl<>(List.of(USER_ONE, ADMIN_ONE)));
         List<UserInformationDto> users = Stream.of(USER_ONE, ADMIN_ONE).map(User::toUserInformationDto).collect(Collectors.toList());
 
         mockMvc.perform(get("/admin/users?pageNumber=0&pageSize=2"))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(createJsonString(new PageImpl(users))));
-    }
-
-    @Test
-    void whenGetUserByEmailWithCorrectEmailShouldReturnParticularUser() throws Exception {
-        prepareAuthorizedRequestForUser(ADMIN_ONE, ADMIN_TOKEN);
-
-        when(userService.getByEmail(USER_EMAIL)).thenReturn(USER_ONE);
-
-        mockMvc.perform(get("/admin/users/" + USER_EMAIL))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-    }
-
-    @Test
-    void whenGetUserByEmailWithIncorrectEmailShouldThrowUsernameNotFoundException() throws Exception {
-        prepareAuthorizedRequestForUser(ADMIN_ONE, ADMIN_TOKEN);
-
-        when(userService.getByEmail(USER_EMAIL)).thenThrow(new InvalidEmailException("Not existing email"));
-
-        mockMvc.perform(get("/admin/users/" + USER_EMAIL))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Not existing email"));
+                .andExpect(content().json(createJsonString(new PageImpl<>(users, PageRequest.of(0, 2), 2))));
     }
 
     @Test
