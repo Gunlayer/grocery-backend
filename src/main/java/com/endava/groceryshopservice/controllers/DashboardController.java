@@ -37,6 +37,6 @@ public class DashboardController {
     @PostMapping("/visitor")
     public ResponseEntity<HttpStatus> addVisitor(@RequestBody VisitorRequestDTO request) {
          visitorService.addVisitor(request);
-        return  new ResponseEntity<>(HttpStatus.OK);
+        return  new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
