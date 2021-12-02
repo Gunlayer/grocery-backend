@@ -63,7 +63,7 @@ public class DashboardControllerTest extends BaseController{
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createJsonString(VISITOR_REQUEST_DTO)))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
         verify(visitorService).addVisitor(VISITOR_REQUEST_DTO);
     }
 }
