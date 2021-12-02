@@ -116,7 +116,7 @@ stages:
 
 - stage: Deploy2demo
   dependsOn: Deploy2dev
-  condition: and(succeeded('Deploy2dev'), eq(variables.isMain, 'true'))
+  condition: and(succeeded('Deploy2dev'), eq(variables.isDevelop, 'true'))
   displayName: Deploy to AKS demo
 
   jobs:
