@@ -32,7 +32,7 @@ spec:
         - containerPort: 8080
         readinessProbe:
           httpGet:
-            path: /
+            path: /api
             port: 8080
 
 ---
