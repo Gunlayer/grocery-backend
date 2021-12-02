@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,28 +44,37 @@ public class ProductController {
     private final JwtTokenProvider tokenProvider;
 
     @ApiOperation(value = "fetches all the products")
+    @PreAuthorize("hasAuthority('users:write')")
     @GetMapping
-    public Page<ProductNoDescDTO> getAllProducts(Pageable page) {
-        List<ProductNoDescDTO> productNoDescDTOList = productService.getAll(page)
+    public ResponseEntity<Page<ProductWithDescDTO>> getAllProducts(@RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
+        List<ProductWithDescDTO> productWithDescDTOList = productService.getAll(name, pageable)
                 .stream()
-                .map(ProductNoDescDTO::new)
+                .map(ProductWithDescDTO::new)
                 .collect(Collectors.toList());
-
-        return new PageImpl<>(productNoDescDTOList);
+        long totalProducts = productService.getCountAll(name);
+        return ResponseEntity.status(HttpStatus.OK).body(new PageImpl<>(productWithDescDTOList, pageable, totalProducts));
     }
 
     @ApiOperation(value = "gets a product by ID")
     @GetMapping("/{id}")
-    public ProductWithReviewsDTO getProductById(@PathVariable long id) {
+    public ResponseEntity<ProductWithReviewsDTO> getProductById(@PathVariable Long id) {
         Product product = productService.getById(id);
         List<Review> reviews = reviewService.getAllReviewsByProductId(id);
-        return new ProductWithReviewsDTO(product, reviews);
+        return ResponseEntity.status(HttpStatus.OK).body(new ProductWithReviewsDTO(product, reviews));
     }
 
-    @ApiOperation(value = "introduces new product")
+    @ApiOperation(value = "introduces new product or edit the existing one")
+    @PreAuthorize("hasAuthority('users:write')")
     @PostMapping
-    public ProductWithDescDTO addProduct(@RequestBody Product product) {
-        return new ProductWithDescDTO(productService.save(product));
+    public ResponseEntity<ProductWithDescDTO> saveProduct(@RequestBody Product product) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ProductWithDescDTO(productService.save(product)));
+    }
+
+    @ApiOperation(value = "deletes a product by id")
+    @PreAuthorize("hasAuthority('users:write')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ProductWithDescDTO> deleteProduct(@PathVariable long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(new ProductWithDescDTO(productService.deleteById(id)));
     }
 
     @ApiOperation(value = "fetches certain number (15 by default) of mostly viewed products")
@@ -77,8 +87,8 @@ public class ProductController {
     }
 
     @ApiOperation(value = "adds a review from an authorized user for a product with specific id")
-    @PostMapping("/{id}/add_review")
     @PreAuthorize("hasAuthority('users:addReview')")
+    @PostMapping("/{id}/add_review")
     public ResponseEntity<ReviewDTO> addReview(@PathVariable long id, @RequestBody Review review, @RequestHeader HashMap<String, String> headers) {
         String userEmail = tokenProvider.getUsername(headers.get("authorization"));
         ReviewDTO savedReview = new ReviewDTO(reviewService.addReview(id, userEmail, review));

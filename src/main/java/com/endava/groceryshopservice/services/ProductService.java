@@ -8,9 +8,13 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ProductService {
-    Page<Product> getAll(Pageable page);
+    Page<Product> getAll(String name, Pageable page);
+
+    long getCountAll(String name);
 
     Product save(Product product);
+
+    Product deleteById(long id);
 
     List<Product> getMostViewed(int number);
 

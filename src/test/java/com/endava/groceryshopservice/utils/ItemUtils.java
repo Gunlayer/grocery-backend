@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 import static com.endava.groceryshopservice.utils.ProductUtils.PRODUCT_ONE;
+import static com.endava.groceryshopservice.utils.TestConstants.APPLES;
 import static com.endava.groceryshopservice.utils.TestConstants.ID_ONE;
 import static com.endava.groceryshopservice.utils.TestConstants.IMAGE;
-import static com.endava.groceryshopservice.utils.TestConstants.NAME;
 import static com.endava.groceryshopservice.utils.TestConstants.PRICE;
 import static com.endava.groceryshopservice.utils.TestConstants.QUANTITY;
 import static com.endava.groceryshopservice.utils.TestConstants.QUANTITY_TWO;
@@ -52,7 +52,7 @@ public class ItemUtils {
             .productId(ID_ONE)
             .quantity(QUANTITY)
             .image(IMAGE)
-            .name(NAME)
+            .name(APPLES)
             .price(PRICE)
             .sizeType(SizeTypes.PACKS)
             .size(SIZE)
