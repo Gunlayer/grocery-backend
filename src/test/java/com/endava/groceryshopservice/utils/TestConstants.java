@@ -33,6 +33,7 @@ public class TestConstants {
     public static final String NAME_TWO = "Avocado";
     public static final String APPLES = "Apples";
     public static final String PLUMS = "Plums";
+    public static final String NAME_TWO = "Avocado";
     public static final Double PRICE = 20.0;
     public static final Double RATING = 5.0;
     public static final String DESCRIPTION = "description";
@@ -43,6 +44,7 @@ public class TestConstants {
 
     public static final List<Integer> SIZES = Arrays.asList(5, 7, 10);
     public static final String EMPTY_STRING = "";
+
     public static final String PRODUCT_NOT_FOUND_EXCEPTION = "Could not find a product with id " + ID_ONE;
     public static final String ITEM_NOT_FOUND_EXCEPTION = "Could not find item ";
     public static final String QUANTITY_EXCEPTION = "Requested quantity cannot be bigger than stored quantity";

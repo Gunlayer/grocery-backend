@@ -66,17 +66,6 @@ public class ProductUtils {
             .sizeType(SizeTypes.KILOS)
             .build();
 
-    public static final Product PRODUCT_FIVE = Product.builder()
-            .id(ID_TWO)
-            .image(IMAGE)
-            .name(NAME)
-            .price(PRICE)
-            .rating(RATING)
-            .description(DESCRIPTION)
-            .sizes(SIZES)
-            .sizeType(SizeTypes.KILOS)
-            .build();
-
     public static final Product PRODUCT_THREE = Product.builder()
             .id(ID_THREE)
             .image(IMAGE)
