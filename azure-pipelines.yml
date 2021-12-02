@@ -1,18 +1,12 @@
-
+# Variable Group 'grocery-list' was defined in the Variables tab
 variables:
 - group: grocery-list
 - name: buildTag
   value: $(Build.SourceBranchName).$(Build.BuildId)
 - name: BuildParameters.dockerFile
   value: '**/Dockerfile'
-# - name: vmImageName
-#   value: ubuntu-18.04
 - name: isDevelop
   value: $[eq(variables['Build.SourceBranch'], 'refs/heads/develop')]
-# - name: isRelease
-#   value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/release/')]
-- name: isRelease
-  value: $[startsWith(variables['Build.SourceBranch'], 'refs/tags/v')]
 - name: isDevOps
   value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/devops/')]
 - name: isPR
@@ -26,15 +20,13 @@ resources:
       branches:
         include:
         - refs/heads/develop
-        - refs/tags/*
-        # - release/*
 
 name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 
 stages:
 
 - stage: Utests_N_Build
-  condition: and(eq(variables.isPR, 'true'), eq(variables.isDevelop, 'false'), eq(variables.isRelease, 'false'))
+  condition: and(eq(variables.isPR, 'true'), eq(variables.isDevelop, 'false'))
   displayName: 'Run unite tests, code scan and build image'
 
   jobs:
@@ -53,13 +45,13 @@ stages:
         customCommand: build --target build --build-arg SONAR_TOKEN=$(SONAR_TOKEN) -t gr-list-back-test .
 
     - task: Docker@0
-      displayName: Clean dangling images
+      displayName: Clean unuses images
       inputs:
         action: Run a Docker command
         customCommand: image rm gr-list-back-test -f
 
 - stage: Build_N_Push
-  condition: or(eq(variables.isDevelop, 'true'), eq(variables.isRelease, 'true'))
+  condition: eq(variables.isDevelop, 'true')
   displayName: 'Run build and push image to ACR'
 
   jobs:
@@ -90,20 +82,20 @@ stages:
         additionalImageTags: $(buildTag)
 
     - task: Docker@0
-      displayName: Clean dangling images
-      inputs:
-        action: Run a Docker command
-        customCommand: system prune -f
-
-    - task: Docker@0
       displayName: Clean unuses images
       inputs:
         action: Run a Docker command
         customCommand: image rm grocery-shop-service:$(buildTag) -f
 
+    - task: Docker@0
+      displayName: Clean dangling images
+      inputs:
+        action: Run a Docker command
+        customCommand: image prune -f
+
 - stage: Deploy2dev
   dependsOn: Build_N_Push
-  condition: eq(variables.isDevelop, 'true')
+  condition: and(succeeded('Build_N_Push'), eq(variables.isDevelop, 'true'))
   displayName: Deploy to AKS dev
 
   jobs:
@@ -122,10 +114,9 @@ stages:
           manifests: manifests/dev-deployment.yml
           containers: mddinternship2021h2project.azurecr.io/grocery-shop-service:$(buildTag)
 
-
 - stage: Deploy2demo
-  dependsOn: Build_N_Push
-  condition: eq(variables.isRelease, 'true')
+  dependsOn: Deploy2dev
+  condition: and(succeeded('Deploy2dev'), eq(variables.isMain, 'true'))
   displayName: Deploy to AKS demo
 
   jobs:
@@ -133,19 +124,22 @@ stages:
     - job: Validation 
       displayName: Manual validation job
       pool: server
-      timeoutInMinutes: 4320
+      timeoutInMinutes: 1440
 
       steps:
       - task: ManualValidation@0
         displayName: Manual Validation
         retryCountOnTaskFailure: 1
-        timeoutInMinutes: 1440
+        timeoutInMinutes: 120
         inputs:
-          notifyUsers: nicolae.nicolaev@endava.com
+          notifyUsers: |
+            nicolae.nicolaev@endava.com
+            vitali.maximov@endava.com
           instructions: Please review and approve the backend release
 
     - job: Deploy
       displayName: Deploy to demo-AKS job
+      dependsOn: Validation
       pool: Default
       
       steps:
@@ -158,3 +152,35 @@ stages:
           namespace: 'grocery-list-demo'
           manifests: manifests/demo-deployment.yml
           containers: mddinternship2021h2project.azurecr.io/grocery-shop-service:$(buildTag)
+
+      - task: Kubernetes@1
+        displayName: check demo deployment status 
+  
+        inputs:
+          connectionType: 'Kubernetes Service Connection'
+          kubernetesServiceEndpoint: 'grocery-list-demo-sc'
+          namespace: 'grocery-list-demo'
+          command: 'rollout'
+          arguments: 'status deployment/grocery-shop-service'
+          secretType: 'dockerRegistry'
+          containerRegistryType: 'Azure Container Registry'
+          azureSubscriptionEndpointForSecrets: 'MDDInternship_GroceryList'
+          azureContainerRegistry: 'mddinternship2021h2project.azurecr.io'
+          forceUpdate: false
+  
+      - task: Kubernetes@1
+        displayName: rollback to previous version
+        condition: failed()
+  
+        inputs:
+          connectionType: 'Kubernetes Service Connection'
+          kubernetesServiceEndpoint: 'grocery-list-demo-sc'
+          namespace: 'grocery-list-demo'
+          command: 'rollout'
+          arguments: 'undo deployment/grocery-shop-service'
+          secretType: 'dockerRegistry'
+          containerRegistryType: 'Azure Container Registry'
+          azureSubscriptionEndpointForSecrets: 'MDDInternship_GroceryList'
+          azureContainerRegistry: 'mddinternship2021h2project.azurecr.io'
+          forceUpdate: false
+  
