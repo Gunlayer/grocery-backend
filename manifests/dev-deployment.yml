@@ -61,7 +61,7 @@ spec:
   # - host: www..com
   - http:
       paths:
-      - path: /grocery-list-dev(/|$)(.*)
+      - path: /grocery-list-edv(/|$)(.*)
         pathType: Prefix
         backend:
           service:

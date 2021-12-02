@@ -143,9 +143,12 @@ stages:
       pool: Default
       
       steps:
+
       - checkout: self
+
       - task: KubernetesManifest@0
         displayName: deploy
+        
         inputs:
           action: 'deploy'
           kubernetesServiceConnection: 'grocery-list-demo-sc'
@@ -154,8 +157,9 @@ stages:
           containers: mddinternship2021h2project.azurecr.io/grocery-shop-service:$(buildTag)
 
       - task: Kubernetes@1
-        displayName: check demo deployment status 
-  
+        displayName: check demo deployment status
+        condition: succeededOrFailed()
+
         inputs:
           connectionType: 'Kubernetes Service Connection'
           kubernetesServiceEndpoint: 'grocery-list-demo-sc'
