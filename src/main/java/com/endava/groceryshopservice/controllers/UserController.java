@@ -15,11 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
@@ -38,19 +38,12 @@ public class UserController {
     @GetMapping
     @PreAuthorize("hasAuthority('users:write')")
     @ApiOperation(value = "fetches all the users")
-    public ResponseEntity<Page<UserInformationDto>> getAll(Pageable page) {
-        List<UserInformationDto> users = userService.getAll(page)
+    public ResponseEntity<Page<UserInformationDto>> getAll(Pageable page, @RequestParam(name = "email", defaultValue = "") String email) {
+        List<UserInformationDto> users = userService.getAll(page, email)
                 .stream()
                 .map(User::toUserInformationDto)
                 .collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(new PageImpl<>(users));
-    }
-
-    @GetMapping("/{userEmail}")
-    @PreAuthorize("hasAuthority('users:write')")
-    @ApiOperation(value = "gets a user by email")
-    public ResponseEntity<UserInformationDto> getUserByEmail(@PathVariable String userEmail) {
-        return ResponseEntity.status(HttpStatus.OK).body(toUserInformationDto(userService.getByEmail(userEmail)));
+        return ResponseEntity.status(HttpStatus.OK).body(new PageImpl<>(users, page, userService.getCountOfUsersWithEmail(email)));
     }
 
     @PostMapping

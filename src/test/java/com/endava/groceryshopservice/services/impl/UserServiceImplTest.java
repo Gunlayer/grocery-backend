@@ -62,7 +62,7 @@ class UserServiceImplTest {
         Pageable pageable = PageRequest.of(0, 2);
 
         when(userRepository.findAll(pageable)).thenReturn(page);
-        userService.getAll(pageable);
+        userService.getAll(pageable,"");
         assertThat(userRepository.findAll(pageable).getSize()).isEqualTo(2);
     }
 
