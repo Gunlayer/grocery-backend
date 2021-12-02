@@ -14,6 +14,7 @@ public class TestConstants {
     public static final Long ID_THREE = 3L;
     public static final Long ID_FOUR = 4L;
     public static final Long ID_FIVE = 5L;
+    public static final Long ID_SIX = 6L;
 
     public static final String USER_EMAIL = "user@endava.com";
     public static final String ADMIN_EMAIL = "admin@endava.com";
@@ -27,8 +28,9 @@ public class TestConstants {
     public static final String ADDRESS = "MD, Chisinau, Dacia 5";
     public static final String APARTMENT = "21";
 
-
     public static final String IMAGE = "https://testImageUrl/";
+    public static final String NAME = "Apples";
+    public static final String NAME_TWO = "Avocado";
     public static final String APPLES = "Apples";
     public static final String PLUMS = "Plums";
     public static final Double PRICE = 20.0;
@@ -41,8 +43,11 @@ public class TestConstants {
 
     public static final List<Integer> SIZES = Arrays.asList(5, 7, 10);
     public static final String EMPTY_STRING = "";
+
     public static final String PRODUCT_NOT_FOUND_EXCEPTION = "Could not find a product with id " + ID_ONE;
     public static final String ITEM_NOT_FOUND_EXCEPTION = "Could not find item ";
     public static final String QUANTITY_EXCEPTION = "Requested quantity cannot be bigger than stored quantity";
     public static final LocalDate CURRENT_DATE = LocalDate.now();
+
+    public static final String VISITOR_ID = "865a384269d7602015c8eeddaf2fe329";
 }

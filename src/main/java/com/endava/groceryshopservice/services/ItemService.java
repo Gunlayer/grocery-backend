@@ -18,5 +18,7 @@ public interface ItemService {
 
     Item updateItem(Item item, ItemToAddDeleteRequestDTO requestDTO);
 
+    Long findIncompleteOrders();
+
     void deleteAllByEmail(String email);
 }

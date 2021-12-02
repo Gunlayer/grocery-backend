@@ -8,6 +8,7 @@ import com.endava.groceryshopservice.entities.user_permission.Role;
 import com.endava.groceryshopservice.entities.user_permission.Status;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Api(value = "Model for registration and authentication requests")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequestDTO {
@@ -27,6 +29,9 @@ public class UserRequestDTO {
 
     @ApiModelProperty(value = "User's cart")
     private List<ItemRequestDTO> cartItems;
+
+    @ApiModelProperty(value = "Visitor's id")
+    private String visitorId;
 
     public User toUser() {
         return User.builder()

@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,10 +29,12 @@ import java.util.stream.Stream;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_EMAIL;
 import static com.endava.groceryshopservice.utils.TestConstants.USER_TOKEN;
 import static com.endava.groceryshopservice.utils.UserUtils.ADMIN_ONE;
+import static com.endava.groceryshopservice.utils.UserUtils.USER_LIST;
 import static com.endava.groceryshopservice.utils.UserUtils.USER_ONE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -177,5 +180,12 @@ class UserServiceImplTest {
                 .isInstanceOf(InvalidEmailException.class).hasMessage("Not existing email");
     }
 
+    @Test
+    void shouldFindNewRegisteredUsers(){
+        when(userRepository.findByRegistrationDateAfter(LocalDate.now().minusDays(7))).thenReturn(USER_LIST);
 
+        List<User> expected = userService.findNewRegisteredUsers();
+
+        assertEquals(expected, USER_LIST);
+    }
 }

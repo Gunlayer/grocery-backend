@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.endava.groceryshopservice.utils.ItemUtils.ITEMS_LIST;
@@ -115,5 +116,14 @@ public class ItemServiceImplTest {
         Exception actualException = assertThrows(InvalidQuantityException.class, () ->
                 itemService.updateItem(ITEM_ONE, ITEM_TO_DELETE_REQUEST_DTO));
         assertEquals(QUANTITY_EXCEPTION, actualException.getMessage());
+    }
+
+    @Test
+    void ShouldFindIncompleteOrders() {
+        when(itemRepository.findByAddingDateAfter(LocalDate.now().minusDays(7))).thenReturn(ITEMS_LIST);
+
+        Long expected = itemService.findIncompleteOrders();
+
+        assertEquals(expected, 1L);
     }
 }
