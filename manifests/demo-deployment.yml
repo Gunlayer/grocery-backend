@@ -10,7 +10,7 @@ metadata:
 
 spec:
   replicas: 1
-  progressDeadlineSeconds: 60
+  progressDeadlineSeconds: 120
   selector:
     matchLabels:
       project: grocery-shop
