@@ -33,7 +33,6 @@ public class TestConstants {
     public static final String NAME_TWO = "Avocado";
     public static final String APPLES = "Apples";
     public static final String PLUMS = "Plums";
-    public static final String NAME_TWO = "Avocado";
     public static final Double PRICE = 20.0;
     public static final Double RATING = 5.0;
     public static final String DESCRIPTION = "description";
