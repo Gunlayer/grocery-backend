@@ -18,7 +18,9 @@ public interface UserService {
 
     User deleteUser(String userEmail);
 
-    Page<User> getAll(Pageable page);
-
     List<User> findNewRegisteredUsers();
+
+    Page<User> getAll(Pageable page, String email);
+
+    long getCountOfUsersWithEmail(String email);
 }

@@ -26,8 +26,13 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Page<User> getAll(Pageable page) {
-        return userRepository.findAll(page);
+    public Page<User> getAll(Pageable page, String email) {
+        return email.isEmpty() ? userRepository.findAll(page) : userRepository.findByEmailContainingIgnoreCase(page, email);
+    }
+
+    @Override
+    public long getCountOfUsersWithEmail(String email) {
+        return email.isEmpty() ? userRepository.count() : userRepository.countByEmailContainingIgnoreCase(email);
     }
 
     @Override
