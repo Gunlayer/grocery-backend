@@ -44,7 +44,6 @@ public class ProductController {
     private final JwtTokenProvider tokenProvider;
 
     @ApiOperation(value = "fetches all the products")
-    @PreAuthorize("hasAuthority('users:write')")
     @GetMapping
     public ResponseEntity<Page<ProductWithDescDTO>> getAllProducts(@RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
         List<ProductWithDescDTO> productWithDescDTOList = productService.getAll(name, pageable)
