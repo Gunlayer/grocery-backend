@@ -174,13 +174,6 @@ class ProductControllerTest extends BaseController {
     }
 
     @Test
-    void getAllProducts_Forbidden_Unauthorized() throws Exception {
-        mockMvc.perform(get("/products?pageNumber=0&pageSize=2"))
-                .andDo(print())
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
     void DeleteMapping_ResponseEntityProdWithDesc_correctId() throws Exception {
         prepareAuthorizedRequestForUser(ADMIN_ONE, ADMIN_TOKEN);
         when(productService.deleteById(ID_ONE)).thenReturn(PRODUCT_ONE);
